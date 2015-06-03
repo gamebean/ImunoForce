@@ -1,0 +1,147 @@
+!SESSION 2015-06-02 23:25:29.450 -----------------------------------------------
+eclipse.buildId=debbuild
+java.version=1.7.0_79
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:24.268
+!MESSAGE NLS unused message: ConvertTargetAction_No_Converter in: org.eclipse.cdt.managedbuilder.internal.ui.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.376
+!MESSAGE NLS unused message: TemplateEngine.internalError in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.376
+!MESSAGE NLS unused message: TemplateEngine.templateEngine in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.376
+!MESSAGE NLS unused message: ProjectCreatedActions.InsufficientInformation in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.376
+!MESSAGE NLS unused message: ConditionalProcessGroup.notExecuting in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.377
+!MESSAGE NLS unused message: ConditionalProcessGroup.unexpandableMacro in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.377
+!MESSAGE NLS unused message: Process.argument in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.377
+!MESSAGE NLS unused message: Process.expandableMacro in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.377
+!MESSAGE NLS unused message: Process.error in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.378
+!MESSAGE NLS unused message: Process.success in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.378
+!MESSAGE NLS unused message: Process.info in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.378
+!MESSAGE NLS unused message: Process.unknownProcess in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.378
+!MESSAGE NLS unused message: Process.executedSuccessfully in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.379
+!MESSAGE NLS unused message: ProcessRunner.unexpectedArguments in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.379
+!MESSAGE NLS unused message: ProcessRunner.missingArguments in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.379
+!MESSAGE NLS unused message: ProcessRunner.argumentsMismatch in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.379
+!MESSAGE NLS unused message: ProcessRunner.error in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.379
+!MESSAGE NLS unused message: ProcessRunner.success in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.380
+!MESSAGE NLS unused message: ProcessRunner.info in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:26:41.380
+!MESSAGE NLS unused message: ProcessHelper.fileNotFound in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.cdt.core 1 0 2015-06-02 23:26:47.135
+!MESSAGE Indexed 'ImunoForce' (1 sources, 37 headers) in 1,17 sec: 1.035 declarations; 1.853 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+!SESSION 2015-06-02 23:28:56.247 -----------------------------------------------
+eclipse.buildId=debbuild
+java.version=1.7.0_79
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -data /home/felipe/Documents/ImunoForce -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-02 23:29:16.196
+!MESSAGE NLS unused message: ConvertTargetAction_No_Converter in: org.eclipse.cdt.managedbuilder.internal.ui.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.729
+!MESSAGE NLS unused message: TemplateEngine.internalError in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.746
+!MESSAGE NLS unused message: TemplateEngine.templateEngine in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.746
+!MESSAGE NLS unused message: ProjectCreatedActions.InsufficientInformation in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.746
+!MESSAGE NLS unused message: ConditionalProcessGroup.notExecuting in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.747
+!MESSAGE NLS unused message: ConditionalProcessGroup.unexpandableMacro in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.747
+!MESSAGE NLS unused message: Process.argument in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.747
+!MESSAGE NLS unused message: Process.expandableMacro in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.747
+!MESSAGE NLS unused message: Process.error in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.747
+!MESSAGE NLS unused message: Process.success in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.748
+!MESSAGE NLS unused message: Process.info in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.748
+!MESSAGE NLS unused message: Process.unknownProcess in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.748
+!MESSAGE NLS unused message: Process.executedSuccessfully in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.748
+!MESSAGE NLS unused message: ProcessRunner.unexpectedArguments in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.749
+!MESSAGE NLS unused message: ProcessRunner.missingArguments in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.749
+!MESSAGE NLS unused message: ProcessRunner.argumentsMismatch in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.749
+!MESSAGE NLS unused message: ProcessRunner.error in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.749
+!MESSAGE NLS unused message: ProcessRunner.success in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.749
+!MESSAGE NLS unused message: ProcessRunner.info in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.osgi 2 1 2015-06-03 00:13:14.750
+!MESSAGE NLS unused message: ProcessHelper.fileNotFound in: org.eclipse.cdt.core.templateengine.process.Messages
+
+!ENTRY org.eclipse.cdt.core 1 0 2015-06-03 00:13:16.345
+!MESSAGE Indexed 'Structs' (1 sources, 37 headers) in 0,938 sec: 1.035 declarations; 1.853 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.dsf.ui 2 0 2015-06-03 00:46:56.715
+!MESSAGE Unable to locate file: /build/buildd/glibc-2.21/malloc/malloc.c
+
+!ENTRY org.eclipse.cdt.dsf.ui 2 0 2015-06-03 00:47:03.058
+!MESSAGE Unable to locate file: /build/buildd/glibc-2.21/malloc/hooks.c
+
+!ENTRY org.eclipse.cdt.dsf.ui 2 0 2015-06-03 00:47:03.136
+!MESSAGE Unable to locate file: /build/buildd/glibc-2.21/malloc/arena.c
