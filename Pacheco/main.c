@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <allegro5\allegro.h>
-#include <allegro5\allegro_native_dialog.h>
-#include <allegro5\allegro_image.h>
-#include <allegro5\allegro_primitives.h>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_native_dialog.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
 #include "header.h"
 
 
-int main() {
+  int main() {
 	ALLEGRO_DISPLAY*			display;
 	ALLEGRO_TIMER*				timer;
 	ALLEGRO_EVENT				ev;
@@ -141,13 +141,15 @@ int main() {
 			}
 			}
 			}*/
-
-			for (i = 1; bullet_search(i) != NULL; i++) {
-				bullet = bullet_search(i);
-				al_draw_filled_circle(bullet->x, bullet->y, 5, al_map_rgb(255, 0, 255));
-				bullet->y -= 10;
-				if (bullet->y < 0) {
-					bullet_del(i);
+			//bullet = bullet_search(0); // Points to header
+			for (bullet = &bullet_head; bullet->next != NULL; bullet = bullet->next  ) { //Scans the all the structs;
+				//bullet = bullet_search(i);
+				if(bullet != NULL){
+					al_draw_filled_circle(bullet->x, bullet->y, 5, al_map_rgb(255, 0, 255));
+					bullet->y -= 10;
+					if (bullet->y < 0) {
+						//bullet_del(bullet);
+					}
 				}
 			}
 
@@ -206,3 +208,5 @@ int main() {
 
 	exit(EXIT_SUCCESS);
 }
+
+

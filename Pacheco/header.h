@@ -33,7 +33,8 @@ typedef struct{
 	struct Bllt *next;
 	struct Bllt *prev; /*prev sera utilizado no bullet_del*/
 }Bllt;
-
+//void bullet_del(int id);
+void bullet_del(Bllt *a);
 
 Bllt bullet_head = {0,0,0, NULL, NULL };
 Bllt *bullet;
@@ -64,6 +65,7 @@ Bllt *bullet_search(int id){
 	return a;
 }
 
+/*
 void bullet_del(int id){
 	Bllt *a;
 	Bllt *prev;
@@ -72,9 +74,29 @@ void bullet_del(int id){
 	a = bullet_search(id);
 	prev = a->prev;
 	next = a->next;
-	next->prev = prev->prev;
-	prev->next = next->next;
+	if(next != NULL){
+ 	next->prev = prev;
+	}if(prev != NULL){
+	prev->next = next;
+	}
+	free(a);
+	return 0;
+}
+*/
 
+void bullet_del(Bllt *a){
+	//Bllt *a;
+	Bllt *prev;
+	Bllt *next;
+
+	//a = bullet_search(id);
+	prev = a->prev;
+	next = a->next;
+	if(next != NULL){
+ 	next->prev = prev;
+	}if(prev != NULL){
+	prev->next = next;
+	}
 	free(a);
 }
 
