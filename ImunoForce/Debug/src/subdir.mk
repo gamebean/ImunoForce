@@ -4,12 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/ImunoEngine.c \
 ../src/ImunoForce.c 
 
 OBJS += \
+./src/ImunoEngine.o \
 ./src/ImunoForce.o 
 
 C_DEPS += \
+./src/ImunoEngine.d \
 ./src/ImunoForce.d 
 
 
