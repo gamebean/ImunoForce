@@ -35,6 +35,9 @@
 								</option>
 								<option id="gnu.c.link.option.libs.557668802" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="allegro"/>
+									<listOptionValue builtIn="false" value="allegro_dialog"/>
+									<listOptionValue builtIn="false" value="allegro_primitives"/>
+									<listOptionValue builtIn="false" value="allegro_image"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.1387426654" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -83,6 +86,15 @@
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.106332183" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.release.1443803482" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.release">
+								<option id="gnu.c.link.option.paths.552023164" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="/usr/include/allegro5"/>
+								</option>
+								<option id="gnu.c.link.option.libs.623098625" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="allegro"/>
+									<listOptionValue builtIn="false" value="allegro_primitives"/>
+									<listOptionValue builtIn="false" value="allegro_dialog"/>
+									<listOptionValue builtIn="false" value="allegro_image"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.274022231" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>

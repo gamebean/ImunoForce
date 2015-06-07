@@ -4,14 +4,17 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/AllegroDef.c \
 ../src/ImunoEngine.c \
 ../src/ImunoForce.c 
 
 OBJS += \
+./src/AllegroDef.o \
 ./src/ImunoEngine.o \
 ./src/ImunoForce.o 
 
 C_DEPS += \
+./src/AllegroDef.d \
 ./src/ImunoEngine.d \
 ./src/ImunoForce.d 
 

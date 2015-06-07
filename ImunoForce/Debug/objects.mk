@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -lallegro
+LIBS := -lallegro -lallegro_dialog -lallegro_primitives -lallegro_image
 

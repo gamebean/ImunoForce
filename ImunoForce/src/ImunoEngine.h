@@ -2,22 +2,22 @@
  * ImunoEngine.h
  *
  *  Created on: 06/06/2015
- *      Author: felipe
+ *      Author:  Author: Bruno Pachceco & Felipe Sens Bonetto
  */
-//Object list_head = {0,header,NULL,NULL,NULL,NULL};
+//Object object_head = {0,header,NULL,NULL,NULL,NULL};
 
 // Define the possible types of object in the game
 #include <stdio.h>
 #include <allegro5/allegro.h>
 
 typedef int Type;
-enum Types {player, bullet, header};
+enum Types {header ,player, bullet};
 
 // Define Player structure
 typedef struct{
     char String[20];
     int x,y;
-
+    int width, height;
     ALLEGRO_BITMAP* img;
 }Player;
 
@@ -25,6 +25,8 @@ typedef struct{
 typedef struct{
     int tag;
     int x,y;
+    int vx,vy;
+    int width, height;
     ALLEGRO_BITMAP* img;
 }Bullet;
 
@@ -41,8 +43,14 @@ typedef struct{
     struct Object *prev; //Prev Element
 }Object;
 
+
 // Object manipulation functions
-	Object *list_add(Object *,Type t, int); // Add an object of a certain type
-	Object *list_search(int); // Finds an object based on its tag
-	//void list_del(int);
-	int list_del(Object *); // return 0 if successful, -1 if ocurrs an error
+	Object *object_add(Object *,Type t, int); // Add an object of a certain type
+	Object *object_search(int); // Finds an object based on its tag
+	//void object_del(int);
+	int object_del(Object *); // return 0 if successful, -1 if ocurrs an error
+	Object *player_add(Object *,char[]);
+	Object *bullet_add(Object *,int player_tag, char[]);
+	void *object_colision();
+	void object_draw();
+
