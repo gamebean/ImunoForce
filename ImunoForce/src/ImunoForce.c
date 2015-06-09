@@ -21,8 +21,8 @@ int main(int argc, char *argv[])
 	ALLEGRO_EVENT_QUEUE*		event_queue;
 	bool quit = false;
 
-	Object* p;
-	Object* bllt;
+	Object* p = object_search(header);
+	Object* bllt = object_search(header);
 
 	initialization();
 

@@ -63,7 +63,7 @@ typedef struct{
 	Object *object_add(Object *,Type t, int); // Add an object of a certain type
 	Object *object_search(int); // Finds an object based on its tag
 	//void object_del(int);
-	int object_del(Object *); // return 0 if successful, -1 if ocurrs an error
+	Object *object_del(Object *); // return 0 if successful, -1 if ocurrs an error
 	Object *player_add(Object *,char[]);
 	Object *bullet_add(Object *,int player_tag, char[], Mask *);
 	void *object_colision();

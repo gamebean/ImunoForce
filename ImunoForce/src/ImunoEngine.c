@@ -71,7 +71,7 @@ void object_del(int tag){
 	free(a);
 }
 */
-int object_del(Object *a){
+Object *object_del(Object *a){
 	Object *prev;
 	Object *next;
 	if (a != NULL){
@@ -91,9 +91,7 @@ int object_del(Object *a){
 			free(a->bullet);
 		}
 		free(a);
-		return 0;
-	}else{
-		return -1;
+		return prev;
 	}
 }
 
@@ -156,8 +154,8 @@ void *object_colision(){
 			break;
 
 		 case bullet:
-				if (p->bullet->y < 0) {
-					object_del(p);
+				if (p->bullet->y < 100) {
+					p = object_del(p);
 				}
 			 break;
 		 }
