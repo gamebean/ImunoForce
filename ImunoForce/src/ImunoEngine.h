@@ -2,7 +2,7 @@
  * ImunoEngine.h
  *
  *  Created on: 06/06/2015
- *      Author:  Author: Bruno Pachceco & Felipe Sens Bonetto
+ *      Author: felipe
  */
 //Object object_head = {0,header,NULL,NULL,NULL,NULL};
 
@@ -11,24 +11,40 @@
 #include <allegro5/allegro.h>
 
 typedef int Type;
-enum Types {header ,player, bullet};
+enum Types {header ,player, bullet, enemy};
+
+typedef struct{
+	int widht, height;
+	int **bits;
+}Mask;
 
 // Define Player structure
 typedef struct{
     char String[20];
-    int x,y;
+    float x,y;
     int width, height;
     ALLEGRO_BITMAP* img;
+    Mask *mask;
 }Player;
 
 // Define the Bullet structure
 typedef struct{
     int tag;
-    int x,y;
-    int vx,vy;
+    float x,y;
+    float vx,vy;
     int width, height;
     ALLEGRO_BITMAP* img;
+    Mask *mask;
 }Bullet;
+
+// Define the Enemy structure
+typedef struct{
+    int tag;
+    float x,y;
+    float vx,vy;
+    int width, height;
+    ALLEGRO_BITMAP* img;
+}Enemy;
 
 // The Object struct have private pointers to every type of object in the game
 typedef struct{
@@ -43,14 +59,17 @@ typedef struct{
     struct Object *prev; //Prev Element
 }Object;
 
-
 // Object manipulation functions
 	Object *object_add(Object *,Type t, int); // Add an object of a certain type
 	Object *object_search(int); // Finds an object based on its tag
 	//void object_del(int);
 	int object_del(Object *); // return 0 if successful, -1 if ocurrs an error
 	Object *player_add(Object *,char[]);
-	Object *bullet_add(Object *,int player_tag, char[]);
+	Object *bullet_add(Object *,int player_tag, char[], Mask *);
 	void *object_colision();
-	void object_draw();
-
+	void *object_draw();
+	void *object_move();
+	Mask *mask_create(int, int);
+	Mask *mask_new(ALLEGRO_BITMAP *);
+	void *mask_clear(Mask *);
+	void *mask_draw(Mask *, int , int);

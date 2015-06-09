@@ -2,11 +2,12 @@
  * ImunoEngine.c
  *
  *  Created on: 06/06/2015
- *      Author:  Author: Bruno Pachceco & Felipe Sens Bonetto
+ *      Author: felipe
  */
 #include <stdio.h>
 #include "ImunoEngine.h"
 #include "AllegroDef.h"
+
 
 Object object_head = {0,header,NULL,NULL,NULL,NULL};
 
@@ -104,6 +105,7 @@ Object *player_add(Object *p,char bitmap[]){
 	 }
 	p = object_add(p,player,tag);
 	p->player->img = al_load_bitmap(bitmap);
+	p->player->mask =  mask_new(p->player->img);
 	p->player->height = al_get_bitmap_height(p->player->img);
 	p->player->width = al_get_bitmap_width(p->player->img);
 
@@ -113,12 +115,13 @@ Object *player_add(Object *p,char bitmap[]){
 	return p;
 }
 
-Object *bullet_add(Object *bllt,int player_tag, char bitmap[]){
+Object *bullet_add(Object *bllt,int player_tag, char bitmap[], Mask *b){
 	Object *p;
 	p = object_search(player_tag);
 	bllt = object_add(bllt, bullet,8);
 
 	bllt->bullet->img = al_load_bitmap(bitmap);
+	bllt->bullet->mask = b;
 	bllt->bullet->height = al_get_bitmap_height(bllt->bullet->img);
 	bllt->bullet->width = al_get_bitmap_width(bllt->bullet->img);
 	bllt->bullet->x = p->player->x + p->player->width/2 - bllt->bullet->width/2;
@@ -162,18 +165,99 @@ void *object_colision(){
 	 return 0;
 }
 
-void object_draw(){
+void *object_draw(){
 	Object *p;
 	for(p = &object_head; (p != NULL); p = p->next){
 		if(p->player != NULL){
-			al_draw_bitmap(p->player->img, p->player->x, p->player->y, 1);
+			al_draw_bitmap(p->player->img, p->player->x, p->player->y, 0);
+			mask_draw(p->player->mask,p->player->x,p->player->y);
+		}
+		if(p->bullet != NULL){
+			al_draw_bitmap(p->bullet->img, p->bullet->x, p->bullet->y, 0);
+		}
+	}
+	return 0;
+}
+
+void *object_move(){
+	Object *p;
+	for(p = &object_head; (p != NULL); p = p->next){
+		if(p->player != NULL){
+
 		}
 		if(p->bullet != NULL){
 			p->bullet->x += p->bullet->vx;
 			p->bullet->y += p->bullet->vy;
-			al_draw_bitmap(p->bullet->img, p->bullet->x, p->bullet->y, 1);
 		}
 	}
+	return 0;
+}
+
+Mask *mask_new(ALLEGRO_BITMAP *btm){
+	Mask *temp;
+	int x,y;
+	int width = al_get_bitmap_width(btm);
+	int height = al_get_bitmap_height(btm);
+
+	//ALLEGRO_COLOR tansColor = al_map_rgb(0,0,0); //Bitmap Backgroud color
+	ALLEGRO_COLOR pixel;
+
+	temp = mask_create(width, height);
+
+	if(!temp)
+		return NULL;
+
+	mask_clear(temp);
+
+	for(x = 0; x < width; x++){
+		for(y = 0; y < height; y++){
+			pixel = al_get_pixel(btm, x, y);
+			if(pixel.a != 0){
+				temp->bits[x][y] = 1;
+			}
+		}
+	}
+
+	return temp;
+}
+
+Mask *mask_create(int width, int height){
+	int i;
+	Mask *temp = (Mask *)malloc(sizeof(Mask));
+	temp->widht = width;
+	temp->height = height;
+
+	temp->bits = (int **)malloc( width *sizeof(int *));
+	for(i = 0; i < width; i++){
+		temp->bits[i] = (int *)malloc( height *sizeof(int));
+	}
+
+	if(!temp)
+		return NULL;
+
+	return temp;
+
+}
+
+void *mask_clear(Mask *m){
+	int x,y;
+	for(x= 0; x < m->widht; x++){
+		for(y= 0; y < m->height; y++){
+			m->bits[x][y] = 0;
+		}
+	}
+	return 0;
+}
+
+void *mask_draw(Mask *temp, int x, int y){
+	int j, k;
+	for(j = 0; j < temp->widht; j++){
+			for(k = 0; k < temp->height; k++){
+				if(!temp->bits[j][k])
+					al_put_pixel(x+j, y+k, al_map_rgba_f(0.75,0,0.75,0.75));
+			}
+		}
+	return 0;
 }
 
 

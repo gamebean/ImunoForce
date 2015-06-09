@@ -48,8 +48,10 @@ int main(int argc, char *argv[])
 
 	//initializes 2 players
 	p = player_add(p,"Sprites/sperm_0M.png");
-	player_add(p,"Sprites/sperm_0L.png");
+	//player_add(p,"Sprites/sperm_0L.png");
 	p = object_search(1);
+
+	Mask *b = mask_new(al_load_bitmap("Sprites/sperm_0S.png"));
 
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
@@ -94,21 +96,18 @@ int main(int argc, char *argv[])
 				//fire_bullet(player);
 				if (keys[KEY_SPACE] && bTrig == 10) {
 
-					bullet_add(bllt,currentPlayer,"Sprites/sperm_0S.png");
+					bullet_add(bllt,currentPlayer,"Sprites/sperm_0S.png", b);
 					bTrig = frame % bulletFreq;
 				}
 				else if (keys[KEY_SPACE] && frame%bulletFreq == bTrig) {
-					bullet_add(bllt,currentPlayer,"Sprites/sperm_0S.png");
+					bullet_add(bllt,currentPlayer,"Sprites/sperm_0S.png", b);
 				}
 				else if (!keys[KEY_SPACE]) {
 					bTrig = 10;
 				}
 
 				object_colision();
-				object_draw();
-
-				al_flip_display();
-				al_clear_to_color(al_map_rgb(0, 0, 0));
+				object_move();
 			}
 
 			//	KEYBOARD VERIFICATION
@@ -163,6 +162,15 @@ int main(int argc, char *argv[])
 					break;
 				}
 			}
+
+			if( al_is_event_queue_empty(event_queue)){
+
+
+				object_draw();
+
+				al_flip_display();
+				al_clear_to_color(al_map_rgb(0, 0, 0));
+			}
 		}
 
 		al_destroy_display(display);
@@ -172,6 +180,3 @@ int main(int argc, char *argv[])
 
 		exit(EXIT_SUCCESS);
 }
-
-
-
