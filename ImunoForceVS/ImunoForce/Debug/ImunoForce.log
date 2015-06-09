@@ -1,0 +1,31 @@
+﻿Build started 08/06/2015 22:03:58.
+     1>Project "C:\Users\chosethecake\Documents\Visual Studio 2013\Projects\ImunoForce\ImunoForce\ImunoForce.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /wd4700 /analyze- /errorReport:prompt ..\..\..\..\GitHub\ImunoForce\ImunoForce\src\AllegroDef.c ..\..\..\..\GitHub\ImunoForce\ImunoForce\src\ImunoEngine.c ..\..\..\..\GitHub\ImunoForce\ImunoForce\src\ImunoForce.c
+         ImunoForce.c
+         ImunoEngine.c
+     1>c:\users\chosethecake\documents\github\imunoforce\imunoforce\src\imunoengine.c(37): warning C4133: '=' : incompatible types - from 'Object *' to 'Object *'
+     1>c:\users\chosethecake\documents\github\imunoforce\imunoforce\src\imunoengine.c(38): warning C4133: '=' : incompatible types - from 'Object *' to 'Object *'
+     1>c:\users\chosethecake\documents\github\imunoforce\imunoforce\src\imunoengine.c(41): warning C4133: '=' : incompatible types - from 'Object *' to 'Object *'
+     1>c:\users\chosethecake\documents\github\imunoforce\imunoforce\src\imunoengine.c(42): warning C4133: '=' : incompatible types - from 'Object *' to 'Object *'
+     1>c:\users\chosethecake\documents\github\imunoforce\imunoforce\src\imunoengine.c(43): warning C4133: '=' : incompatible types - from 'Object *' to 'Object *'
+     1>c:\users\chosethecake\documents\github\imunoforce\imunoforce\src\imunoengine.c(50): warning C4133: '=' : incompatible types - from 'Object *' to 'Object *'
+     1>c:\users\chosethecake\documents\github\imunoforce\imunoforce\src\imunoengine.c(77): warning C4133: '=' : incompatible types - from 'Object *' to 'Object *'
+     1>c:\users\chosethecake\documents\github\imunoforce\imunoforce\src\imunoengine.c(78): warning C4133: '=' : incompatible types - from 'Object *' to 'Object *'
+     1>c:\users\chosethecake\documents\github\imunoforce\imunoforce\src\imunoengine.c(80): warning C4133: '=' : incompatible types - from 'Object *' to 'Object *'
+     1>c:\users\chosethecake\documents\github\imunoforce\imunoforce\src\imunoengine.c(83): warning C4133: '=' : incompatible types - from 'Object *' to 'Object *'
+     1>c:\users\chosethecake\documents\github\imunoforce\imunoforce\src\imunoengine.c(101): warning C4133: '=' : incompatible types - from 'Object *' to 'Object *'
+     1>c:\users\chosethecake\documents\github\imunoforce\imunoforce\src\imunoengine.c(134): warning C4133: '=' : incompatible types - from 'Object *' to 'Object *'
+     1>c:\users\chosethecake\documents\github\imunoforce\imunoforce\src\imunoengine.c(167): warning C4133: '=' : incompatible types - from 'Object *' to 'Object *'
+         AllegroDef.c
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\chosethecake\Documents\Visual Studio 2013\Projects\ImunoForce\Debug\ImunoForce.exe" /INCREMENTAL /NOLOGO "allegro-5.0.10-monolith-md-debug.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\chosethecake\Documents\Visual Studio 2013\Projects\ImunoForce\Debug\ImunoForce.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\chosethecake\Documents\Visual Studio 2013\Projects\ImunoForce\Debug\ImunoForce.lib" /MACHINE:X86 Debug\AllegroDef.obj
+         Debug\ImunoEngine.obj
+         Debug\ImunoForce.obj
+         ImunoForce.vcxproj -> C:\Users\chosethecake\Documents\Visual Studio 2013\Projects\ImunoForce\Debug\ImunoForce.exe
+     1>Done Building Project "C:\Users\chosethecake\Documents\Visual Studio 2013\Projects\ImunoForce\ImunoForce\ImunoForce.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.14

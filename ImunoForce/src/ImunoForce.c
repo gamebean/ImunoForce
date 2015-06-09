@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #include "ImunoEngine.h"
 #include "AllegroDef.h"
 #include <allegro5/allegro.h>
@@ -47,8 +46,8 @@ int main(int argc, char *argv[])
 	}
 
 	//initializes 2 players
-	p = player_add(p,"Sprites/sperm_0M.png");
-	player_add(p,"Sprites/sperm_0L.png");
+	p = player_add(p, "Sprites/sperm_0M.png");
+	player_add(p, "Sprites/sperm_0L.png");
 	p = object_search(1);
 
 	al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -172,6 +171,3 @@ int main(int argc, char *argv[])
 
 		exit(EXIT_SUCCESS);
 }
-
-
-
