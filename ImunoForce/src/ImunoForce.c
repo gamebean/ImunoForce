@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #include "ImunoEngine.h"
 #include "AllegroDef.h"
 #include <allegro5/allegro.h>

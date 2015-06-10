@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include "ImunoEngine.h"
 #include "AllegroDef.h"
+#include <allegro5/allegro_primitives.h>
 
 
 Object object_head = {0,header,NULL,NULL,NULL,NULL};
@@ -93,6 +94,9 @@ Object *object_del(Object *a){
 		free(a);
 		return prev;
 	}
+	else {
+		return NULL;
+	}
 }
 
 Object *player_add(Object *p,char bitmap[]){
@@ -154,7 +158,7 @@ void *object_colision(){
 			break;
 
 		 case bullet:
-				if (p->bullet->y < 100) {
+				if (p->bullet->y < 0) {
 					p = object_del(p);
 				}
 			 break;
@@ -170,8 +174,9 @@ void *object_draw(){
 			al_draw_bitmap(p->player->img, p->player->x, p->player->y, 0);
 			mask_draw(p->player->mask,p->player->x,p->player->y);
 		}
-		if(p->bullet != NULL){
-			al_draw_bitmap(p->bullet->img, p->bullet->x, p->bullet->y, 0);
+		if(p->bullet != NULL) {
+			//al_draw_bitmap(p->bullet->img, p->bullet->x, p->bullet->y, 0);
+			al_draw_filled_circle(p->bullet->x, p->bullet->y, 5, al_map_rgb(255, 0, 255));
 		}
 	}
 	return 0;
