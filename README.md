@@ -1,6 +1,5 @@
 # ImunoForce
 A game made for gamers by ~~gamers~~ Programmers
-
                                                    ,,,,,,,,,,,,                      
                                            ,,gg@$$$$$$$$$$$$$$$$$$@g,                
                                       ,gg$$$$$$$$$$$$$$$$$$$$$$$$$$@P"               
@@ -37,9 +36,8 @@ A game made for gamers by ~~gamers~~ Programmers
                 5$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$@E*`                                 
                   '*S$$$$$$$$$$$$$$$$$$$$$@@R*'                                      
                         '"**SBBBBBEF**"'                                             
-				   
-				   
-				   ## To Do
+
+## To Do
 * Enemies
 * Bullet Collision
 * Enemies & Players
