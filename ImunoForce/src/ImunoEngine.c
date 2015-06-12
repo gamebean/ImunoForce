@@ -23,15 +23,23 @@ Object *object_add(Object *p,Type t, int tag)
     case player:
 			p->player = (Player *)malloc(sizeof(Player));
 			p->bullet = NULL;
+			p->enemy = NULL;
 		break;
     case bullet:
 			p->player = NULL;
 			p->bullet = (Bullet *)malloc(sizeof(Bullet));
+			p->enemy = NULL;
 		break;
+    case enemy:
+			p->player = NULL;
+			p->bullet = NULL;
+			p->enemy = (Enemy *)malloc(sizeof(Enemy));
+    	break;
     case header:
     	default:
 			p->player = NULL;
 			p->bullet = NULL;
+			p->enemy  = NULL;
     	 break;
 
     }
@@ -55,23 +63,7 @@ Object *object_search(int tag){
     }
     return a;
 }
-/*
-void object_del(int tag){
-	Object  *a;
-	Object *prev;
-	Object *next;
 
-	//a = bullet_search(id);
-	prev = a->prev;
-	next = a->next;
-	if(next != NULL){
- 	next->prev = prev;
-	}if(prev != NULL){
-	prev->next = next;
-	}
-	free(a);
-}
-*/
 Object *object_del(Object *a){
 	Object *prev;
 	Object *next;
@@ -91,6 +83,9 @@ Object *object_del(Object *a){
 		if(a->bullet != NULL){
 			free(a->bullet);
 		}
+		if(a->enemy != NULL){
+			free(a->enemy);
+		}
 		free(a);
 		return prev;
 	}
@@ -101,17 +96,14 @@ Object *object_del(Object *a){
 
 Object *player_add(Object *p,char bitmap[]){
 	int tag = 1;
-	 for(p = &object_head; p != NULL; p = p->next){
-		 if(p->type == player)
-			 tag ++;
-	 }
+
 	p = object_add(p,player,tag);
 	p->player->img = al_load_bitmap(bitmap);
 	p->player->mask =  mask_new(p->player->img);
 	p->player->height = al_get_bitmap_height(p->player->img);
 	p->player->width = al_get_bitmap_width(p->player->img);
 
-	p->player->x = DISPLAY_W / 2 - p->player->width/2 + 100*(tag-1);
+	p->player->x = DISPLAY_W / 2 - p->player->width/2 ;
 	p->player->y = DISPLAY_H / 2 - p->player->height/2;
 
 	return p;
@@ -132,6 +124,21 @@ Object *bullet_add(Object *bllt,int player_tag, char bitmap[], Mask *b){
 	bllt->bullet->vy = -10;
 
 	return bllt;
+}
+
+Object *enemy_add(Object *p,char bitmap[]){
+	int tag = 1;
+
+	p = object_add(p,enemy,tag);
+	p->enemy->img = al_load_bitmap(bitmap);
+	p->enemy->mask =  mask_new(p->enemy->img);
+	p->enemy->height = al_get_bitmap_height(p->player->img);
+	p->enemy->width = al_get_bitmap_width(p->player->img);
+
+	p->enemy->x = DISPLAY_W / 2 - p->enemy->width/2 ;
+	p->enemy->y = DISPLAY_H / 2 - p->enemy->height/2;
+
+	return p;
 }
 
 void *object_colision(){
@@ -262,6 +269,3 @@ void *mask_draw(Mask *temp, int x, int y){
 		}
 	return 0;
 }
-
-
-

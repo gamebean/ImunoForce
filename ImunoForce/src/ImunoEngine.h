@@ -22,6 +22,7 @@ typedef struct{
 typedef struct{
     char String[20];
     float x,y;
+    float vx, vy;
     int width, height;
     ALLEGRO_BITMAP* img;
     Mask *mask;
@@ -44,6 +45,7 @@ typedef struct{
     float vx,vy;
     int width, height;
     ALLEGRO_BITMAP* img;
+    Mask *mask;
 }Enemy;
 
 // The Object struct have private pointers to every type of object in the game
@@ -54,6 +56,7 @@ typedef struct{
 // Pointers for every possible type object type in the game
     Player *player;
     Bullet *bullet;
+    Enemy  *enemy;
 
     struct Object *next; //Next Element
     struct Object *prev; //Prev Element
