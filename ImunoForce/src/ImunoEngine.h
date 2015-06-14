@@ -67,7 +67,7 @@ typedef struct{
 	Object *object_search(int); // Finds an object based on its tag
 	//void object_del(int);
 	Object *object_del(Object *); // return 0 if successful, -1 if ocurrs an error
-	Object *player_add(Object *,char[]);
+	Object *player_add(Object *, ALLEGRO_BITMAP* sprite_0);
 	Object *bullet_add(Object *,int player_tag, char[], Mask *);
 	void *object_colision();
 	void *object_draw();

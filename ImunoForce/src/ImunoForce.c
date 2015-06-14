@@ -45,12 +45,28 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
+	Mask *b = mask_new(al_load_bitmap("Sprites/sperm_0S.png"));
+	ALLEGRO_BITMAP* p_sprites[12];
+	p_sprites[0] = al_load_bitmap("Sprites/sperm_0M.png");
+	p_sprites[1] = al_load_bitmap("Sprites/sperm_1M.png");
+	p_sprites[2] = al_load_bitmap("Sprites/sperm_2M.png");
+	p_sprites[3] = al_load_bitmap("Sprites/sperm_3M.png");
+	p_sprites[4] = al_load_bitmap("Sprites/sperm_4M.png");
+	p_sprites[5] = al_load_bitmap("Sprites/sperm_5M.png");
+	p_sprites[6] = al_load_bitmap("Sprites/sperm_6M.png");
+	p_sprites[7] = al_load_bitmap("Sprites/sperm_7M.png");
+	p_sprites[8] = al_load_bitmap("Sprites/sperm_8M.png");
+	p_sprites[9] = al_load_bitmap("Sprites/sperm_9M.png");
+	p_sprites[10] = al_load_bitmap("Sprites/sperm_10M.png");
+	p_sprites[11] = al_load_bitmap("Sprites/sperm_11M.png");
+
+
 	//initializes 2 players
-	p = player_add(p,"Sprites/sperm_0M.png");
+	p = player_add(p, p_sprites[0]);
 	//player_add(p,"Sprites/sperm_0L.png");
 	p = object_search(1);
 
-	Mask *b = mask_new(al_load_bitmap("Sprites/sperm_0S.png"));
+	
 
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
@@ -69,9 +85,98 @@ int main(int argc, char *argv[])
 				//	FRAME COUNT
 				frame = (frame >= 60) ? 1 : frame + 1;
 
+				
 				//	MOVEMENT
 				//move_player(player);
 				p = object_search(currentPlayer);
+
+				//p->player->img = p_sprites[(int)(frame / 5)];
+
+				/*switch ((int)(frame / 5)) {
+					case 0:
+						p->player->img = al_load_bitmap("Sprites/sperm_0M.png");
+						break;
+					case 1:
+						p->player->img = al_load_bitmap("Sprites/sperm_1M.png");
+						break;
+					case 2:
+						p->player->img = al_load_bitmap("Sprites/sperm_2M.png");
+						break;
+					case 3:
+						p->player->img = al_load_bitmap("Sprites/sperm_3M.png");
+						break;
+					case 4:
+						p->player->img = al_load_bitmap("Sprites/sperm_4M.png");
+						break;
+					case 5:
+						p->player->img = al_load_bitmap("Sprites/sperm_5M.png");
+						break;
+					case 6:
+						p->player->img = al_load_bitmap("Sprites/sperm_6M.png");
+						break;
+					case 7:
+						p->player->img = al_load_bitmap("Sprites/sperm_7M.png");
+						break;
+					case 8:
+						p->player->img = al_load_bitmap("Sprites/sperm_8M.png");
+						break;
+					case 9:
+						p->player->img = al_load_bitmap("Sprites/sperm_9M.png");
+						break;
+					case 10:
+						p->player->img = al_load_bitmap("Sprites/sperm_10M.png");
+						break;
+					case 11:
+						p->player->img = al_load_bitmap("Sprites/sperm_11M.png");
+						break;
+					default:
+						printf("cagou\n");
+						break;
+				}*/
+
+				switch ((int)(frame / 5)) {
+					case 0:
+						p->player->img = p_sprites[0];
+						break;
+					case 1:
+						p->player->img = p_sprites[1];
+						break;
+					case 2:
+						p->player->img = p_sprites[2];
+						break;
+					case 3:
+						p->player->img = p_sprites[3];
+						break;
+					case 4:
+						p->player->img = p_sprites[4];
+						break;
+					case 5:
+						p->player->img = p_sprites[5];
+						break;
+					case 6:
+						p->player->img = p_sprites[6];
+						break;
+					case 7:
+						p->player->img = p_sprites[7];
+						break;
+					case 8:
+						p->player->img = p_sprites[8];
+						break;
+					case 9:
+						p->player->img = p_sprites[9];
+						break;
+					case 10:
+						p->player->img = p_sprites[10];
+						break;
+					case 11:
+						p->player->img = p_sprites[11];
+						break;
+					default:
+						printf("cagou\n");
+						break;
+				}
+
+				
 				if (keys[KEY_UP]) {
 					p->player->y -= 3;
 				}
@@ -84,12 +189,13 @@ int main(int argc, char *argv[])
 				if (keys[KEY_RIGHT]) {
 					p->player->x += 3;
 				}
-				if (keys[KEY_1]){
+ 				if (keys[KEY_1]){
 					currentPlayer = 1;
 				}
 				if (keys[KEY_2]){
 					currentPlayer = 2;
 				}
+
 
 				//	FIRE
 				//fire_bullet(player);

@@ -94,11 +94,11 @@ Object *object_del(Object *a){
 	}
 }
 
-Object *player_add(Object *p,char bitmap[]){
+Object *player_add(Object *p,ALLEGRO_BITMAP* sprite_0){
 	int tag = 1;
 
 	p = object_add(p,player,tag);
-	p->player->img = al_load_bitmap(bitmap);
+	p->player->img = sprite_0;
 	p->player->mask =  mask_new(p->player->img);
 	p->player->height = al_get_bitmap_height(p->player->img);
 	p->player->width = al_get_bitmap_width(p->player->img);
@@ -179,7 +179,7 @@ void *object_draw(){
 	for(p = &object_head; (p != NULL); p = p->next){
 		if(p->player != NULL){
 			al_draw_bitmap(p->player->img, p->player->x, p->player->y, 0);
-			mask_draw(p->player->mask,p->player->x,p->player->y);
+			//mask_draw(p->player->mask,p->player->x,p->player->y);
 		}
 		if(p->bullet != NULL) {
 			//al_draw_bitmap(p->bullet->img, p->bullet->x, p->bullet->y, 0);
