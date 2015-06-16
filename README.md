@@ -42,11 +42,12 @@ A game made for gamers by ~~gamers~~ Programmers
 ## To Do
 * Enemies
 * Bullet Collision
-* Enemies & Players
+* Players
 * ~~Coffee~~
 * Upgrade System
 * Pixel Perfect Collision
 * Bullet Hell
+* LAN Multiplayer
 * ~~Coffee~~
 
 ## Your Ideas

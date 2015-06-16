@@ -29,7 +29,6 @@ typedef struct{
     int width, height;
     ALLEGRO_BITMAP* img;
     Mask *mask;
-    struct Mask_s;
 
     struct Object *next; //Next Element
     struct Object *prev; //Prev Element
@@ -42,6 +41,10 @@ typedef struct{
 	Object *object_del(Object *); // return 0 if successful, -1 if ocurrs an error
 	Object *player_add(char[] ,char[]);
 	Object *bullet_add(Object,int player_tag);
+
+	Object *player_add (char [], char []);
+	Object *bullet_add(Object , int);
+
 	void *object_colision();
 	void *object_draw();
 	void *object_move();

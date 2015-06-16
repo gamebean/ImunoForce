@@ -205,11 +205,14 @@ void *object_colision(){
 void *object_draw(){
 	Object *p;
 	for(p = &object_head; (p != NULL); p = p->next){
+
 		if(p != &object_head){
 		al_draw_bitmap(p->img, p->x, p->y, 0);
 			//mask_draw(p->mask,p->x,p->y);
 			//al_draw_filled_circle(p->x, p->y, 5, al_map_rgb(255, 0, 255));
+
 		}
+
 	}
 	return 0;
 }
@@ -300,7 +303,7 @@ void *mask_draw(Mask *temp, int x, int y){
 	return 0;
 }
 
-void object_track(){
+void object_track() {
     Object *p;
     system("cls");
     int o,pl,b,e;
@@ -308,6 +311,7 @@ void object_track(){
     pl = 0;
     b = 0;
     e = 0;
+
     for(p = &object_head; (p != NULL); p = p->next){
         o++;
         switch (p->type){
@@ -324,9 +328,11 @@ void object_track(){
                 break;
         }
     }
+
     printf("There is %d Objects,\n%d Players\n%d Bullet's\n%d Enemies\n",o,pl,b,e);
 	for(p = &object_head; (p != NULL); p = p->next){
             printf("Object type:%d\n    x = %.2f\n    y = %.2f \n ",p->type,p->x,p->y);
 	}
 }
+
 

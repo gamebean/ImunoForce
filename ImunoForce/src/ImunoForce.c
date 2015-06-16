@@ -45,8 +45,24 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
+	Mask *b = mask_new(al_load_bitmap("Sprites/sperm_0S.png"));
+	ALLEGRO_BITMAP* p_sprites[12];
+	p_sprites[0] = al_load_bitmap("Sprites/sperm_0M.png");
+	p_sprites[1] = al_load_bitmap("Sprites/sperm_1M.png");
+	p_sprites[2] = al_load_bitmap("Sprites/sperm_2M.png");
+	p_sprites[3] = al_load_bitmap("Sprites/sperm_3M.png");
+	p_sprites[4] = al_load_bitmap("Sprites/sperm_4M.png");
+	p_sprites[5] = al_load_bitmap("Sprites/sperm_5M.png");
+	p_sprites[6] = al_load_bitmap("Sprites/sperm_6M.png");
+	p_sprites[7] = al_load_bitmap("Sprites/sperm_7M.png");
+	p_sprites[8] = al_load_bitmap("Sprites/sperm_8M.png");
+	p_sprites[9] = al_load_bitmap("Sprites/sperm_9M.png");
+	p_sprites[10] = al_load_bitmap("Sprites/sperm_10M.png");
+	p_sprites[11] = al_load_bitmap("Sprites/sperm_11M.png");
+
+
 	//initializes 2 players
-	p = player_add(p,"Sprites/sperm_0M.png");
+	p = player_add(p, "Sprites/sperm_0M.png");
 	//player_add(p,"Sprites/sperm_0L.png");
 	p = object_search(1);
 
@@ -75,9 +91,58 @@ int main(int argc, char *argv[])
 				//	FRAME COUNT
 				frame = (frame >= 60) ? 1 : frame + 1;
 
+				
 				//	MOVEMENT
 				//move_player(player);
 				p = object_search(currentPlayer);
+
+				//p->img = p_sprites[(int)(frame / 5)];
+
+				/*switch ((int)(frame / 5)) {
+					case 0:
+						p->img = al_load_bitmap("Sprites/sperm_0M.png");
+						break;
+					case 1:
+						p->img = al_load_bitmap("Sprites/sperm_1M.png");
+						break;
+					case 2:
+						p->img = al_load_bitmap("Sprites/sperm_2M.png");
+						break;
+					case 3:
+						p->img = al_load_bitmap("Sprites/sperm_3M.png");
+						break;
+					case 4:
+						p->img = al_load_bitmap("Sprites/sperm_4M.png");
+						break;
+					case 5:
+						p->img = al_load_bitmap("Sprites/sperm_5M.png");
+						break;
+					case 6:
+						p->img = al_load_bitmap("Sprites/sperm_6M.png");
+						break;
+					case 7:
+						p->img = al_load_bitmap("Sprites/sperm_7M.png");
+						break;
+					case 8:
+						p->img = al_load_bitmap("Sprites/sperm_8M.png");
+						break;
+					case 9:
+						p->img = al_load_bitmap("Sprites/sperm_9M.png");
+						break;
+					case 10:
+						p->img = al_load_bitmap("Sprites/sperm_10M.png");
+						break;
+					case 11:
+						p->img = al_load_bitmap("Sprites/sperm_11M.png");
+						break;
+					default:
+						printf("cagou\n");
+						break;
+				}*/
+				p->img = p_sprites[(frame / 5)];
+
+
+				
 				if (keys[KEY_UP]) {
 					p->y -= 0.5;
 				}
@@ -90,12 +155,13 @@ int main(int argc, char *argv[])
 				if (keys[KEY_RIGHT]) {
 					p->x += 0.5;
 				}
-				if (keys[KEY_1]){
+ 				if (keys[KEY_1]){
 					currentPlayer = 1;
 				}
 				if (keys[KEY_2]){
 					currentPlayer = 2;
 				}
+
 
 				//	FIRE
 				//fire_bullet(player);
@@ -113,6 +179,7 @@ int main(int argc, char *argv[])
 
 				object_colision();
 				object_move();
+				object_draw();
 			}
 
 			//	KEYBOARD VERIFICATION
