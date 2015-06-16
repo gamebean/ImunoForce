@@ -50,7 +50,13 @@ int main(int argc, char *argv[])
 	//player_add(p,"Sprites/sperm_0L.png");
 	p = object_search(1);
 
-	Mask *b = mask_new(al_load_bitmap("Sprites/sperm_0S.png"));
+    Object normal;
+        normal.img = al_load_bitmap("Sprites/sperm_0S.png");
+        normal.mask = mask_new(normal.img);
+        normal.height = al_get_bitmap_height(normal.img);
+        normal.width = al_get_bitmap_width(normal.img);
+        normal.vx = 0;
+        normal.vy = 0;
 
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
@@ -73,16 +79,16 @@ int main(int argc, char *argv[])
 				//move_player(player);
 				p = object_search(currentPlayer);
 				if (keys[KEY_UP]) {
-					p->player->y -= 3;
+					p->y -= 0.5;
 				}
 				if (keys[KEY_DOWN]) {
-					p->player->y += 3;
+					p->y += 0.5;
 				}
 				if (keys[KEY_LEFT]) {
-					p->player->x -= 3;
+					p->x -= 0.5;
 				}
 				if (keys[KEY_RIGHT]) {
-					p->player->x += 3;
+					p->x += 0.5;
 				}
 				if (keys[KEY_1]){
 					currentPlayer = 1;
@@ -95,11 +101,11 @@ int main(int argc, char *argv[])
 				//fire_bullet(player);
 				if (keys[KEY_SPACE] && bTrig == 10) {
 
-					bullet_add(bllt,currentPlayer,"Sprites/sperm_0S.png", b);
+					bullet_add(normal,currentPlayer);
 					bTrig = frame % bulletFreq;
 				}
 				else if (keys[KEY_SPACE] && frame%bulletFreq == bTrig) {
-					bullet_add(bllt,currentPlayer,"Sprites/sperm_0S.png", b);
+					bullet_add(normal,currentPlayer);
 				}
 				else if (!keys[KEY_SPACE]) {
 					bTrig = 10;
@@ -166,6 +172,7 @@ int main(int argc, char *argv[])
 
 
 				object_draw();
+				//object_track();
 
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -175,7 +182,7 @@ int main(int argc, char *argv[])
 		al_destroy_display(display);
 		al_destroy_timer(timer);
 		al_destroy_event_queue(event_queue);
-		al_destroy_bitmap(p->player->img);
+		al_destroy_bitmap(p->img);
 
 		exit(EXIT_SUCCESS);
 }
