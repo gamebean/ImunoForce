@@ -96,50 +96,7 @@ int main(int argc, char *argv[])
 				//move_player(player);
 				p = object_search(currentPlayer);
 
-				//p->img = p_sprites[(int)(frame / 5)];
-
-				/*switch ((int)(frame / 5)) {
-					case 0:
-						p->img = al_load_bitmap("Sprites/sperm_0M.png");
-						break;
-					case 1:
-						p->img = al_load_bitmap("Sprites/sperm_1M.png");
-						break;
-					case 2:
-						p->img = al_load_bitmap("Sprites/sperm_2M.png");
-						break;
-					case 3:
-						p->img = al_load_bitmap("Sprites/sperm_3M.png");
-						break;
-					case 4:
-						p->img = al_load_bitmap("Sprites/sperm_4M.png");
-						break;
-					case 5:
-						p->img = al_load_bitmap("Sprites/sperm_5M.png");
-						break;
-					case 6:
-						p->img = al_load_bitmap("Sprites/sperm_6M.png");
-						break;
-					case 7:
-						p->img = al_load_bitmap("Sprites/sperm_7M.png");
-						break;
-					case 8:
-						p->img = al_load_bitmap("Sprites/sperm_8M.png");
-						break;
-					case 9:
-						p->img = al_load_bitmap("Sprites/sperm_9M.png");
-						break;
-					case 10:
-						p->img = al_load_bitmap("Sprites/sperm_10M.png");
-						break;
-					case 11:
-						p->img = al_load_bitmap("Sprites/sperm_11M.png");
-						break;
-					default:
-						printf("cagou\n");
-						break;
-				}*/
-				p->img = p_sprites[(frame / 5)];
+				p->img = frame<60 ? p_sprites[(int)(frame / 5)] : p->img;
 
 
 				

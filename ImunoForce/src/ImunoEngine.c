@@ -73,7 +73,7 @@ Object *player_add(char player_name[],char bitmap[]){
 	p->height = al_get_bitmap_height(p->img);
 	p->width = al_get_bitmap_width(p->img);
 
-	strcpy(p->String,player_name);
+	strcpy_s(p->String, sizeof(p->String), player_name);
 
 	p->x = DISPLAY_W / 2 - p->width/2 ;
 	p->y = DISPLAY_H / 2 - p->height/2;
