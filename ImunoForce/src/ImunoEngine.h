@@ -27,7 +27,11 @@ typedef struct{
     float x,y;
     float vx, vy;
     int width, height;
+
     ALLEGRO_BITMAP* img;
+	int img_i;
+	int img_delay;
+
     Mask *mask;
 
     struct Object *next; //Next Element
@@ -53,3 +57,4 @@ typedef struct{
 	void *mask_clear(Mask *);
 	void *mask_draw(Mask *, int , int);
 	void object_track();
+	int anim(Object *object, int frame_delay, ALLEGRO_BITMAP* sprites[], int vector_size);

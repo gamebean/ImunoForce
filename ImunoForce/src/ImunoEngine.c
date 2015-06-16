@@ -69,6 +69,8 @@ Object *player_add(char player_name[],char bitmap[]){
 
 	p = object_add(player,PLAYER_COUNT);
 	p->img = al_load_bitmap(bitmap);
+	p->img_delay = 0;
+	p->img_i = 0;
 	p->mask =  mask_new(p->img);
 	p->height = al_get_bitmap_height(p->img);
 	p->width = al_get_bitmap_width(p->img);
@@ -89,6 +91,7 @@ Object *bullet_add(Object bullet_type_,int player_tag){
 
 
 	bllt->img = bullet_type_.img; //al_load_bitmap(bitmap);
+	bllt->img_i = 0;
 	bllt->mask = bullet_type_.mask;
 	bllt->height = bullet_type_.height;//al_get_bitmap_height(bllt->img);
 	bllt->width = bullet_type_.width;//al_get_bitmap_width(bllt->img);
@@ -207,7 +210,7 @@ void *object_draw(){
 	for(p = &object_head; (p != NULL); p = p->next){
 
 		if(p != &object_head){
-		al_draw_bitmap(p->img, p->x, p->y, 0);
+			al_draw_bitmap(p->img, p->x, p->y, 0);
 			//mask_draw(p->mask,p->x,p->y);
 			//al_draw_filled_circle(p->x, p->y, 5, al_map_rgb(255, 0, 255));
 
@@ -336,3 +339,14 @@ void object_track() {
 }
 
 
+int anim(Object *object, int frame_delay, ALLEGRO_BITMAP* sprites[], int vector_size) {
+	if (object->img_delay++ >= frame_delay) {
+		object->img_delay = 0;
+		object->img_i = (object->img_i >= vector_size-1) ? 0 : object->img_i+1;
+		object->img = sprites[object->img_i];
+		return 0;
+	}
+	else {
+		return -1;
+	}
+}

@@ -68,6 +68,7 @@ int main(int argc, char *argv[])
 
     Object normal;
         normal.img = al_load_bitmap("Sprites/sperm_0S.png");
+		normal.img_i = 0;
         normal.mask = mask_new(normal.img);
         normal.height = al_get_bitmap_height(normal.img);
         normal.width = al_get_bitmap_width(normal.img);
@@ -91,15 +92,18 @@ int main(int argc, char *argv[])
 				//	FRAME COUNT
 				frame = (frame >= 60) ? 1 : frame + 1;
 
+
+				// ANIMATION
+				
+
 				
 				//	MOVEMENT
 				//move_player(player);
 				p = object_search(currentPlayer);
 
-				p->img = frame<60 ? p_sprites[(int)(frame / 5)] : p->img;
-
-
-				
+				printf("%d || %d\n", anim(p, 5, p_sprites, 12), p->img_delay);
+				//p->img = frame<60 ? p_sprites[(int)(frame / 5)] : p->img;
+								
 				if (keys[KEY_UP]) {
 					p->y -= 0.5;
 				}
