@@ -93,35 +93,17 @@ int main(int argc, char *argv[])
 				frame = (frame >= 60) ? 1 : frame + 1;
 
 
+				p = object_search(currentPlayer);
+
 				// ANIMATION
-				
+				anim(p, 5, p_sprites, 12);
 
 				
 				//	MOVEMENT
 				//move_player(player);
-				p = object_search(currentPlayer);
-
-				printf("%d || %d\n", anim(p, 5, p_sprites, 12), p->img_delay);
-				//p->img = frame<60 ? p_sprites[(int)(frame / 5)] : p->img;
 								
-				if (keys[KEY_UP]) {
-					p->y -= 0.5;
-				}
-				if (keys[KEY_DOWN]) {
-					p->y += 0.5;
-				}
-				if (keys[KEY_LEFT]) {
-					p->x -= 0.5;
-				}
-				if (keys[KEY_RIGHT]) {
-					p->x += 0.5;
-				}
- 				if (keys[KEY_1]){
-					currentPlayer = 1;
-				}
-				if (keys[KEY_2]){
-					currentPlayer = 2;
-				}
+				p->y += 0.5*keys[KEY_DOWN] - 0.5*keys[KEY_UP];
+				p->x += 0.5*keys[KEY_RIGHT] - 0.5*keys[KEY_LEFT];
 
 
 				//	FIRE
