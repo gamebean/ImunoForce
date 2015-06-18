@@ -1,0 +1,7 @@
+#	Ignored Files	#
+*.obj
+*.exe
+*.log
+
+#	Ignored Folders	#
+**/Debug
