@@ -4,4 +4,5 @@
 *.log
 
 #	Ignored Folders	#
-**/Debug/
+ImunoForceVS/Debug/
+ImunoForceVS/ImunoForce/Debug/
