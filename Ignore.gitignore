@@ -4,4 +4,4 @@
 *.log
 
 # Ignored Folders #
-Debug/
+**/Debug
