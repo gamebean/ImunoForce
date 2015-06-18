@@ -210,8 +210,8 @@ void *object_draw(){
 	for(p = &object_head; (p != NULL); p = p->next){
 
 		if(p != &object_head){
-			al_draw_bitmap(p->img, p->x, p->y, 0);
-			//mask_draw(p->mask,p->x,p->y);
+			//al_draw_bitmap(p->img, p->x, p->y, 0);
+			mask_draw(p->mask,p->x,p->y);
 			//al_draw_filled_circle(p->x, p->y, 5, al_map_rgb(255, 0, 255));
 
 		}
@@ -298,11 +298,11 @@ void *mask_clear(Mask *m){
 void *mask_draw(Mask *temp, int x, int y){
 	int j, k;
 	for(j = 0; j < temp->widht; j++){
-			for(k = 0; k < temp->height; k++){
-				if(!temp->bits[j][k])
-					al_put_pixel(x+j, y+k, al_map_rgba_f(0.75,0,0.75,0.75));
-			}
+		for(k = 0; k < temp->height; k++){
+			if(!temp->bits[j][k])
+				al_put_pixel(x+j, y+k, al_map_rgba_f(0.75,0,0.75,0.75));
 		}
+	}
 	return 0;
 }
 
@@ -339,11 +339,12 @@ void object_track() {
 }
 
 
-int anim(Object *object, int frame_delay, ALLEGRO_BITMAP* sprites[], int vector_size) {
+int anim(Object *object, int frame_delay, ALLEGRO_BITMAP* sprites[],Mask *masks[], int vector_size) {
 	if (object->img_delay++ >= frame_delay) {
 		object->img_delay = 0;
 		object->img_i = (object->img_i >= vector_size-1) ? 0 : object->img_i+1;
 		object->img = sprites[object->img_i];
+		object->mask = masks[object->img_i];
 		return 0;
 	}
 	else {

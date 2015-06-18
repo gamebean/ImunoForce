@@ -1,9 +1,3 @@
-/*
- * ImunoEngine.h
- *
- *  Created on: 06/06/2015
- *      Author: felipe
- */
 //Object object_head = {0,header,NULL,NULL,NULL,NULL};
 
 // Define the possible types of object in the game
@@ -57,4 +51,4 @@ typedef struct{
 	void *mask_clear(Mask *);
 	void *mask_draw(Mask *, int , int);
 	void object_track();
-	int anim(Object *object, int frame_delay, ALLEGRO_BITMAP* sprites[], int vector_size);
+	int anim(Object *object, int frame_delay, ALLEGRO_BITMAP* sprites[], Mask *masks[], int vector_size);

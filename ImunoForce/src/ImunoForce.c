@@ -11,7 +11,7 @@
 
 int main(int argc, char *argv[])
 {
-	int frame=1, bTrig=10, bulletFreq=10;
+	int frame=1, bTrig=10, bulletFreq=10, i;
 	int currentPlayer = 1; // JUST FOR TEST
 
 	ALLEGRO_DISPLAY*			display;
@@ -60,6 +60,12 @@ int main(int argc, char *argv[])
 	p_sprites[10] = al_load_bitmap("Sprites/sperm_10M.png");
 	p_sprites[11] = al_load_bitmap("Sprites/sperm_11M.png");
 
+	Mask *p_masks[12];
+	for (i = 0; i < 12; i++) {
+		p_masks[i] = mask_new(p_sprites[i]);
+	}
+
+
 
 	//initializes 2 players
 	p = player_add(p, "Sprites/sperm_0M.png");
@@ -96,7 +102,7 @@ int main(int argc, char *argv[])
 				p = object_search(currentPlayer);
 
 				// ANIMATION
-				anim(p, 5, p_sprites, 12);
+				anim(p, 5, p_sprites, p_masks, 12);
 
 				
 				//	MOVEMENT
