@@ -199,7 +199,7 @@ void *object_colision(){
 					p = object_del(p);
 				}
 				*/
-			 break;
+
 		 }
 		//}
 	 return 0;
