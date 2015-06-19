@@ -162,6 +162,10 @@ void *object_colision() {
 			int yover = (p->height + pl->height) / 2 - abs(yoffset);
 
 			int top, bottom, left, right;
+			 if(p->y < 0){
+					p = object_del(p);
+					goto test;
+			 }
 
 			top = (p->y > pl->y) ? p->y : pl->y;
 			bottom =

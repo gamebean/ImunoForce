@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
 	normal.height = al_get_bitmap_height(normal.img);
 	normal.width = al_get_bitmap_width(normal.img);
 	normal.vx = 0;
-	normal.vy = 0;
+	normal.vy = -0.25;
 
 
 	al_register_event_source(event_queue, al_get_display_event_source(display));
