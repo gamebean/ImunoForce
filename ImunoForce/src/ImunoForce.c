@@ -63,6 +63,7 @@ int main(int argc, char *argv[])
 	Mask *p_masks[12];
 	for (i = 0; i < 12; i++) {
 		p_masks[i] = mask_new(p_sprites[i]);
+		printf("Creating mask n%d\n",i+1);
 	}
 
 
@@ -102,7 +103,7 @@ int main(int argc, char *argv[])
 				p = object_search(currentPlayer);
 
 				// ANIMATION
-				anim(p, 5, p_sprites, p_masks, 12);
+
 
 				
 				//	MOVEMENT
@@ -125,7 +126,7 @@ int main(int argc, char *argv[])
 				else if (!keys[KEY_SPACE]) {
 					bTrig = 10;
 				}
-
+				anim(p, 5, p_sprites, p_masks, 12);
 				object_colision();
 				object_move();
 				object_draw();

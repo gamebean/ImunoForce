@@ -75,8 +75,8 @@ Object *player_add(char player_name[],char bitmap[]){
 	p->height = al_get_bitmap_height(p->img);
 	p->width = al_get_bitmap_width(p->img);
 
-	strcpy_s(p->String, sizeof(p->String), player_name);
-
+	//strcpy_s(p->String, sizeof(p->String), player_name);
+	strcpy(p->String, player_name);
 	p->x = DISPLAY_W / 2 - p->width/2 ;
 	p->y = DISPLAY_H / 2 - p->height/2;
 
@@ -156,7 +156,7 @@ void *object_colision(){
 				int top,bottom,left,right;
 
 				top = (p->y > pl->y) ? p->y : pl->y;
-				bottom = (p->y + p->height < pl->y + p->height) ? p->y + p->height: pl->y + p->height;
+				bottom = (p->y + p->height < pl->y + p->height) ? p->y + p->height: pl->y + pl->height;
 				left = (p->x > pl->x) ? p->x : pl->x;
 				right = (p->x + p->width < pl->x + pl->width) ? p->x + p->width  : pl->x + pl->width;
 				/*
@@ -210,8 +210,8 @@ void *object_draw(){
 	for(p = &object_head; (p != NULL); p = p->next){
 
 		if(p != &object_head){
-			//al_draw_bitmap(p->img, p->x, p->y, 0);
-			mask_draw(p->mask,p->x,p->y);
+			al_draw_bitmap(p->img, p->x, p->y, 0);
+			//mask_draw(p->mask,p->x,p->y);
 			//al_draw_filled_circle(p->x, p->y, 5, al_map_rgb(255, 0, 255));
 
 		}
