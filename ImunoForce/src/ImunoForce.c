@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 	Object* bllt = object_search(header);
 
 	initialization();
-
+	 srand( (unsigned)time(NULL) ); // Uncertainty principle
 	//creation(display, timer, event_queue);
 	display = al_create_display(DISPLAY_W, DISPLAY_H);
 	if (!display) {
@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
 	normal.height = al_get_bitmap_height(normal.img);
 	normal.width = al_get_bitmap_width(normal.img);
 	normal.vx = 0;
-	normal.vy = -0.25;
+	normal.vy = -12;
 
 
 	al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -100,27 +100,21 @@ int main(int argc, char *argv[]) {
 			//	FRAME COUNT
 			frame = (frame >= 60) ? 1 : frame + 1;
 
-			p = object_search(currentPlayer);
-
-			// ANIMATION
-
 			//	MOVEMENT
-			//move_player(player);
-
-			p->y += 0.5 * keys[KEY_DOWN] - 0.5 * keys[KEY_UP];
-			p->x += 0.5 * keys[KEY_RIGHT] - 0.5 * keys[KEY_LEFT];
+			p->vy += 0.8 * keys[KEY_DOWN] - 0.8 * keys[KEY_UP];
+			p->vx += 0.8 * keys[KEY_RIGHT] - 0.8 * keys[KEY_LEFT];
 
 			//	FIRE
-			//fire_bullet(player);
 			if (keys[KEY_SPACE] && bTrig == 10) {
 
-				bullet_add(normal, currentPlayer);
+				bullet_add(normal, object_search(currentPlayer));
 				bTrig = frame % bulletFreq;
 			} else if (keys[KEY_SPACE] && frame % bulletFreq == bTrig) {
-				bullet_add(normal, currentPlayer);
+				bullet_add(normal, object_search(currentPlayer));
 			} else if (!keys[KEY_SPACE]) {
 				bTrig = 10;
 			}
+
 			//anim(p, 5, p_sprites, p_masks, 12);
 			object_anim();
 			object_colision();

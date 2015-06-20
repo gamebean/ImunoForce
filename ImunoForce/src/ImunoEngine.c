@@ -9,6 +9,8 @@
 #include "AllegroDef.h"
 #include <allegro5/allegro_primitives.h>
 
+const int vel_max = 15;
+
 Object object_head = { 0, header, "header" };
 int PLAYER_COUNT = 0;
 
@@ -87,10 +89,8 @@ Object *player_add(char player_name[], ALLEGRO_BITMAP** bitmap,
 	return p;
 }
 
-Object *bullet_add(Object bullet_type_, int player_tag) {
-	Object *p;
+Object *bullet_add(Object bullet_type_, Object *p) {
 	Object *bllt;
-	p = object_search(player_tag);
 
 	bllt = object_add(bullet, -1);
 	bllt->img = bullet_type_.img; //al_load_bitmap(bitmap);
@@ -99,11 +99,11 @@ Object *bullet_add(Object bullet_type_, int player_tag) {
 	bllt->mask = bullet_type_.mask;
 	bllt->height = bullet_type_.height; //al_get_bitmap_height(bllt->img);
 	bllt->width = bullet_type_.width; //al_get_bitmap_width(bllt->img);
-	bllt->x = 30 + p->x + p->width / 2 - bllt->width / 2;
-	bllt->y = p->y;
-	bllt->vx = bullet_type_.vx;
-	bllt->vy = bullet_type_.vy;
-
+	bllt->x = p->x + p->width / 2 - bllt->width / 2;
+	bllt->vx = bullet_type_.vx + (1 - (rand() % 2)); // Uncertainty principle
+	bllt->vy = bullet_type_.vy + (1 - (rand() % 2)); // Uncertainty principle
+	bllt->y = p->y
+			+ ((bllt->vy > 0) ? bllt->height + p->height : -bllt->height);
 	bllt->mask_v = bullet_type_.mask_v;
 	bllt->img_v = bullet_type_.img_v;
 	bllt->frame_delay = bullet_type_.frame_delay;
@@ -162,10 +162,10 @@ void *object_colision() {
 			int yover = (p->height + pl->height) / 2 - abs(yoffset);
 
 			int top, bottom, left, right;
-			 if(p->y < 0){
-					p = object_del(p);
-					goto test;
-			 }
+			if (p->y < 0) {
+				p = object_del(p);
+				goto test;
+			}
 
 			top = (p->y > pl->y) ? p->y : pl->y;
 			bottom =
@@ -195,7 +195,7 @@ void *object_draw() {
 	for (p = &object_head; (p != NULL); p = p->next) {
 
 		if (p != &object_head) {
-			al_draw_bitmap(p->img, p->x, p->y, 0);
+			al_draw_bitmap(p->img, (int) p->x, (int) p->y, 0);
 			//mask_draw(p->mask,p->x,p->y);
 			//al_draw_filled_circle(p->x, p->y, 5, al_map_rgb(255, 0, 255));
 
@@ -211,6 +211,21 @@ void *object_move() {
 	for (p = &object_head; (p != NULL); p = p->next) {
 		switch (p->type) {
 		case player:
+			p->x += p->vx;
+			p->y += p->vy;
+			if (p->vx > vel_max)
+				p->vx = vel_max;
+			if (p->vy > vel_max)
+				p->vy = vel_max;
+
+			if (p->vx < -vel_max)
+				p->vx = -vel_max;
+			if (p->vy < -vel_max)
+				p->vy = -vel_max;
+
+			p->vx = p->vx * 0.90;
+			p->vy = p->vy * 0.90;
+
 			break;
 
 		case bullet:

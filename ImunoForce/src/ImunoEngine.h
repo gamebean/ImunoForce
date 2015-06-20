@@ -44,7 +44,7 @@ Object *object_search(int); // Finds an object based on its tag
 //void object_del(int);
 Object *object_del(Object *); // return 0 if successful, -1 if ocurrs an error
 Object *player_add(char [], ALLEGRO_BITMAP** , Mask **, int , int );
-Object *bullet_add(Object, int player_tag);
+Object *bullet_add(Object, Object *);
 
 //Object *player_add(char[], char[]);
 //Object *bullet_add(Object, int);
