@@ -64,21 +64,15 @@ Object *object_del(Object *a) {
 	}
 }
 
-Object *player_add(char player_name[], ALLEGRO_BITMAP** bitmap,
-		Mask **mask_vector, int frame_delay, int vector_size) {
+Object *player_add(char player_name[], int frame_delay, int vector_size) {
 	PLAYER_COUNT++;
 	Object *p;
 
 	p = object_add(player, PLAYER_COUNT);
-	p->img = bitmap[0]; //al_load_bitmap(bitmap);
 	p->img_delay = 0;
 	p->img_i = 0;
-	p->mask = mask_vector[0];
-	p->height = al_get_bitmap_height(p->img);
-	p->width = al_get_bitmap_width(p->img);
-
-	p->img_v = bitmap;
-	p->mask_v = mask_vector;
+	p->height = al_get_bitmap_height(sprites[player][p->img_i]);
+	p->width = al_get_bitmap_width(sprites[player][p->img_i]);
 
 	p->frame_delay = frame_delay;
 	p->vector_size = vector_size;
@@ -95,10 +89,8 @@ Object *bullet_add(Object bullet_type_, Object *p) {
 	Object *bllt;
 
 	bllt = object_add(bullet, -1);
-	bllt->img = bullet_type_.img; //al_load_bitmap(bitmap);
 	bllt->img_delay = 0;
 	bllt->img_i = 0;
-	bllt->mask = bullet_type_.mask;
 	bllt->height = bullet_type_.height; //al_get_bitmap_height(bllt->img);
 	bllt->width = bullet_type_.width; //al_get_bitmap_width(bllt->img);
 	bllt->x = p->x + p->width / 2 - bllt->width / 2;
@@ -106,8 +98,6 @@ Object *bullet_add(Object bullet_type_, Object *p) {
 	bllt->vy = bullet_type_.vy + (1 - (rand() % 2)); // Uncertainty principle
 	bllt->y = p->y
 			+ ((bllt->vy > 0) ? bllt->height + p->height : -bllt->height);
-	bllt->mask_v = bullet_type_.mask_v;
-	bllt->img_v = bullet_type_.img_v;
 	bllt->frame_delay = bullet_type_.frame_delay;
 	bllt->vector_size = bullet_type_.vector_size;
 	bllt->life = bullet_type_.life;
@@ -120,18 +110,14 @@ Object *enemy_add(Object enemy_type, int x, int y) {
 
 	Object *e; // e for enemy!!!! If this dont work I gonna kill my sister!!!!
 	e = object_add(enemy, tag);
-	e->img = enemy_type.img; //al_load_bitmap(bitmap);
 	e->img_delay = 0;
 	e->img_i = 0;
-	e->mask = enemy_type.mask;
 	e->height = enemy_type.height; //al_get_bitmap_height(e->img);
 	e->width = enemy_type.width; //al_get_bitmap_width(e->img);
 	e->x = x;
 	e->vx = enemy_type.vx; //+ (1 - (rand() % 2)); // Uncertainty principle
 	e->vy = enemy_type.vy; //+ (1 - (rand() % 2)); // Uncertainty principle
 	e->y = y;
-	e->mask_v = enemy_type.mask_v;
-	e->img_v = enemy_type.img_v;
 	e->frame_delay = enemy_type.frame_delay;
 	e->vector_size = enemy_type.vector_size;
 	e->life = enemy_type.life;
@@ -187,9 +173,9 @@ void *object_colision() {
 
 					for (x = left; x < right; x++) {
 						for (y = top; y < bottom; y++) {
-							if (p->mask->bits[(int) (x - p->x)][(int) (y - p->y)]
+							if ((masks[p->type][p->img_i])->bits[(int) (x - p->x)][(int) (y - p->y)]
 									== 1
-									&& ob->mask->bits[(int) (x - ob->x)][(int) (y
+									&& (masks[ob->type][ob->img_i])->bits[(int) (x - ob->x)][(int) (y
 											- ob->y)] == 1) {
 								if (ob->type == enemy) {
 									ob->life += p->life;
@@ -215,7 +201,7 @@ void *object_draw() {
 	for (p = &object_head; (p != NULL); p = p->next) {
 
 		if (p != &object_head) {
-			al_draw_bitmap(p->img, (int) p->x, (int) p->y, 0);
+			al_draw_bitmap(sprites[p->type][p->img_i], (int) p->x, (int) p->y, 0);
 			//mask_draw(p->mask,p->x,p->y);
 			//al_draw_filled_circle(p->x, p->y, 5, al_map_rgb(255, 0, 255));
 
@@ -384,14 +370,11 @@ void object_track() {
 	}
 }
 
-int anim(Object *object, int frame_delay, ALLEGRO_BITMAP* sprites[],
-		Mask *masks[], int vector_size) {
+int anim(Object *object, int frame_delay, int vector_size) {
 	if (object->img_delay++ >= frame_delay) {
 		object->img_delay = 0;
 		object->img_i =
 				(object->img_i >= vector_size - 1) ? 0 : object->img_i + 1;
-		object->img = sprites[object->img_i];
-		object->mask = masks[object->img_i];
 		return 0;
 	} else {
 		return -1;
@@ -402,7 +385,7 @@ void object_anim() {
 	Object *p;
 	for (p = &object_head; (p != NULL); p = p->next) {
 		if (p != &object_head) {
-			anim(p, p->frame_delay, p->img_v, p->mask_v, p->vector_size);
+			anim(p, p->frame_delay, p->vector_size);
 		}
 	}
 }

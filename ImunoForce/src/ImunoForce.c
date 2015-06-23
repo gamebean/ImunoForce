@@ -45,55 +45,76 @@ int main(int argc, char *argv[]) {
 	}
 
 	Mask *b = mask_new(al_load_bitmap("Sprites/sperm_0S.png"));
-	ALLEGRO_BITMAP* p_sprites[12];
-	p_sprites[0] = al_load_bitmap("Sprites/sperm_0M.png");
-	p_sprites[1] = al_load_bitmap("Sprites/sperm_1M.png");
-	p_sprites[2] = al_load_bitmap("Sprites/sperm_2M.png");
-	p_sprites[3] = al_load_bitmap("Sprites/sperm_3M.png");
-	p_sprites[4] = al_load_bitmap("Sprites/sperm_4M.png");
-	p_sprites[5] = al_load_bitmap("Sprites/sperm_5M.png");
-	p_sprites[6] = al_load_bitmap("Sprites/sperm_6M.png");
-	p_sprites[7] = al_load_bitmap("Sprites/sperm_7M.png");
-	p_sprites[8] = al_load_bitmap("Sprites/sperm_8M.png");
-	p_sprites[9] = al_load_bitmap("Sprites/sperm_9M.png");
-	p_sprites[10] = al_load_bitmap("Sprites/sperm_10M.png");
-	p_sprites[11] = al_load_bitmap("Sprites/sperm_11M.png");
 
-	Mask *p_masks[12];
+	sprites[player][0] = al_load_bitmap("Sprites/sperm_0M.png");
+	sprites[player][1] = al_load_bitmap("Sprites/sperm_1M.png");
+	sprites[player][2] = al_load_bitmap("Sprites/sperm_2M.png");
+	sprites[player][3] = al_load_bitmap("Sprites/sperm_3M.png");
+	sprites[player][4] = al_load_bitmap("Sprites/sperm_4M.png");
+	sprites[player][5] = al_load_bitmap("Sprites/sperm_5M.png");
+	sprites[player][6] = al_load_bitmap("Sprites/sperm_6M.png");
+	sprites[player][7] = al_load_bitmap("Sprites/sperm_7M.png");
+	sprites[player][8] = al_load_bitmap("Sprites/sperm_8M.png");
+	sprites[player][9] = al_load_bitmap("Sprites/sperm_9M.png");
+	sprites[player][10] = al_load_bitmap("Sprites/sperm_10M.png");
+	sprites[player][11] = al_load_bitmap("Sprites/sperm_11M.png");
+
+	sprites[enemy][0] = al_load_bitmap("Sprites/sperm_0M.png");
+	sprites[enemy][1] = al_load_bitmap("Sprites/sperm_1M.png");
+	sprites[enemy][2] = al_load_bitmap("Sprites/sperm_2M.png");
+	sprites[enemy][3] = al_load_bitmap("Sprites/sperm_3M.png");
+	sprites[enemy][4] = al_load_bitmap("Sprites/sperm_4M.png");
+	sprites[enemy][5] = al_load_bitmap("Sprites/sperm_5M.png");
+	sprites[enemy][6] = al_load_bitmap("Sprites/sperm_6M.png");
+	sprites[enemy][7] = al_load_bitmap("Sprites/sperm_7M.png");
+	sprites[enemy][8] = al_load_bitmap("Sprites/sperm_8M.png");
+	sprites[enemy][9] = al_load_bitmap("Sprites/sperm_9M.png");
+	sprites[enemy][10] = al_load_bitmap("Sprites/sperm_10M.png");
+	sprites[enemy][11] = al_load_bitmap("Sprites/sperm_11M.png");
+
+	sprites[bullet][0] = al_load_bitmap("Sprites/sperm_0M.png");
+	sprites[bullet][1] = al_load_bitmap("Sprites/sperm_1M.png");
+	sprites[bullet][2] = al_load_bitmap("Sprites/sperm_2M.png");
+	sprites[bullet][3] = al_load_bitmap("Sprites/sperm_3M.png");
+	sprites[bullet][4] = al_load_bitmap("Sprites/sperm_4M.png");
+	sprites[bullet][5] = al_load_bitmap("Sprites/sperm_5M.png");
+	sprites[bullet][6] = al_load_bitmap("Sprites/sperm_6M.png");
+	sprites[bullet][7] = al_load_bitmap("Sprites/sperm_7M.png");
+	sprites[bullet][8] = al_load_bitmap("Sprites/sperm_8M.png");
+	sprites[bullet][9] = al_load_bitmap("Sprites/sperm_9M.png");
+	sprites[bullet][10] = al_load_bitmap("Sprites/sperm_10M.png");
+	sprites[bullet][11] = al_load_bitmap("Sprites/sperm_11M.png");
+
 	for (i = 0; i < 12; i++) {
-		p_masks[i] = mask_new(p_sprites[i]);
+		masks[player][i] = mask_new(sprites[player][i]);
+		masks[enemy][i] = mask_new(sprites[enemy][i]);
+		masks[bullet][i] = mask_new(sprites[bullet][i]);
 		printf("Creating mask n%d\n", i + 1);
 	}
 
 	//initializes 2 players
-	p = player_add("Ronaldo",p_sprites,p_masks,5,12);
+	p = player_add("Ronaldo",5,12);
 	//player_add(p,"Sprites/sperm_0L.png");
 	p = object_search(1);
 
 	Object normal;
-	normal.img_v = p_sprites;
-	normal.mask_v = p_masks;
+	normal.type = bullet;
 	normal.vector_size = 12;
 	normal.frame_delay = 5;
-	normal.img = p_sprites[0];
 	normal.img_i = 0;
-	normal.mask = p_masks[0];
-	normal.height = al_get_bitmap_height(normal.img);
-	normal.width = al_get_bitmap_width(normal.img);
+	normal.height = al_get_bitmap_height(sprites[normal.type][normal.img_i]);
+	normal.width = al_get_bitmap_width(sprites[normal.type][normal.img_i]);
 	normal.vx = 0;
 	normal.vy = -12;
 	normal.life = -1;
 
 	Object enemy1;
-	enemy1.img_v = p_sprites;
-	enemy1.mask_v = p_masks;
+	enemy1.type = enemy;
 	enemy1.vector_size = 12;
 	enemy1.frame_delay = 5;
-	enemy1.img = p_sprites[0];
 	enemy1.img_i = 0;
-	enemy1.mask = p_masks[0];
-	enemy1.height = al_get_bitmap_height(enemy1.img);
-	enemy1.width = al_get_bitmap_width(enemy1.img);
+	enemy1.height = al_get_bitmap_height(sprites[enemy1.type][enemy1.img_i]);
+	enemy1.width = al_get_bitmap_width(sprites[enemy1.type][enemy1.img_i]);
 	enemy1.vx = 0.3;
 	enemy1.vy = 1;
 	enemy1.life = 3;
@@ -101,15 +122,12 @@ int main(int argc, char *argv[]) {
 	strcpy_s(enemy1.String, sizeof(enemy1.String), "NonSeeker");
 
 	Object enemy2;
-	enemy2.img_v = p_sprites;
-	enemy2.mask_v = p_masks;
+	enemy2.type = enemy;
 	enemy2.vector_size = 12;
 	enemy2.frame_delay = 5;
-	enemy2.img = p_sprites[0];
 	enemy2.img_i = 0;
-	enemy2.mask = p_masks[0];
-	enemy2.height = al_get_bitmap_height(enemy2.img);
-	enemy2.width = al_get_bitmap_width(enemy2.img);
+	enemy2.height = al_get_bitmap_height(sprites[enemy2.type][enemy2.img_i]);
+	enemy2.width = al_get_bitmap_width(sprites[enemy2.type][enemy2.img_i]);
 	enemy2.vx = 0.3;
 	enemy2.vy = 1;
 	enemy2.life = 3;
@@ -164,7 +182,6 @@ int main(int argc, char *argv[]) {
 			object_anim();
 			object_colision();
 			object_move();
-			object_draw();
 		}
 
 		//	KEYBOARD VERIFICATION
@@ -235,7 +252,6 @@ int main(int argc, char *argv[]) {
 	al_destroy_display(display);
 	al_destroy_timer(timer);
 	al_destroy_event_queue(event_queue);
-	al_destroy_bitmap(p->img);
 
 	exit(EXIT_SUCCESS);
 }

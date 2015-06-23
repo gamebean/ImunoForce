@@ -14,6 +14,9 @@ typedef struct Mask_s {
 	int **bits;
 } Mask;
 
+Mask *masks[4][20];
+ALLEGRO_BITMAP* sprites[4][20];
+
 // The Object struct have private pointers to every type of object in the game
 typedef struct {
 	int tag; // Used to identify the structure, should be unique
@@ -23,8 +26,8 @@ typedef struct {
 	float x, y;
 	float vx, vy;
 	int width, height;
-	Mask *mask;
-	ALLEGRO_BITMAP* img;
+	int mask_i;
+
 	//Animation variables
 	int img_i;
 	int img_delay;
@@ -33,9 +36,6 @@ typedef struct {
 
 	int life;
 
-
-	ALLEGRO_BITMAP** img_v;
-	Mask **mask_v;
 	struct Object *next; //Next Element
 	struct Object *prev; //Prev Element
 } Object;
@@ -45,7 +45,7 @@ Object *object_add(Type t, int); // Add an object of a certain type
 Object *object_search(int); // Finds an object based on its tag
 //void object_del(int);
 Object *object_del(Object *); // return 0 if successful, -1 if ocurrs an error
-Object *player_add(char [], ALLEGRO_BITMAP** , Mask **, int , int );
+Object *player_add(char player_name[], int frame_delay, int vector_size);
 Object *bullet_add(Object, Object *);
 Object *enemy_add(Object, int, int);
 
@@ -60,6 +60,5 @@ Mask *mask_new(ALLEGRO_BITMAP *);
 void *mask_clear(Mask *);
 void *mask_draw(Mask *, int, int);
 void object_track();
-int anim(Object *object, int frame_delay, ALLEGRO_BITMAP* sprites[],
-		Mask *masks[], int vector_size);
+int anim(Object *object, int frame_delay, int vector_size);
 void object_anim();
