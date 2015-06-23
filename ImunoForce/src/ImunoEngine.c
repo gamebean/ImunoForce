@@ -83,8 +83,8 @@ Object *player_add(char player_name[], ALLEGRO_BITMAP** bitmap,
 	p->frame_delay = frame_delay;
 	p->vector_size = vector_size;
 
-	//strcpy_s(p->String, sizeof(p->String), player_name);
-	strcpy(p->String, player_name);
+	strcpy_s(p->String, sizeof(p->String), player_name);
+	//strcpy(p->String, player_name);
 	p->x = DISPLAY_W / 2 - p->width / 2;
 	p->y = DISPLAY_H / 2 - p->height / 2;
 
@@ -135,7 +135,8 @@ Object *enemy_add(Object enemy_type, int x, int y) {
 	e->frame_delay = enemy_type.frame_delay;
 	e->vector_size = enemy_type.vector_size;
 	e->life = enemy_type.life;
-	strcpy(e->String, enemy_type.String);
+	//strcpy(e->String, enemy_type.String);
+	strcpy_s(e->String, sizeof(e->String), enemy_type.String);
 	return e;
 }
 

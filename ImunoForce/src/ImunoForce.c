@@ -97,7 +97,8 @@ int main(int argc, char *argv[]) {
 	enemy1.vx = 0.3;
 	enemy1.vy = 1;
 	enemy1.life = 3;
-	strcpy(enemy1.String,"NonSeeker"); // defines if its a seeker or not (1 yes 0 no)
+	//strcpy(enemy1.String,"NonSeeker"); // defines if its a seeker or not (1 yes 0 no)
+	strcpy_s(enemy1.String, sizeof(enemy1.String), "NonSeeker");
 
 	Object enemy2;
 	enemy2.img_v = p_sprites;
@@ -112,7 +113,8 @@ int main(int argc, char *argv[]) {
 	enemy2.vx = 0.3;
 	enemy2.vy = 1;
 	enemy2.life = 3;
-	strcpy(enemy2.String,"Seeker"); // defines if its a seeker or not (1 yes 0 no)
+	//strcpy(enemy2.String,"Seeker"); // defines if its a seeker or not (1 yes 0 no)
+	strcpy_s(enemy2.String, sizeof(enemy2.String), "Seeker");
 
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
