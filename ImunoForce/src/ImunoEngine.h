@@ -31,6 +31,8 @@ typedef struct {
 	int frame_delay;
 	int vector_size;
 
+	int life;
+
 
 	ALLEGRO_BITMAP** img_v;
 	Mask **mask_v;
@@ -45,6 +47,7 @@ Object *object_search(int); // Finds an object based on its tag
 Object *object_del(Object *); // return 0 if successful, -1 if ocurrs an error
 Object *player_add(char [], ALLEGRO_BITMAP** , Mask **, int , int );
 Object *bullet_add(Object, Object *);
+Object *enemy_add(Object, int, int);
 
 //Object *player_add(char[], char[]);
 //Object *bullet_add(Object, int);

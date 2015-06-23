@@ -8,8 +8,10 @@
 #include "ImunoEngine.h"
 #include "AllegroDef.h"
 #include <allegro5/allegro_primitives.h>
+#include <math.h>
 
 const int vel_max = 15;
+const int e_vel_max = 3;
 
 Object object_head = { 0, header, "header" };
 int PLAYER_COUNT = 0;
@@ -108,29 +110,41 @@ Object *bullet_add(Object bullet_type_, Object *p) {
 	bllt->img_v = bullet_type_.img_v;
 	bllt->frame_delay = bullet_type_.frame_delay;
 	bllt->vector_size = bullet_type_.vector_size;
+	bllt->life = bullet_type_.life;
 
 	return bllt;
 }
 
-Object *enemy_add(Object *p, char bitmap[]) {
+Object *enemy_add(Object enemy_type, int x, int y) {
 	int tag = -2;
 
-	p = object_add(enemy, tag);
-	p->img = al_load_bitmap(bitmap);
-	p->mask = mask_new(p->img);
-	p->height = al_get_bitmap_height(p->img);
-	p->width = al_get_bitmap_width(p->img);
-
-	p->x = DISPLAY_W / 2 - p->width / 2;
-	p->y = DISPLAY_H / 2 - p->height / 2;
-
-	return p;
+	Object *e; // e for enemy!!!! If this dont work I gonna kill my sister!!!!
+	e = object_add(enemy, tag);
+	e->img = enemy_type.img; //al_load_bitmap(bitmap);
+	e->img_delay = 0;
+	e->img_i = 0;
+	e->mask = enemy_type.mask;
+	e->height = enemy_type.height; //al_get_bitmap_height(e->img);
+	e->width = enemy_type.width; //al_get_bitmap_width(e->img);
+	e->x = x;
+	e->vx = enemy_type.vx; //+ (1 - (rand() % 2)); // Uncertainty principle
+	e->vy = enemy_type.vy; //+ (1 - (rand() % 2)); // Uncertainty principle
+	e->y = y;
+	e->mask_v = enemy_type.mask_v;
+	e->img_v = enemy_type.img_v;
+	e->frame_delay = enemy_type.frame_delay;
+	e->vector_size = enemy_type.vector_size;
+	e->life = enemy_type.life;
+	strcpy(e->String, enemy_type.String);
+	return e;
 }
 
 void *object_colision() {
 	Object *p;
-	Object *pl;
-	int x, y, dx, dy;
+	Object *ob;
+	int x, y;
+	int top, bottom, left, right;
+	int p_count;
 	for (p = &object_head; (p != NULL); p = p->next) {
 		test: switch (p->type) {
 		case player:
@@ -153,38 +167,43 @@ void *object_colision() {
 			break;
 
 		case bullet:
-			pl = object_search(1);
-			int x, y;
-			int xoffset = (p->x - pl->x);
-			int yoffset = (p->y - pl->y);
-
-			int xover = (p->width + pl->width) / 2 - abs(xoffset);
-			int yover = (p->height + pl->height) / 2 - abs(yoffset);
-
-			int top, bottom, left, right;
 			if (p->y < 0) {
 				p = object_del(p);
 				goto test;
 			}
 
-			top = (p->y > pl->y) ? p->y : pl->y;
-			bottom =
-					(p->y + p->height < pl->y + p->height) ?
-							p->y + p->height : pl->y + pl->height;
-			left = (p->x > pl->x) ? p->x : pl->x;
-			right = (p->x + p->width < pl->x + pl->width) ?
-					p->x + p->width : pl->x + pl->width;
+			for (ob = &object_head; (ob != NULL); ob = ob->next) {
+				//ob = object_search(p_count);
+				if ((ob->type == player) || (ob->type == enemy)) {
 
-			for (x = left; x < right; x++) {
-				for (y = top; y < bottom; y++) {
-					if (p->mask->bits[(int) (x - p->x)][(int) (y - p->y)] == 1
-							&& pl->mask->bits[(int) (x - pl->x)][(int) (y
-									- pl->y)] == 1) {
-						p = object_del(p);
-						goto test;
+					top = (p->y > ob->y) ? p->y : ob->y;
+					bottom =
+							(p->y + p->height < ob->y + p->height) ?
+									p->y + p->height : ob->y + ob->height;
+					left = (p->x > ob->x) ? p->x : ob->x;
+					right = (p->x + p->width < ob->x + ob->width) ?
+							p->x + p->width : ob->x + ob->width;
+
+					for (x = left; x < right; x++) {
+						for (y = top; y < bottom; y++) {
+							if (p->mask->bits[(int) (x - p->x)][(int) (y - p->y)]
+									== 1
+									&& ob->mask->bits[(int) (x - ob->x)][(int) (y
+											- ob->y)] == 1) {
+								if (ob->type == enemy) {
+									ob->life += p->life;
+									if (ob->life < 0) {
+										ob = object_del(ob);
+									}
+								}
+								p = object_del(p);
+								goto test;
+							}
+						}
 					}
 				}
 			}
+			break;
 		}
 	}
 	return 0;
@@ -207,7 +226,8 @@ void *object_draw() {
 
 void *object_move() {
 	Object *p;
-
+	Object *pl;
+	int dx,dy;
 	for (p = &object_head; (p != NULL); p = p->next) {
 		switch (p->type) {
 		case player:
@@ -229,6 +249,29 @@ void *object_move() {
 			break;
 
 		case bullet:
+
+			p->x += p->vx;
+			p->y += p->vy;
+			break;
+
+		case enemy:
+
+			if(strcmp(p->String, "Seeker")){
+			pl = object_search(1);
+			dx = (pl->x - p->x)/10;
+			dy = (pl->y - p->y)/10;
+			p->vx += (dx > 0) ? (float)sqrt(abs(dx))/100 : -(float)sqrt(abs(dx))/100;
+			p->vy += (float)dy/100;
+			}
+			if (p->vx > e_vel_max)
+				p->vx = e_vel_max;
+			if (p->vy > e_vel_max)
+				p->vy = e_vel_max;
+			if (p->vx < -e_vel_max)
+				p->vx = -e_vel_max;
+			if (p->vy < -e_vel_max)
+				p->vy = -e_vel_max;
+
 			p->x += p->vx;
 			p->y += p->vy;
 			break;

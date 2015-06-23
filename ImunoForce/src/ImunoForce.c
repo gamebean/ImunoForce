@@ -5,12 +5,13 @@
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
+#include <math.h>
 
 //Object object_head = {0,header,NULL,NULL,NULL,NULL};
 
 int main(int argc, char *argv[]) {
 	int frame = 1, bTrig = 10, bulletFreq = 10, i;
-	int currentPlayer = 1; // JUST FOR TEST
+	int currentPlayer = 1;  int dead = 1; int monkey = 1; // JUST FOR TEST
 
 	ALLEGRO_DISPLAY* display;
 	ALLEGRO_TIMER* timer;
@@ -81,13 +82,44 @@ int main(int argc, char *argv[]) {
 	normal.width = al_get_bitmap_width(normal.img);
 	normal.vx = 0;
 	normal.vy = -12;
+	normal.life = -1;
 
+	Object enemy1;
+	enemy1.img_v = p_sprites;
+	enemy1.mask_v = p_masks;
+	enemy1.vector_size = 12;
+	enemy1.frame_delay = 5;
+	enemy1.img = p_sprites[0];
+	enemy1.img_i = 0;
+	enemy1.mask = p_masks[0];
+	enemy1.height = al_get_bitmap_height(enemy1.img);
+	enemy1.width = al_get_bitmap_width(enemy1.img);
+	enemy1.vx = 0.3;
+	enemy1.vy = 1;
+	enemy1.life = 3;
+	strcpy(enemy1.String,"NonSeeker"); // defines if its a seeker or not (1 yes 0 no)
+
+	Object enemy2;
+	enemy2.img_v = p_sprites;
+	enemy2.mask_v = p_masks;
+	enemy2.vector_size = 12;
+	enemy2.frame_delay = 5;
+	enemy2.img = p_sprites[0];
+	enemy2.img_i = 0;
+	enemy2.mask = p_masks[0];
+	enemy2.height = al_get_bitmap_height(enemy2.img);
+	enemy2.width = al_get_bitmap_width(enemy2.img);
+	enemy2.vx = 0.3;
+	enemy2.vy = 1;
+	enemy2.life = 3;
+	strcpy(enemy2.String,"Seeker"); // defines if its a seeker or not (1 yes 0 no)
 
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 
 	al_start_timer(timer);
+
 
 	while (!quit) {
 		al_wait_for_event(event_queue, &ev);
@@ -103,6 +135,17 @@ int main(int argc, char *argv[]) {
 			//	MOVEMENT
 			p->vy += 0.8 * keys[KEY_DOWN] - 0.8 * keys[KEY_UP];
 			p->vx += 0.8 * keys[KEY_RIGHT] - 0.8 * keys[KEY_LEFT];
+
+
+			// ADD enemy
+			if(keys[KEY_1]*dead){
+				enemy_add(enemy1, rand()%540, -50);
+				dead = 0;
+			}
+			if(keys[KEY_2]*monkey){
+				enemy_add(enemy2, rand()%540, -50);
+				monkey = 0;
+			}
 
 			//	FIRE
 			if (keys[KEY_SPACE] && bTrig == 10) {
@@ -168,9 +211,11 @@ int main(int argc, char *argv[]) {
 				break;
 			case ALLEGRO_KEY_1:
 				keys[KEY_1] = false;
+				dead = 1;
 				break;
 			case ALLEGRO_KEY_2:
 				keys[KEY_2] = false;
+				monkey = 1;
 				break;
 			}
 		}
