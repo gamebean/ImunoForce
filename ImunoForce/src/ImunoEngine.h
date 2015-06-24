@@ -1,28 +1,36 @@
 //Object object_head = {0,header,NULL,NULL,NULL,NULL};
 
 // Define the possible types of object in the game
-#include <stdio.h>
 #include <allegro5/allegro.h>
+#include <iostream>
+
+using namespace std;
+
 
 typedef int Type;
 enum Types {
 	header, player, bullet, enemy
 };
 
-typedef struct Mask_s {
-	int widht, height;
-	int **bits;
-} Mask;
+//typedef struct Mask_s {
+//	int widht, height;
+//	int **bits;
+//} Mask;
 
-Mask *masks[4][20];
-ALLEGRO_BITMAP* sprites[4][20];
+class Masks {
+	int width, height;
+	int **bits;
+};
+
+//Mask *masks[4][20];
+//ALLEGRO_BITMAP* sprites[4][20];
 
 // The Object struct have private pointers to every type of object in the game
-typedef struct {
-	int tag; // Used to identify the structure, should be unique
-	Type type;
+class Object {
+public:
+	//int tag; // Used to identify the structure, should be unique
+	//Type type;
 
-	char String[20];
 	float x, y;
 	float vx, vy;
 	int width, height;
@@ -36,18 +44,86 @@ typedef struct {
 
 	int life;
 
-	struct Object *next; //Next Element
-	struct Object *prev; //Prev Element
-} Object;
+	Object(Type, int);
+};
+
+class Player : public Object {
+public:
+	char String[20];
+
+	Player();
+};
+
+class Player1 : public Player {
+
+	Player1();
+};
+
+class Player2 : public Player {
+
+	Player2;
+};
+
+class Enemy : public Object {
+public:
+	Enemy *next;
+	Enemy *prev;
+
+	virtual void move() = 0;
+
+	Enemy();
+};
+
+class Seeker : public Enemy {
+	void move();
+
+	Seeker();
+};
+
+class nSeeker : public Enemy {
+	void move();
+
+	nSeeker;
+};
+
+class Bullet : public Object {
+public:
+	Bullet *next;
+	Bullet *prev;
+
+	Bullet();
+};
+
+
+//typedef struct {
+//	int tag; // Used to identify the structure, should be unique
+//	Type type;
+//
+//	char String[20];
+//	float x, y;
+//	float vx, vy;
+//	int width, height;
+//	int mask_i;
+//
+//	//Animation variables
+//	int img_i;
+//	int img_delay;
+//	int frame_delay;
+//	int vector_size;
+//
+//	int life;
+//
+//	struct Object *next; //Next Element
+//	struct Object *prev; //Prev Element
+//} Object;
 
 // Object manipulation functions
-Object *object_add(Type t, int); // Add an object of a certain type
+//Object *object_add(Type t, int); // Add an object of a certain type
 Object *object_search(int); // Finds an object based on its tag
-//void object_del(int);
 Object *object_del(Object *); // return 0 if successful, -1 if ocurrs an error
-Object *player_add(char player_name[], int frame_delay, int vector_size);
-Object *bullet_add(Object, Object *);
-Object *enemy_add(Object, int, int);
+//Object *player_add(char player_name[], int frame_delay, int vector_size);
+//Object *bullet_add(Object, Object *);
+//Object *enemy_add(Object, int, int);
 
 //Object *player_add(char[], char[]);
 //Object *bullet_add(Object, int);
