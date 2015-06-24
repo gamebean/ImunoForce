@@ -7,10 +7,10 @@
 using namespace std;
 
 
-typedef int Type;
-enum Types {
-	header, player, bullet, enemy
-};
+//typedef int Type;
+//enum Types {
+//	header, player, bullet, enemy
+//};
 
 
 class Mask {
@@ -45,7 +45,7 @@ public:
 
 	int life;
 
-	Object(Type, int);
+	Object();
 };
 
 class Player : public Object {

@@ -1,5 +1,5 @@
 #include "ImunoEngine.h"
-#include "AllegroDef.h"
+//#include "AllegroDef.h"
 #include <allegro5/allegro_primitives.h>
 #include <cmath>
 #include <iostream>
@@ -18,9 +18,9 @@ Mask::Mask(ALLEGRO_BITMAP* bitmap) {
 
 	ALLEGRO_COLOR pixel;
 
-	bits = new int[width][];
+	*bits = new int[width];
 
-	for (int i; i < width; i++) {
+	for (int i = 0; i < width; i++) {
 		bits[i] = new int[height];
 	}
 	
