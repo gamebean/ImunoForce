@@ -30,22 +30,22 @@ void initialization(){
 	if (!al_init()) {
 		al_show_native_message_box(NULL, NULL, NULL,
 								   "al_init() failed", NULL, 0);
-		exit(EXIT_FAILURE);
+		::exit(EXIT_FAILURE);
 	}
 	if (!al_init_image_addon()) {
 		al_show_native_message_box(NULL, NULL, NULL,
 								   "al_init_image_addon() failed", NULL, 0);
-		exit(EXIT_FAILURE);
+		::exit(EXIT_FAILURE);
 	}
 	if (!al_install_keyboard()) {
 		al_show_native_message_box(NULL, NULL, NULL,
 								   "al_install_keyboard() failed", NULL, 0);
-		exit(EXIT_FAILURE);
+		::exit(EXIT_FAILURE);
 	}
 	if (!al_init_primitives_addon()) {
 		al_show_native_message_box(NULL, NULL, NULL,
 								   "al_init_primitives_addon() failed", NULL, 0);
-		exit(EXIT_FAILURE);
+		::exit(EXIT_FAILURE);
 	}
 }
 
@@ -69,21 +69,24 @@ int main(int argc, char *argv[]) {
 	if (!display) {
 		al_show_native_message_box(NULL, NULL, NULL,
 								   "al_create_display() failed", NULL, 0);
-		exit(EXIT_FAILURE);
+		::exit(EXIT_FAILURE);
 	}
 	timer = al_create_timer(1 / 60.0);
 	if (!timer) {
 		al_show_native_message_box(NULL, NULL, NULL, "al_create_timer() failed",
 								   NULL, 0);
-		exit(EXIT_FAILURE);
+		::exit(EXIT_FAILURE);
 	}
 	event_queue = al_create_event_queue();
 	if (!event_queue) {
 		al_show_native_message_box(NULL, NULL, NULL,
 								   "al_create_event_queue() failed", NULL, 0);
-		exit(EXIT_FAILURE);
+		::exit(EXIT_FAILURE);
 	}
 
+	al_register_event_source(event_queue, al_get_display_event_source(display));
+	al_register_event_source(event_queue, al_get_timer_event_source(timer));
+	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	al_start_timer(timer);
 
 	while (!quit) {
@@ -161,5 +164,5 @@ int main(int argc, char *argv[]) {
 	al_destroy_timer(timer);
 	al_destroy_event_queue(event_queue);
 
-	exit(EXIT_SUCCESS);
+	::exit(EXIT_SUCCESS);
 }

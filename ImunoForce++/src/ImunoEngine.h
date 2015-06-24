@@ -23,7 +23,7 @@ class Mask {
 	void draw(int x, int y);
 };
 
-//Mask masks[4][20];
+Mask masks[4][20];
 //ALLEGRO_BITMAP* sprites[4][20];
 
 // The Object struct have private pointers to every type of object in the game
