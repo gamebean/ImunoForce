@@ -12,20 +12,18 @@ enum Types {
 	header, player, bullet, enemy
 };
 
-//typedef struct Mask_s {
-//	int widht, height;
-//	int **bits;
-//} Mask;
 
 class Mask {
 	int width, height;
 	int **bits;
 
 	Mask(ALLEGRO_BITMAP* bitmap);
-	void mask_create(int width, int height);
+
+	void clear_bits();
+	void draw(int x, int y);
 };
 
-//Mask *masks[4][20];
+//Mask masks[4][20];
 //ALLEGRO_BITMAP* sprites[4][20];
 
 // The Object struct have private pointers to every type of object in the game
@@ -64,7 +62,7 @@ class Player1 : public Player {
 
 class Player2 : public Player {
 
-	Player2;
+	Player2();
 };
 
 class Enemy : public Object {
@@ -98,27 +96,6 @@ public:
 };
 
 
-//typedef struct {
-//	int tag; // Used to identify the structure, should be unique
-//	Type type;
-//
-//	char String[20];
-//	float x, y;
-//	float vx, vy;
-//	int width, height;
-//	int mask_i;
-//
-//	//Animation variables
-//	int img_i;
-//	int img_delay;
-//	int frame_delay;
-//	int vector_size;
-//
-//	int life;
-//
-//	struct Object *next; //Next Element
-//	struct Object *prev; //Prev Element
-//} Object;
 
 // Object manipulation functions
 //Object *object_add(Type t, int); // Add an object of a certain type
@@ -134,10 +111,6 @@ Object *object_del(Object *); // return 0 if successful, -1 if ocurrs an error
 void *object_colision();
 void *object_draw();
 void *object_move();
-Mask *mask_create(int, int);
-Mask *mask_new(ALLEGRO_BITMAP *);
-void *mask_clear(Mask *);
-void *mask_draw(Mask *, int, int);
 void object_track();
 int anim(Object *object, int frame_delay, int vector_size);
 void object_anim();

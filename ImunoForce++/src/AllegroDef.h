@@ -9,8 +9,6 @@
 #define DISPLAY_H 600
 #define DISPLAY_W 800
 #define MAX_BULLETS 25
-#define true 1
-#define false 0
 
 enum {
 	KEY_UP,
