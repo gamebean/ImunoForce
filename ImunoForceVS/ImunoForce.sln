@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImunoForce", "ImunoForce\ImunoForce.vcxproj", "{78FEE798-B417-4442-BA10-1DE4C9F767EE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImunoForce++", "ImunoForce++\ImunoForce++.vcxproj", "{716DB1C1-9685-4803-919C-56A3EF130BE2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImunoForce++", "ImunoForce++\ImunoForce++.vcxproj", "{A28F6852-9BDA-4807-8EDD-09BE0877515D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{78FEE798-B417-4442-BA10-1DE4C9F767EE}.Debug|Win32.Build.0 = Debug|Win32
 		{78FEE798-B417-4442-BA10-1DE4C9F767EE}.Release|Win32.ActiveCfg = Release|Win32
 		{78FEE798-B417-4442-BA10-1DE4C9F767EE}.Release|Win32.Build.0 = Release|Win32
-		{716DB1C1-9685-4803-919C-56A3EF130BE2}.Debug|Win32.ActiveCfg = Debug|Win32
-		{716DB1C1-9685-4803-919C-56A3EF130BE2}.Debug|Win32.Build.0 = Debug|Win32
-		{716DB1C1-9685-4803-919C-56A3EF130BE2}.Release|Win32.ActiveCfg = Release|Win32
-		{716DB1C1-9685-4803-919C-56A3EF130BE2}.Release|Win32.Build.0 = Release|Win32
+		{A28F6852-9BDA-4807-8EDD-09BE0877515D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A28F6852-9BDA-4807-8EDD-09BE0877515D}.Debug|Win32.Build.0 = Debug|Win32
+		{A28F6852-9BDA-4807-8EDD-09BE0877515D}.Release|Win32.ActiveCfg = Release|Win32
+		{A28F6852-9BDA-4807-8EDD-09BE0877515D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
