@@ -196,7 +196,7 @@ void *object_draw() {
 
 		if (p != &object_head) {
 			al_draw_bitmap(sprites[p->type][p->img_i], (int) p->x, (int) p->y, 0);
-			//mask_draw(p->mask,p->x,p->y);
+			//mask_draw(masks[p->type][p->img_i],p->x,p->y);
 			//al_draw_filled_circle(p->x, p->y, 5, al_map_rgb(255, 0, 255));
 
 		}

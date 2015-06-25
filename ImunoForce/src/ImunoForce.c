@@ -57,7 +57,6 @@ int main(int argc, char *argv[]) {
 	sprites[player][F_C] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/ShipF_C.png");
 	sprites[player][F_R] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/ShipF_R.png");
 
-
 	sprites[enemy][0] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_0M.png");
 	sprites[enemy][1] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_1M.png");
 	sprites[enemy][2] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_2M.png");
