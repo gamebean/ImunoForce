@@ -418,3 +418,6 @@ void object_anim() {
 		}
 	}
 }
+void strcpy_s(char a[], int b, char c[]){
+	strcpy(a, c);
+}

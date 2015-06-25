@@ -74,3 +74,4 @@ void *mask_draw(Mask *, int, int);
 void object_track();
 int anim(Object *object, int frame_delay, int vector_size);
 void object_anim();
+void strcpy_s(char[], int, char[]);
