@@ -66,18 +66,10 @@ int main(int argc, char *argv[]) {
 	sprites[enemy][6] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/Seeker6.png");
 	sprites[enemy][7] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/Seeker7.png");
 
-	sprites[bullet][0] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_0M.png");
-	sprites[bullet][1] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_1M.png");
-	sprites[bullet][2] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_2M.png");
-	sprites[bullet][3] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_3M.png");
-	sprites[bullet][4] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_4M.png");
-	sprites[bullet][5] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_5M.png");
-	sprites[bullet][6] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_6M.png");
-	sprites[bullet][7] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_7M.png");
-	sprites[bullet][8] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_8M.png");
-	sprites[bullet][9] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_9M.png");
-	sprites[bullet][10] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_10M.png");
-	sprites[bullet][11] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/sperm_11M.png");
+	sprites[bullet][0] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/bullet0.png");
+	sprites[bullet][1] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/bullet1.png");
+	sprites[bullet][2] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/bullet2.png");
+	sprites[bullet][3] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce/Sprites/bullet3.png");
 
 	for (i = 0; i < 9; i++) {
 		masks[player][i] = mask_new(sprites[player][i]);
@@ -87,7 +79,7 @@ int main(int argc, char *argv[]) {
 		masks[enemy][i] = mask_new(sprites[enemy][i]);
 		printf("Creating enemy mask n%d\n", i + 1);
 	}
-	for (i = 0; i < 12; i++) {
+	for (i = 0; i < 4; i++) {
 		masks[bullet][i] = mask_new(sprites[bullet][i]);
 		printf("Creating bullet mask n%d\n", i + 1);
 	}
@@ -99,8 +91,8 @@ int main(int argc, char *argv[]) {
 
 	Object normal;
 	normal.type = bullet;
-	normal.vector_size = 12;
-	normal.frame_delay = 5;
+	normal.vector_size = 4;
+	normal.frame_delay = 10;
 	normal.img_i = 0;
 	normal.height = al_get_bitmap_height(sprites[normal.type][normal.img_i]);
 	normal.width = al_get_bitmap_width(sprites[normal.type][normal.img_i]);
