@@ -241,7 +241,7 @@ void *object_draw() {
 void *object_move() {
 	Object *p;
 	Object *pl;
-	int dx,dy;
+	float dx,dy;
 	for (p = &object_head; (p != NULL); p = p->next) {
 		switch (p->type) {
 		case player:
@@ -274,7 +274,7 @@ void *object_move() {
 			pl = object_search(1);
 			dx = (pl->x - p->x)/10;
 			dy = (pl->y - p->y)/10;
-			p->vx += (dx > 0) ? (float)sqrt(abs(dx))/100 : -(float)sqrt(abs(dx))/100;
+			p->vx += (dx > 0) ? ( (dx*dx)/300 < 0.3 )? (dx*dx)/300 : 0.3 : ((dx*dx)/300 < 0.3)? -(dx*dx)/300 : -0.3 ;
 			p->vy += (float)dy/100;
 			}
 			if (p->vx > e_vel_max)
