@@ -6,24 +6,26 @@
 
 using namespace std;
 
-
-//typedef int Type;
-//enum Types {
-//	header, player, bullet, enemy
-//};
+enum {
+	header,
+	player,
+	enemy,
+	bullet
+};
 
 
 class Mask {
+public:
 	int width, height;
 	int **bits;
 
-	Mask(ALLEGRO_BITMAP* bitmap);
+	Mask (ALLEGRO_BITMAP* bitmap);
 
 	void clear_bits();
 	void draw(int x, int y);
 };
 
-Mask masks[4][20];
+//Mask masks[4][20];
 //ALLEGRO_BITMAP* sprites[4][20];
 
 // The Object struct have private pointers to every type of object in the game

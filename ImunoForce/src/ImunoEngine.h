@@ -9,6 +9,18 @@ enum Types {
 	header, player, bullet, enemy
 };
 
+enum {
+	B_L,
+	B_C,
+	B_R,
+	S_L,
+	S_C,
+	S_R,
+	F_L,
+	F_C,
+	F_R
+};
+
 typedef struct Mask_s {
 	int widht, height;
 	int **bits;

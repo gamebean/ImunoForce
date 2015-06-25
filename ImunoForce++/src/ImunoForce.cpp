@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//=====================================================================================
+//==========================		ALLEGRO DEF HEADER		============================
 
 #define DISPLAY_H 600
 #define DISPLAY_W 800
@@ -48,8 +48,7 @@ void initialization(){
 		::exit(EXIT_FAILURE);
 	}
 }
-
-//====================================================================================
+//=======================================================================================
 
 int main(int argc, char *argv[]) {
 	int frame = 1, bTrig = 10, bulletFreq = 10;
@@ -83,6 +82,26 @@ int main(int argc, char *argv[]) {
 								   "al_create_event_queue() failed", NULL, 0);
 		::exit(EXIT_FAILURE);
 	}
+
+	ALLEGRO_BITMAP* sprites[4][20];
+	sprites[player][0] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce++/Sprites/sperm_0M.png");
+	sprites[player][1] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce++/Sprites/sperm_1M.png");
+	sprites[player][2] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce++/Sprites/sperm_2M.png");
+	sprites[player][3] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce++/Sprites/sperm_3M.png");
+	sprites[player][4] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce++/Sprites/sperm_4M.png");
+	sprites[player][5] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce++/Sprites/sperm_5M.png");
+	sprites[player][6] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce++/Sprites/sperm_6M.png");
+	sprites[player][7] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce++/Sprites/sperm_7M.png");
+	sprites[player][8] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce++/Sprites/sperm_8M.png");
+	sprites[player][9] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce++/Sprites/sperm_9M.png");
+	sprites[player][10] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce++/Sprites/sperm_10M.png");
+	sprites[player][11] = al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce++/Sprites/sperm_11M.png");
+
+	Mask masks(al_load_bitmap("C:/Users/chosethecake/Documents/GitHub/ImunoForce/ImunoForce++/Sprites/sperm_0M.png"));
+	/*for (int i = 0; i < 12; i++) {
+		masks[player][i](sprites[player][i]);
+		printf("Creating mask n%d\n", i + 1);
+	}*/
 
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
@@ -154,7 +173,11 @@ int main(int argc, char *argv[]) {
 		}
 
 		if (al_is_event_queue_empty(event_queue)) {
-			
+			cout << "rola" << endl;
+			masks.draw(DISPLAY_W / 2, DISPLAY_H / 2);
+			al_draw_bitmap(sprites[player][0], DISPLAY_W / 2, DISPLAY_H / 2, 0);
+			cout << "rola" << endl;
+
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 		}

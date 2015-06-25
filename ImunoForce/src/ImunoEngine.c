@@ -1,9 +1,3 @@
-/*
- * ImunoEngine.c
- *
- *  Created on: 06/06/2015
- *      Author: felipe
- */
 #include <stdio.h>
 #include "ImunoEngine.h"
 #include "AllegroDef.h"
@@ -384,9 +378,43 @@ int anim(Object *object, int frame_delay, int vector_size) {
 void object_anim() {
 	Object *p;
 	for (p = &object_head; (p != NULL); p = p->next) {
-		if (p != &object_head) {
+		if (p->type == player) {
+			if (keys[KEY_UP]) {						// FORWARD
+				if (keys[KEY_LEFT]) {			// LEFT
+					p->img_i = F_L;
+				}
+				else if (keys[KEY_RIGHT]) {		//RIGHT
+					p->img_i = F_R;
+				}
+				else {							// CENTER
+					p->img_i = F_C;
+				}
+			}
+			else if (keys[KEY_DOWN]) {				// BREAKE
+				if (keys[KEY_LEFT]) {			// LEFT
+					p->img_i = B_L;
+				}
+				else if (keys[KEY_RIGHT]) {		// RIGHT
+					p->img_i = B_R;
+				}
+				else {							// CENTER
+					p->img_i = B_C;
+				}
+			}
+			else {									// STAND
+				if (keys[KEY_LEFT]) {			// LEFT
+					p->img_i = S_L;
+				}
+				else if (keys[KEY_RIGHT]) {		// RIGHT
+					p->img_i = S_R;
+				}
+				else {							// CENTER
+					p->img_i = S_C;
+				}
+			}
+		}
+		else if (p != &object_head) {
 			anim(p, p->frame_delay, p->vector_size);
 		}
 	}
 }
-

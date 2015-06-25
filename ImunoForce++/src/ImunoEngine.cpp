@@ -18,7 +18,7 @@ Mask::Mask(ALLEGRO_BITMAP* bitmap) {
 
 	ALLEGRO_COLOR pixel;
 
-	*bits = new int[width];
+	bits = new int[width][];
 
 	for (int i = 0; i < width; i++) {
 		bits[i] = new int[height];
