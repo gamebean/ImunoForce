@@ -44,44 +44,44 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
-	Mask *b = mask_new(al_load_bitmap("Sprites/sperm_0S.png"));
+	Mask *b = mask_new(al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_0S.png"));
 
 
-	sprites[player][B_L] = al_load_bitmap("Sprites/ShipB_L.png");
-	sprites[player][B_C] = al_load_bitmap("Sprites/ShipB_C.png");
-	sprites[player][B_R] = al_load_bitmap("Sprites/ShipB_R.png");
-	sprites[player][S_L] = al_load_bitmap("Sprites/ShipS_L.png");
-	sprites[player][S_C] = al_load_bitmap("Sprites/ShipS_C.png");
-	sprites[player][S_R] = al_load_bitmap("Sprites/ShipS_R.png");
-	sprites[player][F_L] = al_load_bitmap("Sprites/ShipF_L.png");
-	sprites[player][F_C] = al_load_bitmap("Sprites/ShipF_C.png");
-	sprites[player][F_R] = al_load_bitmap("Sprites/ShipF_R.png");
+	sprites[player][B_L] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/ShipB_L.png");
+	sprites[player][B_C] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/ShipB_C.png");
+	sprites[player][B_R] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/ShipB_R.png");
+	sprites[player][S_L] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/ShipS_L.png");
+	sprites[player][S_C] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/ShipS_C.png");
+	sprites[player][S_R] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/ShipS_R.png");
+	sprites[player][F_L] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/ShipF_L.png");
+	sprites[player][F_C] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/ShipF_C.png");
+	sprites[player][F_R] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/ShipF_R.png");
 
-	sprites[enemy][0] = al_load_bitmap("Sprites/sperm_0M.png");
-	sprites[enemy][1] = al_load_bitmap("Sprites/sperm_1M.png");
-	sprites[enemy][2] = al_load_bitmap("Sprites/sperm_2M.png");
-	sprites[enemy][3] = al_load_bitmap("Sprites/sperm_3M.png");
-	sprites[enemy][4] = al_load_bitmap("Sprites/sperm_4M.png");
-	sprites[enemy][5] = al_load_bitmap("Sprites/sperm_5M.png");
-	sprites[enemy][6] = al_load_bitmap("Sprites/sperm_6M.png");
-	sprites[enemy][7] = al_load_bitmap("Sprites/sperm_7M.png");
-	sprites[enemy][8] = al_load_bitmap("Sprites/sperm_8M.png");
-	sprites[enemy][9] = al_load_bitmap("Sprites/sperm_9M.png");
-	sprites[enemy][10] = al_load_bitmap("Sprites/sperm_10M.png");
-	sprites[enemy][11] = al_load_bitmap("Sprites/sperm_11M.png");
+	sprites[enemy][0] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_0M.png");
+	sprites[enemy][1] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_1M.png");
+	sprites[enemy][2] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_2M.png");
+	sprites[enemy][3] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_3M.png");
+	sprites[enemy][4] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_4M.png");
+	sprites[enemy][5] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_5M.png");
+	sprites[enemy][6] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_6M.png");
+	sprites[enemy][7] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_7M.png");
+	sprites[enemy][8] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_8M.png");
+	sprites[enemy][9] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_9M.png");
+	sprites[enemy][10] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_10M.png");
+	sprites[enemy][11] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_11M.png");
 
-	sprites[bullet][0] = al_load_bitmap("Sprites/sperm_0M.png");
-	sprites[bullet][1] = al_load_bitmap("Sprites/sperm_1M.png");
-	sprites[bullet][2] = al_load_bitmap("Sprites/sperm_2M.png");
-	sprites[bullet][3] = al_load_bitmap("Sprites/sperm_3M.png");
-	sprites[bullet][4] = al_load_bitmap("Sprites/sperm_4M.png");
-	sprites[bullet][5] = al_load_bitmap("Sprites/sperm_5M.png");
-	sprites[bullet][6] = al_load_bitmap("Sprites/sperm_6M.png");
-	sprites[bullet][7] = al_load_bitmap("Sprites/sperm_7M.png");
-	sprites[bullet][8] = al_load_bitmap("Sprites/sperm_8M.png");
-	sprites[bullet][9] = al_load_bitmap("Sprites/sperm_9M.png");
-	sprites[bullet][10] = al_load_bitmap("Sprites/sperm_10M.png");
-	sprites[bullet][11] = al_load_bitmap("Sprites/sperm_11M.png");
+	sprites[bullet][0] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_0M.png");
+	sprites[bullet][1] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_1M.png");
+	sprites[bullet][2] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_2M.png");
+	sprites[bullet][3] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_3M.png");
+	sprites[bullet][4] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_4M.png");
+	sprites[bullet][5] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_5M.png");
+	sprites[bullet][6] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_6M.png");
+	sprites[bullet][7] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_7M.png");
+	sprites[bullet][8] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_8M.png");
+	sprites[bullet][9] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_9M.png");
+	sprites[bullet][10] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_10M.png");
+	sprites[bullet][11] = al_load_bitmap("/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_11M.png");
 
 	for (i = 0; i < 9; i++) {
 		masks[player][i] = mask_new(sprites[player][i]);
@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
 
 	//initializes 2 players
 	p = player_add("Ronaldo",5,12);
-	//player_add(p,"Sprites/sperm_0L.png");
+	//player_add(p,"/home/felipe/Documents/ImunoForce/ImunoForce/Sprites/sperm_0L.png");
 	p = object_search(1);
 
 	Object normal;
