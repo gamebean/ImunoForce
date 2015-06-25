@@ -67,6 +67,7 @@ Object *player_add(char player_name[], int frame_delay, int vector_size) {
 	p->img_i = 0;
 	p->height = al_get_bitmap_height(sprites[player][p->img_i]);
 	p->width = al_get_bitmap_width(sprites[player][p->img_i]);
+	p->life = 3;
 
 	p->frame_delay = frame_delay;
 	p->vector_size = vector_size;
@@ -145,6 +146,10 @@ void *object_colision() {
 				p->x = DISPLAY_W - p->width;
 				//keys[KEY_RIGHT] = false;
 			}
+
+			if(p->life <= 0){
+				p = object_del(p);
+			}
 			break;
 
 		case bullet:
@@ -178,6 +183,34 @@ void *object_colision() {
 									}
 								}
 								p = object_del(p);
+								goto test;
+							}
+						}
+					}
+				}
+			}
+			break;
+		case enemy:
+			for (ob = &object_head; (ob != NULL); ob = ob->next) {
+				//ob = object_search(p_count);
+				if (ob->type == player) {
+
+					top = (p->y > ob->y) ? p->y : ob->y;
+					bottom =
+							(p->y + p->height < ob->y + p->height) ?
+									p->y + p->height : ob->y + ob->height;
+					left = (p->x > ob->x) ? p->x : ob->x;
+					right = (p->x + p->width < ob->x + ob->width) ?
+							p->x + p->width : ob->x + ob->width;
+
+					for (x = left; x < right; x++) {
+						for (y = top; y < bottom; y++) {
+							if ((masks[p->type][p->img_i])->bits[(int) (x - p->x)][(int) (y - p->y)]
+									== 1
+									&& (masks[ob->type][ob->img_i])->bits[(int) (x - ob->x)][(int) (y
+											- ob->y)] == 1) {
+								p = object_del(p);
+								ob->life += -1;
 								goto test;
 							}
 						}
