@@ -114,7 +114,7 @@ int main(int argc, char *argv[]) {
 			al_load_bitmap(
 					"Sprites/bullet3.png");
 
-	sprites[background][0] = al_load_bitmap("Sprites/BackgroundPreview.png");
+	sprites[background][0] = al_load_bitmap("Sprites/BackgroundB.png");
 
 	for (i = 0; i < 9; i++) {
 		masks[player][i] = mask_new(sprites[player][i]);
