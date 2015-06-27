@@ -9,6 +9,7 @@ const int e_vel_max = 3;
 
 Object object_head = { 0, header, "header" };
 int PLAYER_COUNT = 0;
+int SCORE = 0;
 
 Object *object_add(Type t, int tag) {
 	Object *p;
@@ -180,6 +181,7 @@ void *object_colision() {
 									ob->life += p->life;
 									if (ob->life < 0) {
 										ob = object_del(ob);
+										SCORE++;
 									}
 								}
 								p = object_del(p);
@@ -449,6 +451,10 @@ void object_anim() {
 		}
 	}
 }
-//void strcpy_s(char a[], int b, char c[]){
-//	strcpy(a, c);
-//}
+void strcpy_s(char a[], int b, char c[]){
+	strcpy(a, c);
+}
+int get_score()
+{
+    return SCORE;
+}
