@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
 	bool draw = false;
 	int gameState = 0;
 	int select = 0;
-	char DOWN, UP = 1;
+	char DOWN = 1, UP = 1;
 
 	Object* p = object_search(header);
 	Object* bllt = object_search(header);

@@ -90,8 +90,8 @@ Object *bullet_add(Object bullet_type_, Object *p) {
 	bllt->height = bullet_type_.height; //al_get_bitmap_height(bllt->img);
 	bllt->width = bullet_type_.width; //al_get_bitmap_width(bllt->img);
 	bllt->x = p->x + p->width / 2 - bllt->width / 2;
-	bllt->vx = bullet_type_.vx + (1 - (rand() % 2)); // Uncertainty principle
-	bllt->vy = bullet_type_.vy + (1 - (rand() % 2)); // Uncertainty principle
+	bllt->vx = bullet_type_.vx +(0.35 - (float)(rand() % 70)/100.0); // Uncertainty principle
+	bllt->vy = bullet_type_.vy;// +(0.35 - (float)(rand() % 36) / 10.0); // Uncertainty principle
 	bllt->y = p->y
 			+ ((bllt->vy > 0) ? bllt->height + p->height : -bllt->height);
 	bllt->frame_delay = bullet_type_.frame_delay;
@@ -451,9 +451,9 @@ void object_anim() {
 		}
 	}
 }
-void strcpy_s(char a[], int b, char c[]){
-	strcpy(a, c);
-}
+//void strcpy_s(char a[], int b, char c[]){
+//	strcpy(a, c);
+//}
 int get_score()
 {
     return SCORE;
