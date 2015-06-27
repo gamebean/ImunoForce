@@ -6,7 +6,7 @@
 
 typedef int Type;
 enum Types {
-	header, player, bullet, enemy
+	header, player, bullet, enemy, background
 };
 
 enum {
@@ -27,7 +27,7 @@ typedef struct Mask_s {
 } Mask;
 
 Mask *masks[4][20];
-ALLEGRO_BITMAP* sprites[4][20];
+ALLEGRO_BITMAP* sprites[5][20];
 
 // The Object struct have private pointers to every type of object in the game
 typedef struct {

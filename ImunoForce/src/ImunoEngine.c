@@ -92,8 +92,7 @@ Object *bullet_add(Object bullet_type_, Object *p) {
 	bllt->x = p->x + p->width / 2 - bllt->width / 2;
 	bllt->vx = bullet_type_.vx +(0.35 - (float)(rand() % 70)/100.0); // Uncertainty principle
 	bllt->vy = bullet_type_.vy;// +(0.35 - (float)(rand() % 36) / 10.0); // Uncertainty principle
-	bllt->y = p->y
-			+ ((bllt->vy > 0) ? bllt->height + p->height : -bllt->height);
+	bllt->y = p->y + ((bllt->vy > 0) ? bllt->height + p->height : -bllt->height);
 	bllt->frame_delay = bullet_type_.frame_delay;
 	bllt->vector_size = bullet_type_.vector_size;
 	bllt->life = bullet_type_.life;
@@ -120,6 +119,26 @@ Object *enemy_add(Object enemy_type, int x, int y) {
 	//strcpy(e->String, enemy_type.String);
 	strcpy_s(e->String, sizeof(e->String), enemy_type.String);
 	return e;
+}
+
+Object *background_add(int x, int y) {
+	int tag = -3;
+
+	Object *bg;
+	bg = object_add(background, tag);
+	bg->img_delay = 0;
+	bg->img_i = 0;
+	bg->height = al_get_bitmap_height(sprites[background][bg->img_i]);
+	bg->width = al_get_bitmap_width(sprites[background][bg->img_i]);
+	bg->x = x;
+	bg->vx = 0;
+	bg->vy = 2;
+	bg->y = y;
+	bg->frame_delay = 0;
+	bg->vector_size = 1;
+	bg->life = -1;
+
+	return bg;
 }
 
 void *object_colision() {
@@ -288,6 +307,11 @@ void *object_move() {
 
 			p->x += p->vx;
 			p->y += p->vy;
+			break;
+		case background:
+			p->y += p->vy;
+			if (p->y >= DISPLAY_H)
+				p->y = -DISPLAY_H;
 			break;
 		default:
 			break;

@@ -6,7 +6,7 @@
  */
 #include <allegro5/allegro.h>
 
-#define DISPLAY_H 600
+#define DISPLAY_H 800
 #define DISPLAY_W 800
 #define MAX_BULLETS 25
 #define true 1

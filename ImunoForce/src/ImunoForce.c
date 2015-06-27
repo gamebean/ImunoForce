@@ -112,16 +112,9 @@ int main(int argc, char *argv[]) {
 
 	sprites[bullet][0] =
 			al_load_bitmap(
-					"Sprites/bullet0.png");
-	sprites[bullet][1] =
-			al_load_bitmap(
-					"Sprites/bullet1.png");
-	sprites[bullet][2] =
-			al_load_bitmap(
-					"Sprites/bullet2.png");
-	sprites[bullet][3] =
-			al_load_bitmap(
 					"Sprites/bullet3.png");
+
+	sprites[background][0] = al_load_bitmap("Sprites/BackgroundPreview.png");
 
 	for (i = 0; i < 9; i++) {
 		masks[player][i] = mask_new(sprites[player][i]);
@@ -131,10 +124,13 @@ int main(int argc, char *argv[]) {
 		masks[enemy][i] = mask_new(sprites[enemy][i]);
 		printf("Creating enemy mask n%d\n", i + 1);
 	}
-	for (i = 0; i < 4; i++) {
+	for (i = 0; i < 1; i++) {
 		masks[bullet][i] = mask_new(sprites[bullet][i]);
 		printf("Creating bullet mask n%d\n", i + 1);
 	}
+
+	background_add(0, 0);
+	background_add(0, -DISPLAY_H);
 
 	//initializes 2 players
 	p = player_add("Ronaldo", 5, 12);
@@ -143,7 +139,7 @@ int main(int argc, char *argv[]) {
 
 	Object normal;
 	normal.type = bullet;
-	normal.vector_size = 4;
+	normal.vector_size = 1;
 	normal.frame_delay = 10;
 	normal.img_i = 0;
 	normal.height = al_get_bitmap_height(sprites[normal.type][normal.img_i]);
@@ -323,6 +319,8 @@ int main(int argc, char *argv[]) {
 				break;
 			case 1:
 				object_draw();
+
+
 				p = object_search(1);
 				al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0,
 						"         LIFE: %d ", p->life);
