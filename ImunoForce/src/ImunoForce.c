@@ -1,3 +1,4 @@
+#include <WinSock2.h>				// LAN
 #include <stdio.h>
 #include "ImunoEngine.h"
 #include "AllegroDef.h"
@@ -9,9 +10,25 @@
 #include <allegro5/allegro_font.h>  // Biblioteca para utilização de fontes
 #include <allegro5/allegro_ttf.h>   // Biblioteca para utilização de fontes
 
+// LAN stuff
+#pragma comment(lib, "ws2_32.lib")
+
+#define BUFLEN 512	// Buffer length
+#define PORT 21234
+
+
+
 //Object object_head = {0,header,NULL,NULL,NULL,NULL};
 
 int main(int argc, char *argv[]) {
+	// More LAN stuff
+	SOCKET sckt;
+	struct sockaddr_in server, si_other;
+	int recv_len, slen = sizeof(si_other);
+	char buf[BUFLEN];
+	WSADATA wsa;
+
+
 	int frame = 1, bTrig = 10, bulletFreq = 10, i;
 	int currentPlayer = 1;
 	int dead = 1;
@@ -31,31 +48,54 @@ int main(int argc, char *argv[]) {
 	Object* bllt = object_search(header);
 
 	initialization();
-	srand((unsigned) time(NULL)); // Uncertainty principle
+	srand((unsigned)time(NULL)); // Uncertainty principle
 	//creation(display, timer, event_queue);
 	display = al_create_display(DISPLAY_W, DISPLAY_H);
 	if (!display) {
 		al_show_native_message_box(NULL, NULL, NULL,
-				"al_create_display() failed", NULL, 0);
+								   "al_create_display() failed", NULL, 0);
 		exit(EXIT_FAILURE);
 	}
 	timer = al_create_timer(1 / 60.0);
 	if (!timer) {
 		al_show_native_message_box(NULL, NULL, NULL, "al_create_timer() failed",
-		NULL, 0);
+								   NULL, 0);
 		exit(EXIT_FAILURE);
 	}
 	event_queue = al_create_event_queue();
 	if (!event_queue) {
 		al_show_native_message_box(NULL, NULL, NULL,
-				"al_create_event_queue() failed", NULL, 0);
+								   "al_create_event_queue() failed", NULL, 0);
 		exit(EXIT_FAILURE);
 	}
 
-	Mask *b =
-			mask_new(
-					al_load_bitmap(
-							"Sprites/sperm_0S.png"));
+	// Initialise winsock
+	printf("Initialiasing Winsock...\n");
+	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
+		printf("WSAStartup() Error. Code: %d\n", WSAGetLastError());
+		exit(EXIT_FAILURE);
+	}
+	printf("Initialised.\n");
+
+	// Create a Socket
+	if ((sckt = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET)
+		printf("socket() Error. Code: %d\n", WSAGetLastError());
+	printf("Socket Created.\n");
+
+	// Prepare the sockaddr_in structure
+	server.sin_family = AF_INET;
+	server.sin_addr.s_addr = INADDR_ANY;
+	server.sin_port = htons(PORT);
+
+	// Bind
+	if (bind(sckt, (struct sockaddr *)&server, sizeof(server)) == SOCKET_ERROR) {
+		printf("bind() Error. Code: %d\n", WSAGetLastError());
+		exit(EXIT_FAILURE);
+	}
+	puts("Bind done");
+
+
+	Mask *b = mask_new( al_load_bitmap("Sprites/sperm_0S.png"));
 
 	sprites[player][B_L] =
 			al_load_bitmap(
@@ -320,6 +360,23 @@ int main(int argc, char *argv[]) {
 			case 1:
 				object_draw();
 
+				// LAN test
+				fflush(stdout);
+				memset(buf, '\0', BUFLEN);
+
+				printf("Waiting for Request...");
+				if ((recv_len = recvfrom(sckt, buf, BUFLEN, 0, (struct sockaddr*) &si_other, &slen)) == SOCKET_ERROR) {
+					printf("recvfrom() Error. Code: %d\n", WSAGetLastError());
+					exit(EXIT_FAILURE);
+				}
+				printf("Packet: %s.\n", buf);
+				printf("Sending Packet...");
+				if (sendto(sckt, "objects were draw!", sizeof("objects were draw!") / sizeof(char), 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
+					printf("sendto() Error. Code: %d\n", WSAGetLastError());
+					exit(EXIT_FAILURE);
+				}
+				printf("Packet Sent.\n");
+				
 
 				p = object_search(1);
 				al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0,
