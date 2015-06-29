@@ -132,7 +132,7 @@ Object *background_add(int x, int y) {
 	bg->width = al_get_bitmap_width(sprites[background][bg->img_i]);
 	bg->x = x;
 	bg->vx = 0;
-	bg->vy = 2;
+	bg->vy = 8;
 	bg->y = y;
 	bg->frame_delay = 0;
 	bg->vector_size = 1;

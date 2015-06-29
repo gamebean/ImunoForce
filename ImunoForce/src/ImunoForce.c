@@ -13,8 +13,8 @@
 // LAN stuff
 #pragma comment(lib, "ws2_32.lib")
 
-#define BUFLEN 512	// Buffer length
-#define PORT 21234
+#define BUFLEN	1500	// Buffer length in bytes
+#define PORT	8888
 
 
 
@@ -25,9 +25,14 @@ int main(int argc, char *argv[]) {
 	SOCKET sckt;
 	struct sockaddr_in server, si_other;
 	int recv_len, slen = sizeof(si_other);
-	char buf[BUFLEN];
+	int buf[BUFLEN];
 	WSADATA wsa;
+	Data data[BUFLEN/sizeof(Data)];
 
+	data[0].x = 1;
+	data[0].y = 1;
+	data[0].type = player;
+	data[0].img_i = 1;
 
 	int frame = 1, bTrig = 10, bulletFreq = 10, i;
 	int currentPlayer = 1;
@@ -221,7 +226,6 @@ int main(int argc, char *argv[]) {
 	al_start_timer(timer);
 
 	while (!quit) {
-		printf("rola\n");
 		al_wait_for_event(event_queue, &ev);
 
 		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
@@ -333,7 +337,6 @@ int main(int argc, char *argv[]) {
 		if (al_is_event_queue_empty(event_queue)) {
 			switch (gameState) {
 				case 0:
-					printf("rola0\n");
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
 								  "         SINGLE-PLAYER");
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0,
@@ -344,7 +347,7 @@ int main(int argc, char *argv[]) {
 								  "         QUIT  ");
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100,
 								  100 + select * 25, 0, "       >");
-					printf("rola0-1\n");
+					
 					if (keys[KEY_UP] * UP) {
 						select += -1;
 						UP = 0;
@@ -359,21 +362,20 @@ int main(int argc, char *argv[]) {
 					}
 					break;
 				case 1:
-					printf("rola1\n");
 					object_draw();
 
 					// LAN test
 					fflush(stdout);
 					memset(buf, '\0', BUFLEN);
 
-					printf("Waiting for Request...");
+					printf("Waiting for Request... ");
 					if ((recv_len = recvfrom(sckt, buf, BUFLEN, 0, (struct sockaddr*) &si_other, &slen)) == SOCKET_ERROR) {
 						printf("recvfrom() Error. Code: %d\n", WSAGetLastError());
 						exit(EXIT_FAILURE);
 					}
-					printf("Packet: %s.\n", buf);
+					printf("Packet: %s. From port %d\n", buf, si_other.sin_port);
 					printf("Sending Packet...");
-					if (sendto(sckt, "objects were draw!", sizeof("objects were draw!") / sizeof(char), 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
+					if (sendto(sckt, data, sizeof(data), 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
 						printf("sendto() Error. Code: %d\n", WSAGetLastError());
 						exit(EXIT_FAILURE);
 					}
@@ -387,13 +389,11 @@ int main(int argc, char *argv[]) {
 								  "         SCORE: %d ", get_score());
 					break;
 				case 2:
-					printf("rola2\n");
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
 								  " ASS HOLE!!!!");
 					quit = true;
 					break;
 				case 3:
-					printf("rola3\n");
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
 								  "         TRIGGER: %d", 10 - bulletFreq);
 					if (keys[KEY_UP] * UP) {
