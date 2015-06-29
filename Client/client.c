@@ -2,21 +2,22 @@
 Simple udp client
 Silver Moon (m00n.silv3r@gmail.com)
 */
-#include<stdio.h>
 #include<winsock2.h>
+#include<stdio.h>
 
+ 
 #pragma comment(lib,"ws2_32.lib") //Winsock Library
 
 #define SERVER "127.0.0.1"  //ip address of udp server
 #define BUFLEN 512  //Max length of buffer
-#define PORT 8888   //The port on which to listen for incoming data
+#define PORT 21234   //The port on which to listen for incoming data
 
 int main(void)
 {
 	struct sockaddr_in si_other;
 	int s, slen = sizeof(si_other);
 	char buf[BUFLEN];
-	char message[BUFLEN];
+//	char message[BUFLEN];
 	WSADATA wsa;
 
 	//Initialise winsock

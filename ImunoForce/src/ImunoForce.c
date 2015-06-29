@@ -95,64 +95,64 @@ int main(int argc, char *argv[]) {
 	puts("Bind done");
 
 
-	Mask *b = mask_new( al_load_bitmap("Sprites/sperm_0S.png"));
+	Mask *b = mask_new(al_load_bitmap("Sprites/sperm_0S.png"));
 
 	sprites[player][B_L] =
-			al_load_bitmap(
-					"Sprites/ShipB_L.png");
+		al_load_bitmap(
+		"Sprites/ShipB_L.png");
 	sprites[player][B_C] =
-			al_load_bitmap(
-					"Sprites/ShipB_C.png");
+		al_load_bitmap(
+		"Sprites/ShipB_C.png");
 	sprites[player][B_R] =
-			al_load_bitmap(
-					"Sprites/ShipB_R.png");
+		al_load_bitmap(
+		"Sprites/ShipB_R.png");
 	sprites[player][S_L] =
-			al_load_bitmap(
-					"Sprites/ShipS_L.png");
+		al_load_bitmap(
+		"Sprites/ShipS_L.png");
 	sprites[player][S_C] =
-			al_load_bitmap(
-					"Sprites/ShipS_C.png");
+		al_load_bitmap(
+		"Sprites/ShipS_C.png");
 	sprites[player][S_R] =
-			al_load_bitmap(
-					"Sprites/ShipS_R.png");
+		al_load_bitmap(
+		"Sprites/ShipS_R.png");
 	sprites[player][F_L] =
-			al_load_bitmap(
-					"Sprites/ShipF_L.png");
+		al_load_bitmap(
+		"Sprites/ShipF_L.png");
 	sprites[player][F_C] =
-			al_load_bitmap(
-					"Sprites/ShipF_C.png");
+		al_load_bitmap(
+		"Sprites/ShipF_C.png");
 	sprites[player][F_R] =
-			al_load_bitmap(
-					"Sprites/ShipF_R.png");
+		al_load_bitmap(
+		"Sprites/ShipF_R.png");
 
 	sprites[enemy][0] =
-			al_load_bitmap(
-					"Sprites/Seeker0.png");
+		al_load_bitmap(
+		"Sprites/Seeker0.png");
 	sprites[enemy][1] =
-			al_load_bitmap(
-					"Sprites/Seeker1.png");
+		al_load_bitmap(
+		"Sprites/Seeker1.png");
 	sprites[enemy][2] =
-			al_load_bitmap(
-					"Sprites/Seeker2.png");
+		al_load_bitmap(
+		"Sprites/Seeker2.png");
 	sprites[enemy][3] =
-			al_load_bitmap(
-					"Sprites/Seeker3.png");
+		al_load_bitmap(
+		"Sprites/Seeker3.png");
 	sprites[enemy][4] =
-			al_load_bitmap(
-					"Sprites/Seeker4.png");
+		al_load_bitmap(
+		"Sprites/Seeker4.png");
 	sprites[enemy][5] =
-			al_load_bitmap(
-					"Sprites/Seeker5.png");
+		al_load_bitmap(
+		"Sprites/Seeker5.png");
 	sprites[enemy][6] =
-			al_load_bitmap(
-					"Sprites/Seeker6.png");
+		al_load_bitmap(
+		"Sprites/Seeker6.png");
 	sprites[enemy][7] =
-			al_load_bitmap(
-					"Sprites/Seeker7.png");
+		al_load_bitmap(
+		"Sprites/Seeker7.png");
 
 	sprites[bullet][0] =
-			al_load_bitmap(
-					"Sprites/bullet3.png");
+		al_load_bitmap(
+		"Sprites/bullet3.png");
 
 	sprites[background][0] = al_load_bitmap("Sprites/BackgroundB.png");
 
@@ -164,10 +164,7 @@ int main(int argc, char *argv[]) {
 		masks[enemy][i] = mask_new(sprites[enemy][i]);
 		printf("Creating enemy mask n%d\n", i + 1);
 	}
-	for (i = 0; i < 1; i++) {
-		masks[bullet][i] = mask_new(sprites[bullet][i]);
-		printf("Creating bullet mask n%d\n", i + 1);
-	}
+	masks[bullet][0] = mask_new(sprites[bullet][0]);
 
 	background_add(0, 0);
 	background_add(0, -DISPLAY_H);
@@ -224,6 +221,7 @@ int main(int argc, char *argv[]) {
 	al_start_timer(timer);
 
 	while (!quit) {
+		printf("rola\n");
 		al_wait_for_event(event_queue, &ev);
 
 		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
@@ -252,9 +250,11 @@ int main(int argc, char *argv[]) {
 			if (keys[KEY_SPACE] && bTrig == 10) {
 				bullet_add(normal, object_search(currentPlayer));
 				bTrig = frame % bulletFreq;
-			} else if (keys[KEY_SPACE] && frame % bulletFreq == bTrig) {
+			}
+			else if (keys[KEY_SPACE] && frame % bulletFreq == bTrig) {
 				bullet_add(normal, object_search(currentPlayer));
-			} else if (!keys[KEY_SPACE]) {
+			}
+			else if (!keys[KEY_SPACE]) {
 				bTrig = 10;
 			}
 
@@ -268,142 +268,146 @@ int main(int argc, char *argv[]) {
 		//keyboard_verification(ev);
 		if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
 			switch (ev.keyboard.keycode) {
-			case ALLEGRO_KEY_UP:
-				keys[KEY_UP] = true;
-				break;
-			case ALLEGRO_KEY_DOWN:
-				keys[KEY_DOWN] = true;
-				break;
-			case ALLEGRO_KEY_LEFT:
-				keys[KEY_LEFT] = true;
-				break;
-			case ALLEGRO_KEY_RIGHT:
-				keys[KEY_RIGHT] = true;
-				break;
-			case ALLEGRO_KEY_SPACE:
-				keys[KEY_SPACE] = true;
-				break;
-			case ALLEGRO_KEY_1:
-				keys[KEY_1] = true;
-				break;
-			case ALLEGRO_KEY_2:
-				keys[KEY_2] = true;
-				break;
-			case ALLEGRO_KEY_ENTER:
-				keys[KEY_ENTER] = true;
-				break;
+				case ALLEGRO_KEY_UP:
+					keys[KEY_UP] = true;
+					break;
+				case ALLEGRO_KEY_DOWN:
+					keys[KEY_DOWN] = true;
+					break;
+				case ALLEGRO_KEY_LEFT:
+					keys[KEY_LEFT] = true;
+					break;
+				case ALLEGRO_KEY_RIGHT:
+					keys[KEY_RIGHT] = true;
+					break;
+				case ALLEGRO_KEY_SPACE:
+					keys[KEY_SPACE] = true;
+					break;
+				case ALLEGRO_KEY_1:
+					keys[KEY_1] = true;
+					break;
+				case ALLEGRO_KEY_2:
+					keys[KEY_2] = true;
+					break;
+				case ALLEGRO_KEY_ENTER:
+					keys[KEY_ENTER] = true;
+					break;
 			}
 		}
 		if (ev.type == ALLEGRO_EVENT_KEY_UP) {
 			switch (ev.keyboard.keycode) {
-            case ALLEGRO_KEY_UP:
-                keys[KEY_UP] = false;
-                UP = 1;
-                break;
-            case ALLEGRO_KEY_DOWN:
-                keys[KEY_DOWN] = false;
-                DOWN = 1;
-                break;
-			case ALLEGRO_KEY_LEFT:
-				keys[KEY_LEFT] = false;
-				break;
-			case ALLEGRO_KEY_RIGHT:
-				keys[KEY_RIGHT] = false;
-				break;
-			case ALLEGRO_KEY_SPACE:
-				keys[KEY_SPACE] = false;
-				break;
-			case ALLEGRO_KEY_1:
-				keys[KEY_1] = false;
-				dead = 1;
-				break;
-			case ALLEGRO_KEY_2:
-				keys[KEY_2] = false;
-				monkey = 1;
-				break;
-			case ALLEGRO_KEY_ENTER:
-				keys[KEY_ENTER] = false;
-				break;
-			case ALLEGRO_KEY_ESCAPE:
-				gameState = 0;
-				break;
+				case ALLEGRO_KEY_UP:
+					keys[KEY_UP] = false;
+					UP = 1;
+					break;
+				case ALLEGRO_KEY_DOWN:
+					keys[KEY_DOWN] = false;
+					DOWN = 1;
+					break;
+				case ALLEGRO_KEY_LEFT:
+					keys[KEY_LEFT] = false;
+					break;
+				case ALLEGRO_KEY_RIGHT:
+					keys[KEY_RIGHT] = false;
+					break;
+				case ALLEGRO_KEY_SPACE:
+					keys[KEY_SPACE] = false;
+					break;
+				case ALLEGRO_KEY_1:
+					keys[KEY_1] = false;
+					dead = 1;
+					break;
+				case ALLEGRO_KEY_2:
+					keys[KEY_2] = false;
+					monkey = 1;
+					break;
+				case ALLEGRO_KEY_ENTER:
+					keys[KEY_ENTER] = false;
+					break;
+				case ALLEGRO_KEY_ESCAPE:
+					gameState = 0;
+					break;
 			}
 		}
 
 		if (al_is_event_queue_empty(event_queue)) {
 			switch (gameState) {
-			case 0:
-				al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
-						"         SINGLE-PLAYER");
-				al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0,
-						"         MULTI-PLAYER  ");
-				al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0,
-						"         UPGRADE  ");
-				al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 175, 0,
-						"         QUIT  ");
-				al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100,
-						100 + select * 25, 0, "       >");
+				case 0:
+					printf("rola0\n");
+					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
+								  "         SINGLE-PLAYER");
+					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0,
+								  "         MULTI-PLAYER  ");
+					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0,
+								  "         UPGRADE  ");
+					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 175, 0,
+								  "         QUIT  ");
+					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100,
+								  100 + select * 25, 0, "       >");
+					printf("rola0-1\n");
+					if (keys[KEY_UP] * UP) {
+						select += -1;
+						UP = 0;
+					}
+					if (keys[KEY_DOWN] * DOWN) {
+						select += 1;
+						DOWN = 0;
+					}
 
-				if (keys[KEY_UP] * UP) {
-					select += -1;
-					UP = 0;
-				}
-				if (keys[KEY_DOWN] * DOWN) {
-					select += 1;
-					DOWN = 0;
-				}
+					if (keys[KEY_ENTER]) {
+						gameState = select + 1;
+					}
+					break;
+				case 1:
+					printf("rola1\n");
+					object_draw();
 
-				if (keys[KEY_ENTER]) {
-					gameState = select + 1;
-				}
-				break;
-			case 1:
-				object_draw();
+					// LAN test
+					fflush(stdout);
+					memset(buf, '\0', BUFLEN);
 
-				// LAN test
-				fflush(stdout);
-				memset(buf, '\0', BUFLEN);
+					printf("Waiting for Request...");
+					if ((recv_len = recvfrom(sckt, buf, BUFLEN, 0, (struct sockaddr*) &si_other, &slen)) == SOCKET_ERROR) {
+						printf("recvfrom() Error. Code: %d\n", WSAGetLastError());
+						exit(EXIT_FAILURE);
+					}
+					printf("Packet: %s.\n", buf);
+					printf("Sending Packet...");
+					if (sendto(sckt, "objects were draw!", sizeof("objects were draw!") / sizeof(char), 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
+						printf("sendto() Error. Code: %d\n", WSAGetLastError());
+						exit(EXIT_FAILURE);
+					}
+					printf("Packet Sent.\n");
 
-				printf("Waiting for Request...");
-				if ((recv_len = recvfrom(sckt, buf, BUFLEN, 0, (struct sockaddr*) &si_other, &slen)) == SOCKET_ERROR) {
-					printf("recvfrom() Error. Code: %d\n", WSAGetLastError());
-					exit(EXIT_FAILURE);
-				}
-				printf("Packet: %s.\n", buf);
-				printf("Sending Packet...");
-				if (sendto(sckt, "objects were draw!", sizeof("objects were draw!") / sizeof(char), 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
-					printf("sendto() Error. Code: %d\n", WSAGetLastError());
-					exit(EXIT_FAILURE);
-				}
-				printf("Packet Sent.\n");
-				
 
-				p = object_search(1);
-				al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0,
-						"         LIFE: %d ", p->life);
-				al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 350, 0,
-						"         SCORE: %d ", get_score());
-				break;
-			case 2:
-				al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
-						" ASS HOLE!!!!");
-				quit = true;
-				break;
-			case 3:
-				al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
-						"         TRIGGER: %d", 10 - bulletFreq);
-				if (keys[KEY_UP] * UP) {
-					bulletFreq += -1;
-					UP = 0;
-				}
-				if (keys[KEY_DOWN] * DOWN) {
-					bulletFreq += 1;
-					DOWN = 0;
-				}
-				break;
-			case 4:
-				quit = true;
-				break;
+					p = object_search(1);
+					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0,
+								  "         LIFE: %d ", p->life);
+					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 350, 0,
+								  "         SCORE: %d ", get_score());
+					break;
+				case 2:
+					printf("rola2\n");
+					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
+								  " ASS HOLE!!!!");
+					quit = true;
+					break;
+				case 3:
+					printf("rola3\n");
+					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
+								  "         TRIGGER: %d", 10 - bulletFreq);
+					if (keys[KEY_UP] * UP) {
+						bulletFreq += -1;
+						UP = 0;
+					}
+					if (keys[KEY_DOWN] * DOWN) {
+						bulletFreq += 1;
+						DOWN = 0;
+					}
+					break;
+				case 4:
+					quit = true;
+					break;
 			}
 			//object_track();
 
