@@ -18,10 +18,10 @@ main (int argc, char *argv[])
   int currentPlayer = 1;
   int dead = 1;
   int monkey = 1; // JUST FOR TEST
-  int UPGRADE[2];
+  int UPGRADE[3];
   int upgrades = sizeof(UPGRADE)/(sizeof(int));
   for(i = 0; i < upgrades; i++){
-      UPGRADE[0] = 1;
+      UPGRADE[i] = 1;
   }
 
   ALLEGRO_DISPLAY* display;
@@ -120,7 +120,7 @@ main (int argc, char *argv[])
   normal.height = al_get_bitmap_height (sprites[normal.type][normal.img_i]);
   normal.width = al_get_bitmap_width (sprites[normal.type][normal.img_i]);
   normal.vx = 0;
-  normal.vy = -12;
+  normal.vy = -6;
   normal.life = -1;
 
   Object enemies[2];
@@ -346,9 +346,11 @@ main (int argc, char *argv[])
 	      select = (select > upgrades - 1)? upgrades - 1 : select;
 	      select = (select < 0)? 0 : select;
 	      al_draw_textf (arial_24, al_map_rgb (255, 255, 255), 100, 100, 0,
-			     "         TRIGGER: %d", 10 - bulletFreq);
+			     "         TRIGGER: %d", 11 - bulletFreq);
 	      al_draw_textf (arial_24, al_map_rgb (255, 255, 255), 100, 125, 0,
 			     "         FORCE: %d", -normal.life);
+	      al_draw_textf (arial_24, al_map_rgb (255, 255, 255), 100, 150, 0,
+	    			     "         VELOCITY: %.0f", -normal.vy);
 	      al_draw_textf (arial_24, al_map_rgb (255, 255, 255), 100,
 	     			     100 + select * 25, 0, "       >");
 	      if (keys[KEY_UP] * UP)
@@ -364,18 +366,17 @@ main (int argc, char *argv[])
 	      if (keys[KEY_RIGHT] * RIGHT)
 		{
 		  UPGRADE[select] += 1;
-		  normal.life += -1;
 		  RIGHT = 0;
 		}
 	      if (keys[KEY_LEFT] * LEFT)
 		{
 		  UPGRADE[select] += -1;
-		  normal.life += 1;
 		  LEFT = 0;
 		}
 	      UPGRADE[0] = (UPGRADE[0] > 10)? 10 : UPGRADE[0];
 	      bulletFreq = 10 - (UPGRADE[0] - 1);
-	      normal.life = -(UPGRADE[1] + 1);
+	      normal.life = -UPGRADE[1];
+	      normal.vy = -(UPGRADE[2] + 5);
 
 	      break;
 	    case 4:
