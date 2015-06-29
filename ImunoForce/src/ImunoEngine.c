@@ -112,7 +112,7 @@ bullet_add (Object bullet_type_, Object *p)
   bllt->x = p->x + p->width / 2 - bllt->width / 2;
   bllt->vx = bullet_type_.vx + (0.35 - (float) (rand () % 70) / 100.0); // Uncertainty principle
   bllt->vy = bullet_type_.vy; // +(0.35 - (float)(rand() % 36) / 10.0); // Uncertainty principle
-  bllt->y = p->y + ((bllt->vy > 0) ? bllt->height + p->height : -bllt->height);
+  bllt->y = p->y + ((bllt->vy > 0) ?  p->height : -bllt->height);
   bllt->frame_delay = bullet_type_.frame_delay;
   bllt->vector_size = bullet_type_.vector_size;
   bllt->life = bullet_type_.life;

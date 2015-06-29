@@ -11,7 +11,6 @@
 
 //Object object_head = {0,header,NULL,NULL,NULL,NULL};
 
-int
 main (int argc, char *argv[])
 {
   int frame = 1, bTrig = 10, bulletFreq = 10, i;
@@ -19,6 +18,8 @@ main (int argc, char *argv[])
   int dead = 1;
   int monkey = 1; // JUST FOR TEST
   int UPGRADE[3];
+  int shoot_enable = 0;
+  int bullet_type = 1;
   int upgrades = sizeof(UPGRADE)/(sizeof(int));
   for(i = 0; i < upgrades; i++){
       UPGRADE[i] = 1;
@@ -120,8 +121,65 @@ main (int argc, char *argv[])
   normal.height = al_get_bitmap_height (sprites[normal.type][normal.img_i]);
   normal.width = al_get_bitmap_width (sprites[normal.type][normal.img_i]);
   normal.vx = 0;
-  normal.vy = -6;
+  normal.vy = -12;
   normal.life = -1;
+
+  Object left;
+  left.type = bullet;
+  left.vector_size = 1;
+  left.frame_delay = 10;
+  left.img_i = 0;
+  left.height = al_get_bitmap_height (sprites[left.type][left.img_i]);
+  left.width = al_get_bitmap_width (sprites[left.type][left.img_i]);
+  left.vx = 3;
+  left.vy = -10;
+  left.life = -1;
+
+  Object right;
+  right.type = bullet;
+  right.vector_size = 1;
+  right.frame_delay = 10;
+  right.img_i = 0;
+  right.height = al_get_bitmap_height (sprites[right.type][right.img_i]);
+  right.width = al_get_bitmap_width (sprites[right.type][right.img_i]);
+  right.vx = -3;
+  right.vy = -10;
+  right.life = -1;
+
+  Object d_normal;
+  d_normal.type = bullet;
+  d_normal.vector_size = 1;
+  d_normal.frame_delay = 10;
+  d_normal.img_i = 0;
+  d_normal.height = al_get_bitmap_height (sprites[d_normal.type][d_normal.img_i]);
+  d_normal.width = al_get_bitmap_width (sprites[d_normal.type][d_normal.img_i]);
+  d_normal.vx = 0;
+  d_normal.vy = 12;
+  d_normal.life = -1;
+
+  Object d_left;
+  d_left.type = bullet;
+  d_left.vector_size = 1;
+  d_left.frame_delay = 10;
+  d_left.img_i = 0;
+  d_left.height = al_get_bitmap_height (sprites[d_left.type][d_left.img_i]);
+  d_left.width = al_get_bitmap_width (sprites[d_left.type][d_left.img_i]);
+  d_left.vx = 3;
+  d_left.vy = 10;
+  d_left.life = -1;
+
+  Object d_right;
+  d_right.type = bullet;
+  d_right.vector_size = 1;
+  d_right.frame_delay = 10;
+  d_right.img_i = 0;
+  d_right.height = al_get_bitmap_height (sprites[d_right.type][d_right.img_i]);
+  d_right.width = al_get_bitmap_width (sprites[d_right.type][d_right.img_i]);
+  d_right.vx = -3;
+  d_right.vy = 10;
+  d_right.life = -1;
+
+
 
   Object enemies[2];
   enemies[0].type = enemy;
@@ -180,14 +238,32 @@ main (int argc, char *argv[])
 	  // ADD enemy
 	  if (enemy_count() < log2 (get_score () + 2) * 2)
 	    {
-	      if (get_score() < 5)
-		{
-		  enemy_add (enemies[0], rand () % 540, -50);
-		}
-	      else
-		{
-		  enemy_add (enemies[rand () % 2], rand () % 540, -50);
-		}
+//	      if (get_score() < 5)
+//		{
+//		  enemy_add (enemies[0], rand () % 540, -50);
+//		}
+//	      else
+//		{
+//		  enemy_add (enemies[rand () % 2], rand () % 540, -50);
+//		}
+	      switch(rand() % 3){
+		case 1:
+		  enemy_add (enemies[0], 0, -50);
+		  enemy_add (enemies[0], 50, -75);
+		  enemy_add (enemies[0], 100, -100);
+		  break;
+		case 2:
+		  enemy_add (enemies[0], 0, -50);
+		  enemy_add (enemies[0], 50, -75);
+		  enemy_add (enemies[0], 100, -100);
+		  break;
+
+		case 3:
+		  enemy_add (enemies[0], 0, -50);
+		  enemy_add (enemies[0], 50, -75);
+		  enemy_add (enemies[0], 100, -100);
+		  break;
+	      }
 	    }
 
 	  if (keys[KEY_1] * dead)
@@ -204,17 +280,33 @@ main (int argc, char *argv[])
 	  //	FIRE
 	  if (keys[KEY_SPACE] && bTrig == 10)
 	    {
-	      bullet_add (normal, object_search (currentPlayer));
+	      shoot_enable = 1;
 	      bTrig = frame % bulletFreq;
 	    }
 	  else if (keys[KEY_SPACE] && frame % bulletFreq == bTrig)
 	    {
-	      bullet_add (normal, object_search (currentPlayer));
+	      shoot_enable = 1;
 	    }
 	  else if (!keys[KEY_SPACE])
 	    {
 	      bTrig = 10;
 	    }
+
+	  switch(bullet_type*shoot_enable){
+	    case 3:
+	      bullet_add (d_normal, object_search (currentPlayer));
+	      bullet_add (d_left, object_search (currentPlayer));
+	      bullet_add (d_right, object_search (currentPlayer));
+	    case 2:
+	      bullet_add (left, object_search (currentPlayer));
+	      bullet_add (right, object_search (currentPlayer));
+	    case 1:
+	      bullet_add (normal, object_search (currentPlayer));
+	      shoot_enable = 0;
+	      break;
+	    default:
+	      break;
+	  }
 
 	  //anim(p, 5, p_sprites, p_masks, 12);
 	  object_anim ();
@@ -350,7 +442,7 @@ main (int argc, char *argv[])
 	      al_draw_textf (arial_24, al_map_rgb (255, 255, 255), 100, 125, 0,
 			     "         FORCE: %d", -normal.life);
 	      al_draw_textf (arial_24, al_map_rgb (255, 255, 255), 100, 150, 0,
-	    			     "         VELOCITY: %.0f", -normal.vy);
+	    			     "         BULLET: %d", bullet_type);
 	      al_draw_textf (arial_24, al_map_rgb (255, 255, 255), 100,
 	     			     100 + select * 25, 0, "       >");
 	      if (keys[KEY_UP] * UP)
@@ -376,7 +468,7 @@ main (int argc, char *argv[])
 	      UPGRADE[0] = (UPGRADE[0] > 10)? 10 : UPGRADE[0];
 	      bulletFreq = 10 - (UPGRADE[0] - 1);
 	      normal.life = -UPGRADE[1];
-	      normal.vy = -(UPGRADE[2] + 5);
+	      bullet_type = UPGRADE[2];
 
 	      break;
 	    case 4:
