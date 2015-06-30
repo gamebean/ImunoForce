@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
 
+
+
 typedef int Type;
 enum Types {
 	header, player, bullet, enemy, background
@@ -66,6 +68,7 @@ Object *enemy_add(Object, int, int);
 
 void *object_colision();
 void *object_draw();
+void background_draw();
 void *object_move();
 Mask *mask_create(int, int);
 Mask *mask_new(ALLEGRO_BITMAP *);

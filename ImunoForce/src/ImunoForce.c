@@ -24,9 +24,11 @@ int main(int argc, char *argv[]) {
 	ALLEGRO_EVENT ev;
 	ALLEGRO_EVENT_QUEUE* event_queue;
 
+	bool isSet = false;
 	bool quit = false;
 	bool draw = false;
 	int gameState = 0;
+	int multiState = 0;
 	int select = 0;
 	char DOWN = 1, UP = 1;
 	char* inPkt;
@@ -176,10 +178,6 @@ int main(int argc, char *argv[]) {
 	//strcpy(enemy2.String,"Seeker"); // defines if its a seeker or not (1 yes 0 no)
 	strcpy_s(enemy2.String, sizeof(enemy2.String), "Seeker");
 
-	//data[0].x = 1;
-	//data[0].y = 2;
-	//data[0].type = 3;
-	//data[0].img_i = 4;
 	
 	al_init_font_addon();
 	al_init_ttf_addon();
@@ -302,6 +300,8 @@ int main(int argc, char *argv[]) {
 		if (al_is_event_queue_empty(event_queue)) {
 			switch (gameState) {
 				case 0:			// MENU
+					select = (select > 3) ? 3 : select;
+					select = (select < 0) ? 0 : select;
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
 								  "         SINGLE-PLAYER");
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0,
@@ -324,11 +324,13 @@ int main(int argc, char *argv[]) {
 
 					if (keys[KEY_ENTER]) {
 						gameState = select + 1;
+						keys[KEY_ENTER] = false;
 					}
 					break;
 				case 1:			// SINGLE PLAYER
+					background_draw();
 					object_draw();
-
+					
 
 					p = object_search(1);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0,
@@ -337,45 +339,93 @@ int main(int argc, char *argv[]) {
 								  "         SCORE: %d ", get_score());
 					break;
 				case 2:			// MULTIPLAYER
-					object_draw();
+					switch (multiState) {
+						case 0:			// Menu
+							select = (select > 1) ? 1 : select;
+							select = (select < 0) ? 0 : select;
+							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
+										  "         HOST");
+							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0,
+										  "         JOIN  ");
+							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100,
+										  100 + select * 25, 0, "       >");
 
-					// DATA WRITE
-					memset(data, '\0', BUFLEN);
-					p = object_search(0);
-					p = p->next;
-					for (i = 0; i < BUFLEN/sizeof(Data); i++) {
-						if (p != NULL) {
-							data[i].img_i = p->img_i;
-							data[i].type = p->type;
-							data[i].x = p->x;
-							data[i].y = p->y;
+							if (keys[KEY_UP] * UP) {
+								select += -1;
+								UP = 0;
+							}
+							if (keys[KEY_DOWN] * DOWN) {
+								select += 1;
+								DOWN = 0;
+							}
 
+							if (keys[KEY_ENTER]) {
+								multiState = select + 1;
+							}
+							break;
+						case 1:			// Host
+							if (!isSet) {
+								set_server();
+								isSet = true;
+							}
+
+							background_draw();
+							object_draw();
+
+							// DATA WRITE
+							memset(data, '\0', BUFLEN);
+							p = object_search(0);
 							p = p->next;
-						}
+							for (i = 0; i < BUFLEN/sizeof(Data); i++) {
+								if (p != NULL && p->type != background) {
+									data[i].img_i = p->img_i;
+									data[i].type = p->type;
+									data[i].x = p->x;
+									data[i].y = p->y;
+
+									p = p->next;
+								}
+								else if (p != NULL && p->type == background) {
+									p = p->next;
+								}
+							}
+
+							inPkt = r_receive();
+							printf("%s\n", inPkt);
+
+							d_send(data);
+
+							p = object_search(1);
+							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0,
+										  "         LIFE: %d ", p->life);
+							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 350, 0,
+										  "         SCORE: %d ", get_score());					
+							break;
+						case 2:			// Join
+							background_draw();
+
+							if (!isSet) {
+								set_client();
+								isSet = true;
+							}
+
+							r_send();
+
+							d_receive(data);
+
+							//background_draw();
+							//data_draw(multiState, data, sprites);
+							for (i = 0; i < BUFLEN / sizeof(Data); i++) {
+								if (&data[i] != NULL) {
+									if (data[i].type != 0 && data[i].type != 4) {
+										al_draw_bitmap(sprites[data[i].type][data[i].img_i], data[i].x, data[i].y, 0);
+									}
+								}
+							}
+
+
+							break;
 					}
-					/*for (; p != NULL; p = p->next) {
-						if (p->type != header && i<90) {
-							data[i].img_i = p->img_i;
-							data[i].type = p->type;
-							data[i].x = p->x;
-							data[i].y = p->y;
-
-							i++;
-						}
-					}*/
-					
-
-
-					inPkt = d_receive();
-					printf("%s\n", inPkt);
-
-					d_send(data);
-
-					p = object_search(1);
-					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0,
-								  "         LIFE: %d ", p->life);
-					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 350, 0,
-								  "         SCORE: %d ", get_score());					
 					break;
 				case 3:			// UPGRADES
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,

@@ -46,10 +46,10 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
-	// Prepare the sockaddr_in structure
-	server.sin_family = AF_INET;
-	server.sin_addr.s_addr = INADDR_ANY;
-	server.sin_port = htons(PORT);
+	//// Prepare the sockaddr_in structure
+	//server.sin_family = AF_INET;
+	//server.sin_addr.s_addr = INADDR_ANY;
+	//server.sin_port = htons(PORT);
 
 	//// Bind
 	//if (bind(s, (struct sockaddr *)&server, sizeof(server)) == SOCKET_ERROR) {

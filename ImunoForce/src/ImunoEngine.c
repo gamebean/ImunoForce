@@ -249,13 +249,23 @@ void *object_draw() {
 	Object *p;
 	for (p = &object_head; (p != NULL); p = p->next) {
 
-		if (p != &object_head) {
+		if (p != &object_head && p->type !=background) {
 			al_draw_bitmap(sprites[p->type][p->img_i], (int)p->x, (int)p->y, ((p->type == enemy) && p->vx < 0) ? ALLEGRO_FLIP_HORIZONTAL : 0);
 			//mask_draw(masks[p->type][p->img_i],p->x,p->y);
 		}
 
 	}
 	return 0;
+}
+
+void background_draw() {
+	Object *p;
+
+	for (p = &object_head; p != NULL; p = p->next) {
+		if (p->type == background) {
+			al_draw_bitmap(sprites[p->type][p->img_i], (int)p->x, (int)p->y, 0);
+		}
+	}
 }
 
 void *object_move() {
