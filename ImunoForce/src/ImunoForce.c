@@ -170,7 +170,7 @@ main(int argc, char *argv[]) {
 	d_right.vy = 10;
 	d_right.life = -1;
 
-	Object enemies[4];
+	Object enemies[5];
 	enemies[0].type = enemy;
 	enemies[0].vector_size = 8;
 	enemies[0].frame_delay = 5;
@@ -178,7 +178,7 @@ main(int argc, char *argv[]) {
 	enemies[0].height = al_get_bitmap_height(sprites[enemies[0].type][enemies[0].img_i]);
 	enemies[0].width = al_get_bitmap_width(sprites[enemies[0].type][enemies[0].img_i]);
 	enemies[0].vx = 0.3;
-	enemies[0].vy = 2;
+	enemies[0].vy = 2.5;
 	enemies[0].life = 3;
 	strcpy_s(enemies[0].String, sizeof(enemies[0].String), "NonSeeker");	// defines if its a seeker or not (1 yes 0 no)
 
@@ -188,7 +188,7 @@ main(int argc, char *argv[]) {
 	enemies[1].img_i = 0;
 	enemies[1].height = al_get_bitmap_height(sprites[enemies[1].type][enemies[1].img_i]);
 	enemies[1].width = al_get_bitmap_width(sprites[enemies[1].type][enemies[1].img_i]);
-	enemies[1].vx = 0.3;
+	enemies[1].vx = 0.5;
 	enemies[1].vy = 1;
 	enemies[1].life = 3;
 	strcpy_s(enemies[1].String, sizeof(enemies[1].String), "Seeker");	// defines if its a seeker or not (1 yes 0 no)
@@ -210,10 +210,21 @@ main(int argc, char *argv[]) {
 	enemies[3].img_i = 0;
 	enemies[3].height = al_get_bitmap_height(sprites[enemies[3].type][enemies[3].img_i]);
 	enemies[3].width = al_get_bitmap_width(sprites[enemies[3].type][enemies[3].img_i]);
-	enemies[3].vx = -0.3;
-	enemies[3].vy = 2;
+	enemies[3].vx = -0.5;
+	enemies[3].vy = 2.5;
 	enemies[3].life = 3;
 	strcpy_s(enemies[3].String, sizeof(enemies[3].String), "NonSeeker");	// defines if its a seeker or not (1 yes 0 no)
+
+	enemies[4].type = enemy;
+	enemies[4].vector_size = 8;
+	enemies[4].frame_delay = 5;
+	enemies[4].img_i = 0;
+	enemies[4].height = al_get_bitmap_height(sprites[enemies[4].type][enemies[4].img_i]);
+	enemies[4].width = al_get_bitmap_width(sprites[enemies[4].type][enemies[4].img_i]);
+	enemies[4].vx = 0;
+	enemies[4].vy = 10;
+	enemies[4].life = 3;
+	strcpy_s(enemies[4].String, sizeof(enemies[4].String), "NonSeeker");	// defines if its a seeker or not (1 yes 0 no)v
 
 	al_init_font_addon();
 	al_init_ttf_addon();
@@ -243,15 +254,21 @@ main(int argc, char *argv[]) {
 			int offset = rand() % 400 + 200;
 			int enemy_rand = rand() % 2;
 			if (enemy_count() < log2(get_score() + 2) * 2) {
-				switch(rand() % 5) {
+				switch(rand() % 6) {
+					case 5:
+						p = object_search(1);
+						for(i = 0; i < 4; i++) {
+							enemy_add(enemies[4], p->x, -50 -30*i);
+						}
+					break;
 					case 4:
 						for(i = 0; i < 3; i++) {
-							enemy_add(enemies[1],(rand()%2)*900 -50, offset + 200*i - 200);
+							enemy_add(enemies[1], (rand() % 2) * 900 - 50, offset + 200 * i - 200);
 						}
 					break;
 					case 3:
 						for(i = 0; i < 3; i++) {
-							enemy_add(enemies[1], offset + 200*i - 200, -50);
+							enemy_add(enemies[1], offset + 200 * i - 200, -50);
 						}
 					break;
 					case 2:
@@ -265,12 +282,12 @@ main(int argc, char *argv[]) {
 					break;
 					case 1:
 						for(i = 0; i < 10; i++) {
-							enemy_add(enemies[3*enemy_rand], 50 * i, (enemy_rand == 1) ? (-300 + 25 * i):(-50 - 25 * i));
+							enemy_add(enemies[3 * enemy_rand], 50 * i, (enemy_rand == 1) ? (-300 + 25 * i) : (-50 - 25 * i));
 						}
 					break;
 					case 0:
 						for(i = 0; i < 3; i++) {
-							enemy_add(enemies[3*enemy_rand], offset + 50 * i, (enemy_rand == 1) ? (-125 + 25 * i):(-50 - 25 * i));
+							enemy_add(enemies[3 * enemy_rand], offset + 50 * i, (enemy_rand == 1) ? (-125 + 25 * i) : (-50 - 25 * i));
 						}
 					break;
 				}
