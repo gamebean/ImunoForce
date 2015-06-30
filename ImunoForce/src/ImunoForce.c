@@ -177,8 +177,8 @@ main(int argc, char *argv[]) {
 	enemies[0].img_i = 0;
 	enemies[0].height = al_get_bitmap_height(sprites[enemies[0].type][enemies[0].img_i]);
 	enemies[0].width = al_get_bitmap_width(sprites[enemies[0].type][enemies[0].img_i]);
-	enemies[0].vx = 0.3;
-	enemies[0].vy = 2.5;
+	enemies[0].vx = 0.6;
+	enemies[0].vy = 3;
 	enemies[0].life = 3;
 	strcpy_s(enemies[0].String, sizeof(enemies[0].String), "NonSeeker");	// defines if its a seeker or not (1 yes 0 no)
 
@@ -188,7 +188,7 @@ main(int argc, char *argv[]) {
 	enemies[1].img_i = 0;
 	enemies[1].height = al_get_bitmap_height(sprites[enemies[1].type][enemies[1].img_i]);
 	enemies[1].width = al_get_bitmap_width(sprites[enemies[1].type][enemies[1].img_i]);
-	enemies[1].vx = 0.5;
+	enemies[1].vx = 0;
 	enemies[1].vy = 1;
 	enemies[1].life = 3;
 	strcpy_s(enemies[1].String, sizeof(enemies[1].String), "Seeker");	// defines if its a seeker or not (1 yes 0 no)
@@ -210,8 +210,8 @@ main(int argc, char *argv[]) {
 	enemies[3].img_i = 0;
 	enemies[3].height = al_get_bitmap_height(sprites[enemies[3].type][enemies[3].img_i]);
 	enemies[3].width = al_get_bitmap_width(sprites[enemies[3].type][enemies[3].img_i]);
-	enemies[3].vx = -0.5;
-	enemies[3].vy = 2.5;
+	enemies[3].vx = -0.6;
+	enemies[3].vy = 3;
 	enemies[3].life = 3;
 	strcpy_s(enemies[3].String, sizeof(enemies[3].String), "NonSeeker");	// defines if its a seeker or not (1 yes 0 no)
 
@@ -254,11 +254,14 @@ main(int argc, char *argv[]) {
 			int offset = rand() % 400 + 200;
 			int enemy_rand = rand() % 2;
 			if (enemy_count() < log2(get_score() + 2) * 2) {
-				switch(rand() % 6) {
+			int level = get_score()/5;
+			level = (level > 5)? 5 : level;
+
+				switch(rand()%(level + 1)) {
 					case 5:
 						p = object_search(1);
 						for(i = 0; i < 4; i++) {
-							enemy_add(enemies[4], p->x, -50 -30*i);
+							enemy_add(enemies[4], p->x, -50 - 30 * i);
 						}
 					break;
 					case 4:

@@ -230,7 +230,7 @@ object_colision() {
 				}
 				for(ob = &object_head; (ob != NULL); ob = ob->next) {
 					//ob = object_search(p_count);
-					if (ob->type == player) {
+					if ((ob->type == player)) {
 
 						top = (p->y > ob->y) ? p->y : ob->y;
 						bottom = (p->y + p->height < ob->y + p->height) ? p->y + p->height : ob->y + ob->height;
@@ -309,14 +309,14 @@ object_move() {
 					p->vx += (dx > 0) ? ((dx * dx) / 300 < 0.3) ? (dx * dx) / 300 : 0.3 : ((dx * dx) / 300 < 0.3) ? -(dx * dx) / 300 : -0.3;
 					p->vy += (float) dy / 100;
 
-				if (p->vx > e_vel_max)
-					p->vx = e_vel_max;
-				if (p->vy > e_vel_max)
-					p->vy = e_vel_max;
-				if (p->vx < -e_vel_max)
-					p->vx = -e_vel_max;
-				if (p->vy < -e_vel_max)
-					p->vy = -e_vel_max;
+					if (p->vx > e_vel_max)
+						p->vx = e_vel_max;
+					if (p->vy > e_vel_max)
+						p->vy = e_vel_max;
+					if (p->vx < -e_vel_max)
+						p->vx = -e_vel_max;
+					if (p->vy < -e_vel_max)
+						p->vy = -e_vel_max;
 				}
 				p->x += p->vx;
 				p->y += p->vy;
