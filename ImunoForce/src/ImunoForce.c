@@ -21,7 +21,7 @@ main(int argc, char *argv[]) {
 	int DNA_points = 0;
 	int DNA_spent = 0;
 	int UPGRADE[3];
-	int upgrades = sizeof(UPGRADE) / (sizeof(int));
+	int upgrades = sizeof(UPGRADE) / (sizeof(UPGRADE[0]));
 	for(i = 0; i < upgrades; i++) {
 		UPGRADE[i] = 1;
 	}
@@ -268,9 +268,9 @@ main(int argc, char *argv[]) {
 			int offset = rand() % 400 + 200;
 			int enemy_rand = rand() % 2;
 			if (enemy_count() < log2(get_score() + 2) * 2) {
-			int level = get_score()/5;
-			level = (level > 5)? 5 : level;
-				switch(rand()%(level + 1)) {
+				int level = get_score() / 5;
+				level = (level > 5) ? 5 : level;
+				switch(rand() % (level + 1)) {
 					case 5:
 						p = object_search(1);
 						for(i = 0; i < 4; i++) {
@@ -418,6 +418,7 @@ main(int argc, char *argv[]) {
 		}
 
 		if (al_is_event_queue_empty(event_queue)) {
+			int cost[upgrades];
 			DNA_points = get_score() - DNA_spent;
 			switch(gameState) {
 				case 0:
@@ -447,7 +448,7 @@ main(int argc, char *argv[]) {
 					p = object_search(1);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0, "         LIFE: %d ", p->life);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 350, 0, "         SCORE: %d ", get_score());
-					al_draw_textf(arial_24, al_map_rgb(242, 210, 99),  100, 400, 0, "		  DNA: %d ", DNA_points);
+					al_draw_textf(arial_24, al_map_rgb(242, 210, 99), 100, 400, 0, "		  DNA: %d ", DNA_points);
 				break;
 				case 2:
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0, " ASS HOLE!!!!");
@@ -456,10 +457,17 @@ main(int argc, char *argv[]) {
 				case 3:
 					select = (select > upgrades - 1) ? upgrades - 1 : select;
 					select = (select < 0) ? 0 : select;
+					cost[0] = UPGRADE[0]*10;
+					cost[1] = UPGRADE[1]*5;
+					cost[2] = UPGRADE[2]*20;
+
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0, "         TRIGGER: %d", 11 - bulletFreq);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0, "         FORCE: %d", -normal.life);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0, "         BULLET: %d", bullet_type);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
+					for(i = 0; i< upgrades; i++){
+						al_draw_textf(arial_24, al_map_rgb(242, 210, 99), 300, 100 + i * 25,0, " %d ", cost[i]);
+					}
 					if (keys[KEY_UP] * UP) {
 						select += -1;
 						UP = 0;
@@ -468,15 +476,16 @@ main(int argc, char *argv[]) {
 						select += 1;
 						DOWN = 0;
 					}
-					if (keys[KEY_RIGHT] * RIGHT) {
+					if (keys[KEY_RIGHT] * RIGHT * (DNA_points >= cost[select])) {
+						DNA_spent += cost[select];
 						UPGRADE[select] += 1;
-						DNA_spent += UPGRADE[select]*3;
 						RIGHT = 0;
 					}
 					if (keys[KEY_LEFT] * LEFT) {
 						UPGRADE[select] += -1;
 						LEFT = 0;
 					}
+
 					UPGRADE[0] = (UPGRADE[0] > 10) ? 10 : UPGRADE[0];
 					bulletFreq = 10 - (UPGRADE[0] - 1);
 					normal.life = -UPGRADE[1];
