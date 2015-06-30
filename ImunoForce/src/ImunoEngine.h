@@ -77,3 +77,4 @@ void object_anim();
 void strcpy_s(char[], int, char[]);
 int get_score();
 int enemy_count();
+int object_find(char[]);
