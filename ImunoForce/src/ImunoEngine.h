@@ -26,13 +26,6 @@ typedef struct Mask_s {
 	int **bits;
 } Mask;
 
-typedef struct {
-	Type type;
-	int x;
-	int y;
-	int img_i;
-}Data;
-
 Mask *masks[4][20];
 ALLEGRO_BITMAP* sprites[5][20];
 

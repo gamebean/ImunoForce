@@ -1,5 +1,5 @@
-#include <WinSock2.h>				// LAN
 #include <stdio.h>
+#include "Multiplayer.h"
 #include "ImunoEngine.h"
 #include "AllegroDef.h"
 #include <allegro5/allegro.h>
@@ -10,30 +10,10 @@
 #include <allegro5/allegro_font.h>  // Biblioteca para utilização de fontes
 #include <allegro5/allegro_ttf.h>   // Biblioteca para utilização de fontes
 
-// LAN stuff
-#pragma comment(lib, "ws2_32.lib")
-
-#define BUFLEN	1500	// Buffer length in bytes
-#define PORT	8888
-
-
 
 //Object object_head = {0,header,NULL,NULL,NULL,NULL};
 
 int main(int argc, char *argv[]) {
-	// More LAN stuff
-	SOCKET sckt;
-	struct sockaddr_in server, si_other;
-	int recv_len, slen = sizeof(si_other);
-	int buf[BUFLEN];
-	WSADATA wsa;
-	Data data[BUFLEN/sizeof(Data)];
-
-	data[0].x = 1;
-	data[0].y = 1;
-	data[0].type = player;
-	data[0].img_i = 1;
-
 	int frame = 1, bTrig = 10, bulletFreq = 10, i;
 	int currentPlayer = 1;
 	int dead = 1;
@@ -43,11 +23,14 @@ int main(int argc, char *argv[]) {
 	ALLEGRO_TIMER* timer;
 	ALLEGRO_EVENT ev;
 	ALLEGRO_EVENT_QUEUE* event_queue;
+
 	bool quit = false;
 	bool draw = false;
 	int gameState = 0;
 	int select = 0;
 	char DOWN = 1, UP = 1;
+	char* inPkt;
+	Data data[BUFLEN/sizeof(Data)];
 
 	Object* p = object_search(header);
 	Object* bllt = object_search(header);
@@ -74,30 +57,7 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
-	// Initialise winsock
-	printf("Initialiasing Winsock...\n");
-	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
-		printf("WSAStartup() Error. Code: %d\n", WSAGetLastError());
-		exit(EXIT_FAILURE);
-	}
-	printf("Initialised.\n");
-
-	// Create a Socket
-	if ((sckt = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET)
-		printf("socket() Error. Code: %d\n", WSAGetLastError());
-	printf("Socket Created.\n");
-
-	// Prepare the sockaddr_in structure
-	server.sin_family = AF_INET;
-	server.sin_addr.s_addr = INADDR_ANY;
-	server.sin_port = htons(PORT);
-
-	// Bind
-	if (bind(sckt, (struct sockaddr *)&server, sizeof(server)) == SOCKET_ERROR) {
-		printf("bind() Error. Code: %d\n", WSAGetLastError());
-		exit(EXIT_FAILURE);
-	}
-	puts("Bind done");
+	server_initialise();
 
 
 	Mask *b = mask_new(al_load_bitmap("Sprites/sperm_0S.png"));
@@ -214,8 +174,13 @@ int main(int argc, char *argv[]) {
 	enemy2.vy = 1;
 	enemy2.life = 3;
 	//strcpy(enemy2.String,"Seeker"); // defines if its a seeker or not (1 yes 0 no)
-
 	strcpy_s(enemy2.String, sizeof(enemy2.String), "Seeker");
+
+	//data[0].x = 1;
+	//data[0].y = 2;
+	//data[0].type = 3;
+	//data[0].img_i = 4;
+	
 	al_init_font_addon();
 	al_init_ttf_addon();
 	ALLEGRO_FONT *arial_24 = al_load_font("arial.ttf", 24, 0);
@@ -336,7 +301,7 @@ int main(int argc, char *argv[]) {
 
 		if (al_is_event_queue_empty(event_queue)) {
 			switch (gameState) {
-				case 0:
+				case 0:			// MENU
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
 								  "         SINGLE-PLAYER");
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0,
@@ -361,25 +326,8 @@ int main(int argc, char *argv[]) {
 						gameState = select + 1;
 					}
 					break;
-				case 1:
+				case 1:			// SINGLE PLAYER
 					object_draw();
-
-					// LAN test
-					fflush(stdout);
-					memset(buf, '\0', BUFLEN);
-
-					printf("Waiting for Request... ");
-					if ((recv_len = recvfrom(sckt, buf, BUFLEN, 0, (struct sockaddr*) &si_other, &slen)) == SOCKET_ERROR) {
-						printf("recvfrom() Error. Code: %d\n", WSAGetLastError());
-						exit(EXIT_FAILURE);
-					}
-					printf("Packet: %s. From port %d\n", buf, si_other.sin_port);
-					printf("Sending Packet...");
-					if (sendto(sckt, data, sizeof(data), 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
-						printf("sendto() Error. Code: %d\n", WSAGetLastError());
-						exit(EXIT_FAILURE);
-					}
-					printf("Packet Sent.\n");
 
 
 					p = object_search(1);
@@ -388,12 +336,48 @@ int main(int argc, char *argv[]) {
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 350, 0,
 								  "         SCORE: %d ", get_score());
 					break;
-				case 2:
-					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
-								  " ASS HOLE!!!!");
-					quit = true;
+				case 2:			// MULTIPLAYER
+					object_draw();
+
+					// DATA WRITE
+					memset(data, '\0', BUFLEN);
+					p = object_search(0);
+					p = p->next;
+					for (i = 0; i < BUFLEN/sizeof(Data); i++) {
+						if (p != NULL) {
+							data[i].img_i = p->img_i;
+							data[i].type = p->type;
+							data[i].x = p->x;
+							data[i].y = p->y;
+
+							p = p->next;
+						}
+					}
+					/*for (; p != NULL; p = p->next) {
+						if (p->type != header && i<90) {
+							data[i].img_i = p->img_i;
+							data[i].type = p->type;
+							data[i].x = p->x;
+							data[i].y = p->y;
+
+							i++;
+						}
+					}*/
+					
+
+
+					inPkt = d_receive();
+					printf("%s\n", inPkt);
+
+					d_send(data);
+
+					p = object_search(1);
+					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0,
+								  "         LIFE: %d ", p->life);
+					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 350, 0,
+								  "         SCORE: %d ", get_score());					
 					break;
-				case 3:
+				case 3:			// UPGRADES
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
 								  "         TRIGGER: %d", 10 - bulletFreq);
 					if (keys[KEY_UP] * UP) {
@@ -405,7 +389,7 @@ int main(int argc, char *argv[]) {
 						DOWN = 0;
 					}
 					break;
-				case 4:
+				case 4:			// QUIT
 					quit = true;
 					break;
 			}

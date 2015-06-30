@@ -7,9 +7,10 @@
 const int vel_max = 15;
 const int e_vel_max = 3;
 
-Object object_head = { 0, header, "header" };
 int PLAYER_COUNT = 0;
 int SCORE = 0;
+
+Object object_head = { 0, header, "header" };
 
 Object *object_add(Type t, int tag) {
 	Object *p;

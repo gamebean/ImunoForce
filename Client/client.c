@@ -4,9 +4,9 @@
  
 #pragma comment(lib,"ws2_32.lib") //Winsock Library
 
-#define SERVER "172.16.0.252"		//ip address of udp server
+#define SERVER "127.0.0.1"		//ip address of udp server
 #define BUFLEN 1500				//Max length of bufferin bytes
-#define PORT 8888				//The port on which to listen for incoming data
+#define PORT 21234				//The port on which to listen for incoming data
 
 typedef int Type;
 enum Types {
@@ -23,8 +23,8 @@ typedef struct {
 int main(void)
 {
 	struct sockaddr_in server, si_other;
-	int s, slen = sizeof(si_other);
-//	char buf[BUFLEN];
+	int i, s, slen = sizeof(si_other);
+	char buf[BUFLEN];
 //	char message[BUFLEN];
 	WSADATA wsa;
 
@@ -79,13 +79,18 @@ int main(void)
 		//clear the buffer by filling null, it might have previously received data
 		memset(data, '\0', BUFLEN);
 		//try to receive some data, this is a blocking call
-		if (recvfrom(s, data, sizeof(data), 0, (struct sockaddr *) &si_other, &slen) == SOCKET_ERROR)
+		if (recvfrom(s, data, BUFLEN, 0, (struct sockaddr *) &si_other, &slen) == SOCKET_ERROR)
 		{
 			printf("recvfrom() failed with error code : %d", WSAGetLastError());
 			exit(EXIT_FAILURE);
 		}
-
-		printf("x: %d\ny: %d\ntype: %d\nimg_i: %d\n", data[0].x, data[0].y, data[0].type, data[0].img_i);
+		//printf("%s\n", buf);
+		printf("===========================================================================\n");
+		for ( i = 0; i < 90; i++) {
+			if (data[i].type != 0 || data[i].img_i != 0 || data[i].x != 0 || data[i].y != 0)
+				printf(" x: %d\n y: %d\n type: %d\n img_i: %d\n", data[i].x, data[i].y, data[i].type, data[i].img_i);
+		}
+		
 	}
 
 	closesocket(s);
