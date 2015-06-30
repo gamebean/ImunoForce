@@ -418,6 +418,7 @@ main(int argc, char *argv[]) {
 		}
 
 		if (al_is_event_queue_empty(event_queue)) {
+			DNA_points = get_score() - DNA_spent;
 			switch(gameState) {
 				case 0:
 					select = (select > 3) ? 3 : select;
@@ -446,7 +447,7 @@ main(int argc, char *argv[]) {
 					p = object_search(1);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0, "         LIFE: %d ", p->life);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 350, 0, "         SCORE: %d ", get_score());
-					al_draw_textf(arial_24, al_map_rgb(242, 210, 99),  100, 400, 0, "		  DNA: %d ", get_score()-DNA_spent);
+					al_draw_textf(arial_24, al_map_rgb(242, 210, 99),  100, 400, 0, "		  DNA: %d ", DNA_points);
 				break;
 				case 2:
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0, " ASS HOLE!!!!");

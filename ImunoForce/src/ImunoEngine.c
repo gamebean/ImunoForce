@@ -474,7 +474,7 @@ void object_anim() {
 	}
 }
 
-#ifdef __linux__
+#ifndef strcpy_s
 void strcpy_s(char a[], int b, char c[]) {
 	strcpy(a, c);
 }
