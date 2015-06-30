@@ -16,10 +16,11 @@ main(int argc, char *argv[]) {
 	int currentPlayer = 1;
 	int dead = 1;
 	int monkey = 1; // JUST FOR TEST
-	int UPGRADE[3];
 	int shoot_enable = 0;
 	int bullet_type = 1;
-	int wave = 0;
+	int DNA_points = 0;
+	int DNA_spent = 0;
+	int UPGRADE[3];
 	int upgrades = sizeof(UPGRADE) / (sizeof(int));
 	for(i = 0; i < upgrades; i++) {
 		UPGRADE[i] = 1;
@@ -79,6 +80,15 @@ main(int argc, char *argv[]) {
 	sprites[enemy][6] = al_load_bitmap("Sprites/Seeker6.png");
 	sprites[enemy][7] = al_load_bitmap("Sprites/Seeker7.png");
 
+	sprites[enemy_b][0] = al_load_bitmap("Sprites/Seeker0.png");
+	sprites[enemy_b][1] = al_load_bitmap("Sprites/Seeker1.png");
+	sprites[enemy_b][2] = al_load_bitmap("Sprites/Seeker2.png");
+	sprites[enemy_b][3] = al_load_bitmap("Sprites/Seeker3.png");
+	sprites[enemy_b][4] = al_load_bitmap("Sprites/Seeker4.png");
+	sprites[enemy_b][5] = al_load_bitmap("Sprites/Seeker5.png");
+	sprites[enemy_b][6] = al_load_bitmap("Sprites/Seeker6.png");
+	sprites[enemy_b][7] = al_load_bitmap("Sprites/Seeker7.png");
+
 	sprites[bullet][0] = al_load_bitmap("Sprites/bullet3.png");
 
 	sprites[background][0] = al_load_bitmap("Sprites/BackgroundB.png");
@@ -90,6 +100,10 @@ main(int argc, char *argv[]) {
 	for(i = 0; i < 8; i++) {
 		masks[enemy][i] = mask_new(sprites[enemy][i]);
 		printf("Creating enemy mask n%d\n", i + 1);
+	}
+	for(i = 0; i < 8; i++) {
+		masks[enemy_b][i] = mask_new(sprites[enemy_b][i]);
+		printf("Creating enemy_b mask n%d\n", i + 1);
 	}
 	for(i = 0; i < 1; i++) {
 		masks[bullet][i] = mask_new(sprites[bullet][i]);
@@ -193,7 +207,7 @@ main(int argc, char *argv[]) {
 	enemies[1].life = 3;
 	strcpy_s(enemies[1].String, sizeof(enemies[1].String), "Seeker");	// defines if its a seeker or not (1 yes 0 no)
 
-	enemies[2].type = enemy;
+	enemies[2].type = enemy_b;
 	enemies[2].vector_size = 8;
 	enemies[2].frame_delay = 5;
 	enemies[2].img_i = 0;
@@ -224,7 +238,7 @@ main(int argc, char *argv[]) {
 	enemies[4].vx = 0;
 	enemies[4].vy = 10;
 	enemies[4].life = 3;
-	strcpy_s(enemies[4].String, sizeof(enemies[4].String), "NonSeeker");	// defines if its a seeker or not (1 yes 0 no)v
+	strcpy_s(enemies[4].String, sizeof(enemies[4].String), "Shooter");	// defines if its a seeker or not (1 yes 0 no)v
 
 	al_init_font_addon();
 	al_init_ttf_addon();
@@ -256,7 +270,6 @@ main(int argc, char *argv[]) {
 			if (enemy_count() < log2(get_score() + 2) * 2) {
 			int level = get_score()/5;
 			level = (level > 5)? 5 : level;
-
 				switch(rand()%(level + 1)) {
 					case 5:
 						p = object_search(1);
@@ -430,10 +443,10 @@ main(int argc, char *argv[]) {
 				break;
 				case 1:
 					object_draw();
-
 					p = object_search(1);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0, "         LIFE: %d ", p->life);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 350, 0, "         SCORE: %d ", get_score());
+					al_draw_textf(arial_24, al_map_rgb(242, 210, 99),  100, 400, 0, "		  DNA: %d ", get_score()-DNA_spent);
 				break;
 				case 2:
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0, " ASS HOLE!!!!");
@@ -456,6 +469,7 @@ main(int argc, char *argv[]) {
 					}
 					if (keys[KEY_RIGHT] * RIGHT) {
 						UPGRADE[select] += 1;
+						DNA_spent += UPGRADE[select]*3;
 						RIGHT = 0;
 					}
 					if (keys[KEY_LEFT] * LEFT) {

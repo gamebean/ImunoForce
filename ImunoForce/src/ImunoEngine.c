@@ -110,7 +110,7 @@ enemy_add(Object enemy_type, int x, int y) {
 	int tag = -2;
 
 	Object *e; // e for enemy!!!! If this dont work I gonna kill my sister!!!!
-	e = object_add(enemy, tag);
+	e = object_add(enemy_type.type, tag);
 	e->img_delay = 0;
 	e->img_i = 0;
 	e->height = enemy_type.height; //al_get_bitmap_height(e->img);
@@ -162,34 +162,31 @@ object_colision() {
 				if (p->y <= 0) {
 					p->y = 0;
 					//keys[KEY_UP] = false;
-				}
-				if (p->y >= DISPLAY_H - p->height) {
+				}else if (p->y >= DISPLAY_H - p->height) {
 					p->y = DISPLAY_H - p->height;
 					//keys[KEY_DOWN] = false;
 				}
 				if (p->x <= 0) {
 					p->x = 0;
 					//keys[KEY_LEFT] = false;
-				}
-				if (p->x >= DISPLAY_W - p->width) {
+				}else if (p->x >= DISPLAY_W - p->width) {
 					p->x = DISPLAY_W - p->width;
 					//keys[KEY_RIGHT] = false;
 				}
-
 				if (p->life <= 0) {
 					p = object_del(p);
 				}
 			break;
 
 			case bullet:
-				if (p->y < 0) {
+				if ((p->y < 0)||p->y > DISPLAY_H + p->height) {
 					p = object_del(p);
 					goto test;
 				}
 
 				for(ob = &object_head; (ob != NULL); ob = ob->next) {
 					//ob = object_search(p_count);
-					if ((ob->type == player) || (ob->type == enemy)) {
+					if (enemy_all(ob->type)) {
 
 						top = (p->y > ob->y) ? p->y : ob->y;
 						bottom = (p->y + p->height < ob->y + p->height) ? p->y + p->height : ob->y + ob->height;
@@ -200,7 +197,6 @@ object_colision() {
 							for(y = top; y < bottom; y++) {
 								if ((masks[p->type][p->img_i])->bits[(int) (x - p->x)][(int) (y - p->y)] == 1
 										&& (masks[ob->type][ob->img_i])->bits[(int) (x - ob->x)][(int) (y - ob->y)] == 1) {
-									if (ob->type == enemy) {
 										bullet_life = p->life;
 										bullet_life += ob->life;
 
@@ -213,9 +209,6 @@ object_colision() {
 										if (p->life >= 0) {
 											p = object_del(p);
 										}
-									} else {
-										p = object_del(p);
-									}
 									goto test;
 								}
 							}
@@ -223,7 +216,7 @@ object_colision() {
 					}
 				}
 			break;
-			case enemy:
+			case_enemy_all
 				if (p->y > DISPLAY_H + 50) {
 					p = object_del(p);
 					goto test;
@@ -261,7 +254,7 @@ object_draw() {
 	for(p = &object_head; (p != NULL); p = p->next) {
 
 		if (p != &object_head) {
-			al_draw_bitmap(sprites[p->type][p->img_i], (int) p->x, (int) p->y, ((p->type == enemy) && p->vx < 0) ? ALLEGRO_FLIP_HORIZONTAL : 0);
+			al_draw_bitmap(sprites[p->type][p->img_i], (int) p->x, (int) p->y, ((enemy_all(p->type)) && p->vx < 0) ? ALLEGRO_FLIP_HORIZONTAL : 0);
 			//mask_draw(masks[p->type][p->img_i],p->x,p->y);
 		}
 
@@ -300,7 +293,7 @@ object_move() {
 				p->y += p->vy;
 			break;
 
-			case enemy:
+			case_enemy_all
 
 				if (!strcmp(p->String, "Seeker")) {
 					pl = object_search(1);
@@ -422,7 +415,7 @@ void object_track() {
 			case bullet:
 				b++;
 			break;
-			case enemy:
+			case_enemy_all
 				e++;
 			break;
 			default:
@@ -480,9 +473,13 @@ void object_anim() {
 		}
 	}
 }
+
+#ifdef __linux__
 void strcpy_s(char a[], int b, char c[]) {
 	strcpy(a, c);
 }
+#endif
+
 int get_score() {
 	return SCORE;
 }
@@ -490,7 +487,7 @@ int enemy_count() {
 	Object *p;
 	int e = 0;
 	for(p = &object_head; (p != NULL); p = p->next) {
-		if (p->type == enemy) {
+		if (enemy_all(p->type)) {
 			if (strcmp(p->String, "Wall")) {
 				e++;
 			}

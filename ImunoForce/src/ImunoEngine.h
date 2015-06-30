@@ -3,10 +3,13 @@
 // Define the possible types of object in the game
 #include <stdio.h>
 #include <allegro5/allegro.h>
+#define enemy_all(x) (x == enemy || x == enemy_b || x == enemy_c || x == enemy_d)
+#define case_enemy_all case enemy: case enemy_b: case enemy_c: case enemy_d:
+
 
 typedef int Type;
 enum Types {
-	header, player, bullet, enemy, background
+	player, bullet, enemy, background, enemy_b, enemy_c, enemy_d, header
 };
 
 enum {
@@ -26,8 +29,8 @@ typedef struct Mask_s {
 	int **bits;
 } Mask;
 
-Mask *masks[4][20];
-ALLEGRO_BITMAP* sprites[5][20];
+Mask *masks[header][20];
+ALLEGRO_BITMAP* sprites[header][20];
 
 // The Object struct have private pointers to every type of object in the game
 typedef struct {
@@ -74,7 +77,10 @@ void *mask_draw(Mask *, int, int);
 void object_track();
 int anim(Object *object, int frame_delay, int vector_size);
 void object_anim();
-void strcpy_s(char[], int, char[]);
 int get_score();
 int enemy_count();
 int object_find(char[]);
+
+#ifdef __linux__
+void strcpy_s(char[], int, char[]);
+#endif
