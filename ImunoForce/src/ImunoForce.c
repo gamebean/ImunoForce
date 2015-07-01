@@ -12,11 +12,12 @@
 
 //Object object_head = {0,header,NULL,NULL,NULL,NULL};
 main(int argc, char *argv[]) {
-	int frame = 1, bTrig = 10, bulletFreq = 10, i;
+	int frame = 1, bTrig = 10,bTrig2 = 10 , bulletFreq = 10, i;
 	int currentPlayer = 1;
 	int dead = 1;
 	int monkey = 1; // JUST FOR TEST
 	int shoot_enable = 0;
+	int shoot_enable2 = 0;
 	int bullet_type = 1;
 	int DNA_points = 0;
 	int DNA_spent = 0;
@@ -275,6 +276,11 @@ main(int argc, char *argv[]) {
 			p->vy += 0.8 * keys[KEY_DOWN] - 0.8 * keys[KEY_UP];
 			p->vx += 0.8 * keys[KEY_RIGHT] - 0.8 * keys[KEY_LEFT];
 
+			p = object_search(2);
+			if(p != NULL){
+				p->vy += 0.8 * keys2[KEY_DOWN] - 0.8 * keys2[KEY_UP];
+				p->vx += 0.8 * keys2[KEY_RIGHT] - 0.8 * keys2[KEY_LEFT];
+			}
 			// ADD enemy
 			int offset = rand() % 400 + 200;
 			int enemy_rand = rand() % 2;
@@ -339,6 +345,16 @@ main(int argc, char *argv[]) {
 				bTrig = 10;
 			}
 
+			if (keys2[KEY_SPACE] && bTrig2 == 10) {
+				shoot_enable2 = 1;
+				bTrig2 = frame % bulletFreq;
+			} else if (keys[KEY_SPACE] && frame % bulletFreq == bTrig2) {
+				shoot_enable2 = 1;
+			} else if (!keys[KEY_SPACE]) {
+				bTrig2 = 10;
+			}
+
+
 			switch(bullet_type * shoot_enable) {
 				case 3:
 					bullet_add(d_normal, object_search(currentPlayer));
@@ -354,6 +370,25 @@ main(int argc, char *argv[]) {
 				default:
 				break;
 			}
+			p = object_search(2);
+			if(p != NULL){
+			switch(bullet_type * shoot_enable2) {
+				case 3:
+					bullet_add(d_normal, object_search(2));
+					bullet_add(d_left, object_search(2));
+					bullet_add(d_right, object_search(2));
+				case 2:
+					bullet_add(left, object_search(2));
+					bullet_add(right, object_search(2));
+				case 1:
+					bullet_add(normal, object_search(2));
+					shoot_enable = 0;
+				break;
+				default:
+				break;
+			}
+			}
+
 			//anim(p, 5, p_sprites, p_masks, 12);
 			object_anim();
 			object_colision();
@@ -431,7 +466,6 @@ main(int argc, char *argv[]) {
 		if (al_is_event_queue_empty(event_queue)) {
 			int cost[sizeof(UPGRADE) / (sizeof(UPGRADE[0]))];
 			DNA_points = get_score() - DNA_spent;
-			bool keys2[KEY_MAX];
 			switch(gameState) {
 				case 0:			// MENU
 					select = (select > 3) ? 3 : select;
@@ -483,9 +517,6 @@ main(int argc, char *argv[]) {
 						}
 
 						r_receive(keys2);
-						p = object_search(2);
-						p->vy += 0.8 * keys2[KEY_DOWN] - 0.8 * keys2[KEY_UP];
-						p->vx += 0.8 * keys2[KEY_RIGHT] - 0.8 * keys2[KEY_LEFT];
 
 					//	printf("%s\n", inPkt);
 

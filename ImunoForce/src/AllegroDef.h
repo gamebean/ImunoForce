@@ -19,7 +19,7 @@ enum {
 	KEY_MAX
 };
 bool keys[KEY_MAX];
-
+bool keys2[KEY_MAX];
 
 // GLOBALS
 //int i, draw_flag=0, frame=1, bTrig=10, bulletFreq=10;
