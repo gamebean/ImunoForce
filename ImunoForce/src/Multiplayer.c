@@ -30,8 +30,8 @@ void server_initialise() {
 	printf("Initialised.\n");
 	struct timeval tv;
 
-	tv.tv_sec = 0;  /* 30 Secs Timeout */
-	tv.tv_usec = 10000;  // Not init'ing this can cause strange errors
+	tv.tv_sec = 1;  /* 30 Secs Timeout */
+	tv.tv_usec = 0;  // Not init'ing this can cause strange errors
 	// Create a Socket
 	if ((sckt = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET)
 		printf("socket() Error. Code: %d\n", WSAGetLastError());
@@ -60,7 +60,10 @@ void r_receive(bool keys[]) {
 
 void r_send(bool keys[]) {
 
-	if (sendto(sckt, keys, 9, 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR);
+	if (sendto(sckt, keys, 9, 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
+		printf("sendto() failed with error code : %d\n", WSAGetLastError());
+		exit(EXIT_FAILURE);
+	}
 //	if (sendto(sckt, "Packet Request", strlen("Packet Request"), 0, (struct sockaddr *) &si_other, slen) == SOCKET_ERROR)
 //	{
 //		printf("sendto() failed with error code : %d", WSAGetLastError());
@@ -81,8 +84,9 @@ void d_receive(Data buffer[]) {
 		}
 
 	}else{
-		printf("recvfrom() failed with error code : %d", WSAGetLastError());
-		//exit(EXIT_FAILURE);
+		printf("recvfrom() failed with error code : %d\n", WSAGetLastError());
+		if (WSAGetLastError() != 10060)
+			exit(EXIT_FAILURE);
 	}
 	printf("===========================================================================\n");
 

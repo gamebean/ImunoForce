@@ -11,7 +11,7 @@
 #endif
 #include <allegro5/allegro.h>
 
-#define SERVER "25.13.29.171"		//ip address of udp server
+#define SERVER "127.0.0.1"		//ip address of udp server
 #define BUFLEN	1500	// Buffer length in bytes
 #define PORT	21234
 
@@ -21,6 +21,7 @@ typedef struct {
 	int x;
 	int y;
 	int img_i;
+	int dir;
 }Data;
 
 

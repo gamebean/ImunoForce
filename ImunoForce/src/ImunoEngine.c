@@ -19,6 +19,7 @@ Object *object_add(Type t, int tag) {
 	p->tag = tag;
 	p->next = NULL;
 	p->type = t;
+	p->dir = 0; // 0 = normal ; 1 = ALLEGRO_FLIP_HORIZONTAL
 
 	if (object_head.next == NULL) {
 		object_head.next = p;
@@ -253,7 +254,7 @@ object_draw() {
 	Object *p;
 	for(p = &object_head; (p != NULL); p = p->next) {
 		if (p != &object_head && p->type !=background) {
-			al_draw_bitmap(sprites[p->type][p->img_i], (int)p->x, (int)p->y, ((p->type == enemy) && p->vx < 0) ? ALLEGRO_FLIP_HORIZONTAL : 0);
+			al_draw_bitmap(sprites[p->type][p->img_i], (int)p->x, (int)p->y, p->dir);
 			//mask_draw(masks[p->type][p->img_i],p->x,p->y);
 		}
 
@@ -321,6 +322,7 @@ void *object_move() {
 				}
 				p->x += p->vx;
 				p->y += p->vy;
+				p->dir = (p->vx < 0) ? ALLEGRO_FLIP_HORIZONTAL : 0;
 			break;
 			case background:
 				p->y += p->vy;

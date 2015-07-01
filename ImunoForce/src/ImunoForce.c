@@ -510,6 +510,7 @@ main(int argc, char *argv[]) {
 									data[i].type = p->type;
 									data[i].x = p->x;
 									data[i].y = p->y;
+									data[i].dir = p->dir;
 									p = p->next;
 								} else if (p->type == background) {
 									p = p->next;
@@ -575,7 +576,7 @@ main(int argc, char *argv[]) {
 							for(i = 0; i < BUFLEN / sizeof(Data); i++) {
 								if (&data[i] != NULL) {
 									if (data[i].type != header && data[i].type != background) {
-										al_draw_bitmap(sprites[data[i].type][data[i].img_i], data[i].x, data[i].y, 0);
+										al_draw_bitmap(sprites[data[i].type][data[i].img_i], data[i].x, data[i].y, data[i].dir);
 									}
 								}
 							}

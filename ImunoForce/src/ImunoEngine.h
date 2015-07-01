@@ -44,6 +44,7 @@ typedef struct {
 	float vx, vy;
 	int width, height;
 	int mask_i;
+	int dir;
 
 	//Animation variables
 	int img_i;
