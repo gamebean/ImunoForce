@@ -34,6 +34,7 @@ main(int argc, char *argv[]) {
 	bool isSet = false;
 	bool quit = false;
 	bool draw = false;
+	int host = false;
 	int gameState = 0;
 	int multiState = 0;
 	int select = 0;
@@ -270,6 +271,7 @@ main(int argc, char *argv[]) {
 			frame = (frame >= 60) ? 1 : frame + 1;
 
 			//	MOVEMENT
+			p = object_search(1);
 			p->vy += 0.8 * keys[KEY_DOWN] - 0.8 * keys[KEY_UP];
 			p->vx += 0.8 * keys[KEY_RIGHT] - 0.8 * keys[KEY_LEFT];
 
@@ -460,6 +462,30 @@ main(int argc, char *argv[]) {
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0, "         LIFE: %d ", p->life);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 350, 0, "         SCORE: %d ", get_score());
 					al_draw_textf(arial_24, al_map_rgb(242, 210, 99), 100, 400, 0, "		  DNA: %d ", DNA_points);
+					if(host == true){
+						// DATA WRITE
+						memset(data, '\0', BUFLEN);
+						p = object_search(1);
+						//p = p->next;
+						for(i = 0; i < BUFLEN / sizeof(Data); i++) {
+							if (p != NULL) {
+								if (p->type != background) {
+									data[i].img_i = p->img_i;
+									data[i].type = p->type;
+									data[i].x = p->x;
+									data[i].y = p->y;
+									p = p->next;
+								} else if (p->type == background) {
+									p = p->next;
+								}
+							}
+						}
+
+						inPkt = r_receive();
+					//	printf("%s\n", inPkt);
+
+						d_send(data);
+					}
 				break;
 				case 2:			// MULTIPLAYER
 					switch(multiState) {
@@ -490,36 +516,8 @@ main(int argc, char *argv[]) {
 								isSet = true;
 								p = player_add("Jefferson", 5, 12);
 							}
-
-							background_draw();
-							object_draw();
-
-							// DATA WRITE
-							memset(data, '\0', BUFLEN);
-							p = object_search(1);
-							//p = p->next;
-							for(i = 0; i < BUFLEN / sizeof(Data); i++) {
-								if (p != NULL) {
-									if (p->type != background) {
-										data[i].img_i = p->img_i;
-										data[i].type = p->type;
-										data[i].x = p->x;
-										data[i].y = p->y;
-										p = p->next;
-									} else if (p->type == background) {
-										p = p->next;
-									}
-								}
-							}
-
-							inPkt = r_receive();
-							printf("%s\n", inPkt);
-
-							d_send(data);
-
-							p = object_search(1);
-							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0, "         LIFE: %d ", p->life);
-							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 350, 0, "         SCORE: %d ", get_score());
+							host = true;
+							gameState = 1;
 						break;
 						case 2:			// Join
 							background_draw();
