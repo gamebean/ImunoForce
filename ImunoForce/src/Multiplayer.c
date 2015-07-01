@@ -43,12 +43,16 @@ void server_initialise() {
 
 void r_receive(bool keys[]) {
 	fflush(stdout);
+	int i;
 	memset(keys, '\0', 9);
 
 	printf("Waiting for Request... ");
-	if ((recv_len = recvfrom(sckt, keys, 9, 0, (struct sockaddr*) &si_other, &slen)) == SOCKET_ERROR) {
-		printf("recvfrom() Error. Code: %d\n", WSAGetLastError());
-		exit(EXIT_FAILURE);
+	if ((recv_len = recvfrom(sckt, keys, 9, 0, (struct sockaddr*) &si_other, &slen)) >= 0) {
+
+	}else{
+		for(i = 0; i < 9; i++){
+			keys[i] = false;
+		}
 	}
 
 	//return buffer;
@@ -70,22 +74,25 @@ void d_receive(Data buffer[]) {
 
 	memset(buffer, '\0', BUFLEN); // Clear buffer
 
-	if (recvfrom(sckt, buffer, BUFLEN, 0, (struct sockaddr *) &si_other, &slen) == SOCKET_ERROR) { // Receive data
+	if (recvfrom(sckt, buffer, BUFLEN, 0, (struct sockaddr *) &si_other, &slen) >= 0) { // Receive data
+		for (i = 0; i < 90; i++) {
+			if (buffer[i].type != 0 || buffer[i].img_i != 0 || buffer[i].x != 0 || buffer[i].y != 0)
+				printf(" x: %d\n y: %d\n type: %d\n img_i: %d\n", buffer[i].x, buffer[i].y, buffer[i].type, buffer[i].img_i);
+		}
+
+	}else{
 		printf("recvfrom() failed with error code : %d", WSAGetLastError());
-		exit(EXIT_FAILURE);
+		//exit(EXIT_FAILURE);
 	}
 	printf("===========================================================================\n");
-	for (i = 0; i < 90; i++) {
-		if (buffer[i].type != 0 || buffer[i].img_i != 0 || buffer[i].x != 0 || buffer[i].y != 0)
-			printf(" x: %d\n y: %d\n type: %d\n img_i: %d\n", buffer[i].x, buffer[i].y, buffer[i].type, buffer[i].img_i);
-	}
+
 }
 
 void d_send(Data* buffer) {
 	//printf("x: %d\ny: %d\ntype: %d\nimg_i: %d\n", buffer[0].x, buffer[0].y, buffer[0].type, buffer[0].img_i);
 	if (sendto(sckt, buffer, BUFLEN, 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
 		printf("sendto() Error. Code: %d\n", WSAGetLastError());
-		exit(EXIT_FAILURE);
+		//exit(EXIT_FAILURE);
 	}
 }
 
