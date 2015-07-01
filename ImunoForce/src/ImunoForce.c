@@ -1,3 +1,4 @@
+#include "Multiplayer.h"
 #include <stdio.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_native_dialog.h>
@@ -8,7 +9,7 @@
 #include <allegro5/allegro_ttf.h>   // Biblioteca para utilização de fontes
 #include "AllegroDef.h"
 #include "ImunoEngine.h"
-#include "Multiplayer.h"
+
 
 //Object object_head = {0,header,NULL,NULL,NULL,NULL};
 main(int argc, char *argv[]) {
