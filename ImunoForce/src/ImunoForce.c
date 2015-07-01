@@ -101,6 +101,8 @@ main(int argc, char *argv[]) {
 	sprites[enemy_b][6] = al_load_bitmap("Sprites/Seeker6.png");
 	sprites[enemy_b][7] = al_load_bitmap("Sprites/Seeker7.png");
 
+	sprites[enemy_c][0] = al_load_bitmap("Sprites/Virus1.png");
+
 	sprites[bullet][0] = al_load_bitmap("Sprites/bullet3.png");
 
 	sprites[background][0] = al_load_bitmap("Sprites/BackgroundB.png");
@@ -117,6 +119,7 @@ main(int argc, char *argv[]) {
 		masks[enemy_b][i] = mask_new(sprites[enemy_b][i]);
 		printf("Creating enemy_b mask n%d\n", i + 1);
 	}
+	masks[enemy_c][0] = mask_new(sprites[enemy_c][0]);
 	for(i = 0; i < 1; i++) {
 		masks[bullet][i] = mask_new(sprites[bullet][i]);
 		printf("Creating bullet mask n%d\n", i + 1);
@@ -230,8 +233,8 @@ main(int argc, char *argv[]) {
 	enemies[2].life = 5;
 	strcpy_s(enemies[2].String, sizeof(enemies[2].String), "Wall");
 
-	enemies[3].type = enemy;
-	enemies[3].vector_size = 8;
+	enemies[3].type = enemy_c;
+	enemies[3].vector_size = 1;
 	enemies[3].frame_delay = 5;
 	enemies[3].img_i = 0;
 	enemies[3].height = al_get_bitmap_height(sprites[enemies[3].type][enemies[3].img_i]);

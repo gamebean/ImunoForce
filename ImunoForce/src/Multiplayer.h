@@ -11,7 +11,7 @@
 #endif
 #include <allegro5/allegro.h>
 
-#define SERVER "127.0.0.1"		//ip address of udp server
+#define SERVER "25.17.241.188"		//ip address of udp server
 #define BUFLEN	1500	// Buffer length in bytes
 #define PORT	21234
 
