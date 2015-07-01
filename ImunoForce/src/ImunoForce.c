@@ -431,6 +431,7 @@ main(int argc, char *argv[]) {
 		if (al_is_event_queue_empty(event_queue)) {
 			int cost[sizeof(UPGRADE) / (sizeof(UPGRADE[0]))];
 			DNA_points = get_score() - DNA_spent;
+			bool keys2[KEY_MAX];
 			switch(gameState) {
 				case 0:			// MENU
 					select = (select > 3) ? 3 : select;
@@ -481,10 +482,10 @@ main(int argc, char *argv[]) {
 							}
 						}
 
-						r_receive(keys);
+						r_receive(keys2);
 						p = object_search(2);
-						p->vy += 0.8 * keys[KEY_DOWN] - 0.8 * keys[KEY_UP];
-						p->vx += 0.8 * keys[KEY_RIGHT] - 0.8 * keys[KEY_LEFT];
+						p->vy += 0.8 * keys2[KEY_DOWN] - 0.8 * keys2[KEY_UP];
+						p->vx += 0.8 * keys2[KEY_RIGHT] - 0.8 * keys2[KEY_LEFT];
 
 					//	printf("%s\n", inPkt);
 
