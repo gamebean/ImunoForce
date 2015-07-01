@@ -1,7 +1,4 @@
 #include <stdio.h>
-#include "Multiplayer.h"
-#include "ImunoEngine.h"
-#include "AllegroDef.h"
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_image.h>
@@ -9,10 +6,11 @@
 #include <math.h>
 #include <allegro5/allegro_font.h>  // Biblioteca para utilização de fontes
 #include <allegro5/allegro_ttf.h>   // Biblioteca para utilização de fontes
-
+#include "AllegroDef.h"
+#include "ImunoEngine.h"
+#include "Multiplayer.h"
 
 //Object object_head = {0,header,NULL,NULL,NULL,NULL};
-
 main(int argc, char *argv[]) {
 	int frame = 1, bTrig = 10, bulletFreq = 10, i;
 	int currentPlayer = 1;
@@ -42,31 +40,29 @@ main(int argc, char *argv[]) {
 
 	char DOWN = 1, UP = 1, LEFT = 1, RIGHT = 1;
 	char* inPkt;
-	Data data[BUFLEN/sizeof(Data)];
+	Data data[BUFLEN / sizeof(Data)];
 
 	Object* p = object_search(header);
 	Object* bllt = object_search(header);
 
 	initialization();
-	srand((unsigned)time(NULL)); // Uncertainty principle
+	srand((unsigned) time(NULL)); // Uncertainty principle
 	//creation(display, timer, event_queue);
 	display = al_create_display(DISPLAY_W, DISPLAY_H);
 	if (!display) {
 
-		al_show_native_message_box(NULL, NULL, NULL,
-								   "al_create_display() failed", NULL, 0);
+		al_show_native_message_box(NULL, NULL, NULL, "al_create_display() failed", NULL, 0);
 		exit(EXIT_FAILURE);
 	}
 	timer = al_create_timer(1 / 60.0);
 	if (!timer) {
 		al_show_native_message_box(NULL, NULL, NULL, "al_create_timer() failed",
-								   NULL, 0);
+		NULL, 0);
 		exit(EXIT_FAILURE);
 	}
 	event_queue = al_create_event_queue();
 	if (!event_queue) {
-		al_show_native_message_box(NULL, NULL, NULL,
-								   "al_create_event_queue() failed", NULL, 0);
+		al_show_native_message_box(NULL, NULL, NULL, "al_create_event_queue() failed", NULL, 0);
 		exit(EXIT_FAILURE);
 	}
 
@@ -253,7 +249,6 @@ main(int argc, char *argv[]) {
 	enemies[4].life = 3;
 	strcpy_s(enemies[4].String, sizeof(enemies[4].String), "Shooter");	// defines if its a seeker or not (1 yes 0 no)v
 
-
 	al_init_font_addon();
 	al_init_ttf_addon();
 	ALLEGRO_FONT *arial_24 = al_load_font("arial.ttf", 24, 0);
@@ -270,7 +265,7 @@ main(int argc, char *argv[]) {
 			quit = true;
 		}
 
-		if ((ev.type == ALLEGRO_EVENT_TIMER) && (gameState == 1)) {
+		if ((ev.type == ALLEGRO_EVENT_TIMER) && ((gameState == 1) || multiState == 1)) {
 			//	FRAME COUNT
 			frame = (frame >= 60) ? 1 : frame + 1;
 
@@ -444,7 +439,6 @@ main(int argc, char *argv[]) {
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 175, 0, "         QUIT  ");
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
 
-
 					if (keys[KEY_UP] * UP) {
 						select += -1;
 						UP = 0;
@@ -468,16 +462,13 @@ main(int argc, char *argv[]) {
 					al_draw_textf(arial_24, al_map_rgb(242, 210, 99), 100, 400, 0, "		  DNA: %d ", DNA_points);
 				break;
 				case 2:			// MULTIPLAYER
-					switch (multiState) {
+					switch(multiState) {
 						case 0:			// Menu
 							select = (select > 1) ? 1 : select;
 							select = (select < 0) ? 0 : select;
-							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0,
-										  "         HOST");
-							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0,
-										  "         JOIN  ");
-							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100,
-										  100 + select * 25, 0, "       >");
+							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0, "         HOST");
+							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0, "         JOIN  ");
+							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
 
 							if (keys[KEY_UP] * UP) {
 								select += -1;
@@ -492,11 +483,12 @@ main(int argc, char *argv[]) {
 								multiState = select + 1;
 								keys[KEY_ENTER] = false;
 							}
-							break;
+						break;
 						case 1:			// Host
 							if (!isSet) {
 								set_server();
 								isSet = true;
+								p = player_add("Jefferson", 5, 12);
 							}
 
 							background_draw();
@@ -504,19 +496,19 @@ main(int argc, char *argv[]) {
 
 							// DATA WRITE
 							memset(data, '\0', BUFLEN);
-							p = object_search(0);
-							p = p->next;
-							for (i = 0; i < BUFLEN/sizeof(Data); i++) {
-								if (p != NULL && p->type != background) {
-									data[i].img_i = p->img_i;
-									data[i].type = p->type;
-									data[i].x = p->x;
-									data[i].y = p->y;
-
-									p = p->next;
-								}
-								else if (p != NULL && p->type == background) {
-									p = p->next;
+							p = object_search(1);
+							//p = p->next;
+							for(i = 0; i < BUFLEN / sizeof(Data); i++) {
+								if (p != NULL) {
+									if (p->type != background) {
+										data[i].img_i = p->img_i;
+										data[i].type = p->type;
+										data[i].x = p->x;
+										data[i].y = p->y;
+										p = p->next;
+									} else if (p->type == background) {
+										p = p->next;
+									}
 								}
 							}
 
@@ -526,11 +518,9 @@ main(int argc, char *argv[]) {
 							d_send(data);
 
 							p = object_search(1);
-							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0,
-										  "         LIFE: %d ", p->life);
-							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 350, 0,
-										  "         SCORE: %d ", get_score());					
-							break;
+							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0, "         LIFE: %d ", p->life);
+							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 350, 0, "         SCORE: %d ", get_score());
+						break;
 						case 2:			// Join
 							background_draw();
 
@@ -546,31 +536,30 @@ main(int argc, char *argv[]) {
 							//al_draw_bitmap(sprites[data[0].type][data[0].img_i], data[0].x, data[0].y, 0);
 
 							//data_draw(data, sprites);
-							for (i = 0; i < BUFLEN / sizeof(Data); i++) {
+							for(i = 0; i < BUFLEN / sizeof(Data); i++) {
 								if (&data[i] != NULL) {
-									if (data[i].type != 0 && data[i].type != 4) {
+									if (data[i].type != header && data[i].type != background) {
 										al_draw_bitmap(sprites[data[i].type][data[i].img_i], data[i].x, data[i].y, 0);
 									}
 								}
 							}
 
-
-							break;
+						break;
 					}
-					break;
+				break;
 				case 3:
 					select = (select > sizeof(UPGRADE) / (sizeof(UPGRADE[0])) - 1) ? sizeof(UPGRADE) / (sizeof(UPGRADE[0])) - 1 : select;
 					select = (select < 0) ? 0 : select;
-					cost[0] = UPGRADE[0]*10;
-					cost[1] = UPGRADE[1]*5;
-					cost[2] = UPGRADE[2]*20;
+					cost[0] = UPGRADE[0] * 10;
+					cost[1] = UPGRADE[1] * 5;
+					cost[2] = UPGRADE[2] * 20;
 
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0, "         TRIGGER: %d", 11 - bulletFreq);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0, "         FORCE: %d", -normal.life);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0, "         BULLET: %d", bullet_type);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
-					for(i = 0; i< sizeof(UPGRADE) / (sizeof(UPGRADE[0])); i++){
-						al_draw_textf(arial_24, al_map_rgb(242, 210, 99), 300, 100 + i * 25,0, " %d ", cost[i]);
+					for(i = 0; i < sizeof(UPGRADE) / (sizeof(UPGRADE[0])); i++) {
+						al_draw_textf(arial_24, al_map_rgb(242, 210, 99), 300, 100 + i * 25, 0, " %d ", cost[i]);
 					}
 					if (keys[KEY_UP] * UP) {
 						select += -1;

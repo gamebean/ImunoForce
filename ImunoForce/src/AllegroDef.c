@@ -5,18 +5,13 @@
  *      Author: Bruno Pachceco & Felipe Sens Bonetto
  */
 
+#include "AllegroDef.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-#ifndef Allegro
-#define Allegro
-#include <allegro5/allegro.h>
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
-#endif
 
-#include "AllegroDef.h"
 
 void initialization(){
 	if (!al_init()) {

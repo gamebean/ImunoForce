@@ -1,20 +1,32 @@
 #include <stdio.h>
 #include "Multiplayer.h"
-#include "AllegroDef.h"
+#include <allegro5/allegro.h>
+
+
+
+#ifdef __linux__
+#define SOCKET int
+#define INVALID_SOCKET -1
+#define SOCKET_ERROR  -1
+#define WSAGetLastError() -6969
+#endif
 
 SOCKET sckt;
 struct sockaddr_in server, si_other;
 int recv_len, slen = sizeof(si_other);
+#ifndef __linux__
 WSADATA wsa;
-
+#endif
 
 void server_initialise() {
 	// Initialise winsock
+#ifndef __linux__
 	printf("Initialiasing Winsock...\n");
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
 		printf("WSAStartup() Error. Code: %d\n", WSAGetLastError());
 		exit(EXIT_FAILURE);
 	}
+#endif
 	printf("Initialised.\n");
 
 	// Create a Socket
@@ -89,7 +101,11 @@ void set_client() {
 	memset((char *)&si_other, 0, sizeof(si_other));
 	si_other.sin_family = AF_INET;
 	si_other.sin_port = htons(PORT);
+#ifndef __linux__
 	si_other.sin_addr.S_un.S_addr = inet_addr(SERVER);
+#else
+	si_other.sin_addr.s_addr = inet_addr(SERVER);
+#endif
 }
 
 void data_draw(Data data[], ALLEGRO_BITMAP* **sprites) {

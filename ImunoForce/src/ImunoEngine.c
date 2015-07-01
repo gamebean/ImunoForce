@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "ImunoEngine.h"
-#include "AllegroDef.h"
 #include <allegro5/allegro_primitives.h>
 #include <math.h>
+#include "AllegroDef.h"
 
 const int vel_max = 15;
 const int e_vel_max = 3;
@@ -482,11 +482,11 @@ void object_anim() {
 	}
 }
 
-//#ifndef strcpy_s
-//void strcpy_s(char a[], int b, char c[]) {
-//	strcpy(a, c);
-//}
-//#endif
+#ifdef __linux__
+void strcpy_s(char a[], int b, char c[]) {
+	strcpy(a, c);
+}
+#endif
 
 int get_score() {
 	return SCORE;

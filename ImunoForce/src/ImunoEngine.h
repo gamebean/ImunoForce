@@ -3,10 +3,10 @@
 // Define the possible types of object in the game
 #include <stdio.h>
 #include <allegro5/allegro.h>
+
+
 #define enemy_all(x) (x == enemy || x == enemy_b || x == enemy_c || x == enemy_d)
 #define case_enemy_all case enemy: case enemy_b: case enemy_c: case enemy_d:
-
-
 
 
 typedef int Type;
@@ -84,6 +84,6 @@ int get_score();
 int enemy_count();
 int object_find(char[]);
 
-//#ifndef strcpy_s
-//void strcpy_s(char[], int, char[]);
-//#endif
+#ifdef __linux__
+void strcpy_s(char[], int, char[]);
+#endif
