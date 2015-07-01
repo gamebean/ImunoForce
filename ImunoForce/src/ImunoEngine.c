@@ -482,11 +482,11 @@ void object_anim() {
 	}
 }
 
-#ifndef strcpy_s
-void strcpy_s(char a[], int b, char c[]) {
-	strcpy(a, c);
-}
-#endif
+//#ifndef strcpy_s
+//void strcpy_s(char a[], int b, char c[]) {
+//	strcpy(a, c);
+//}
+//#endif
 
 int get_score() {
 	return SCORE;

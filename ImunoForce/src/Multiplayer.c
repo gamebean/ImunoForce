@@ -55,15 +55,15 @@ void d_receive(Data buffer[]) {
 		printf("recvfrom() failed with error code : %d", WSAGetLastError());
 		exit(EXIT_FAILURE);
 	}
-	/*printf("===========================================================================\n");
+	printf("===========================================================================\n");
 	for (i = 0; i < 90; i++) {
 		if (buffer[i].type != 0 || buffer[i].img_i != 0 || buffer[i].x != 0 || buffer[i].y != 0)
 			printf(" x: %d\n y: %d\n type: %d\n img_i: %d\n", buffer[i].x, buffer[i].y, buffer[i].type, buffer[i].img_i);
-	}*/
+	}
 }
 
 void d_send(Data* buffer) {
-	printf("x: %d\ny: %d\ntype: %d\nimg_i: %d\n", buffer[0].x, buffer[0].y, buffer[0].type, buffer[0].img_i);
+	//printf("x: %d\ny: %d\ntype: %d\nimg_i: %d\n", buffer[0].x, buffer[0].y, buffer[0].type, buffer[0].img_i);
 	if (sendto(sckt, buffer, BUFLEN, 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
 		printf("sendto() Error. Code: %d\n", WSAGetLastError());
 		exit(EXIT_FAILURE);
@@ -92,12 +92,14 @@ void set_client() {
 	si_other.sin_addr.S_un.S_addr = inet_addr(SERVER);
 }
 
-void data_draw(int multiState, Data data[], ALLEGRO_BITMAP* **sprites) {
+void data_draw(Data data[], ALLEGRO_BITMAP* **sprites) {
 	int i;
+	al_init();
+	al_init_image_addon();
 
-	if (multiState != 0) {
-		for (i = 0; i < BUFLEN / sizeof(Data); i++) {
-			if (data[i].type != 0 && data[i].type != 4) {
+	for (i = 0; i < BUFLEN / sizeof(Data); i++) {
+		if (&data[i] != NULL) {
+			if (data[i].type != 7 && data[i].type != 3) {
 				al_draw_bitmap(sprites[data[i].type][data[i].img_i], data[i].x, data[i].y, 0);
 			}
 		}

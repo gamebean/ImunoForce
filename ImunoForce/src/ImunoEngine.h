@@ -84,6 +84,6 @@ int get_score();
 int enemy_count();
 int object_find(char[]);
 
-#ifndef strcpy_s
-void strcpy_s(char[], int, char[]);
-#endif
+//#ifndef strcpy_s
+//void strcpy_s(char[], int, char[]);
+//#endif

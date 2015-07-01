@@ -23,8 +23,8 @@ main(int argc, char *argv[]) {
 	int DNA_points = 0;
 	int DNA_spent = 0;
 	int UPGRADE[3];
-	int upgrades = sizeof(UPGRADE) / (sizeof(UPGRADE[0]));
-	for(i = 0; i < upgrades; i++) {
+	//int upgrades = sizeof(UPGRADE) / (sizeof(UPGRADE[0]));
+	for(i = 0; i < sizeof(UPGRADE) / (sizeof(UPGRADE[0])); i++) {
 		UPGRADE[i] = 1;
 	}
 
@@ -432,7 +432,7 @@ main(int argc, char *argv[]) {
 		}
 
 		if (al_is_event_queue_empty(event_queue)) {
-			int cost[upgrades];
+			int cost[sizeof(UPGRADE) / (sizeof(UPGRADE[0]))];
 			DNA_points = get_score() - DNA_spent;
 			switch(gameState) {
 				case 0:			// MENU
@@ -456,9 +456,11 @@ main(int argc, char *argv[]) {
 
 					if (keys[KEY_ENTER]) {
 						gameState = select + 1;
+						keys[KEY_ENTER] = false;
 					}
 				break;
 				case 1:
+					background_draw();
 					object_draw();
 					p = object_search(1);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0, "         LIFE: %d ", p->life);
@@ -541,8 +543,9 @@ main(int argc, char *argv[]) {
 
 							d_receive(data);
 
-							//background_draw();
-							//data_draw(multiState, data, sprites);
+							//al_draw_bitmap(sprites[data[0].type][data[0].img_i], data[0].x, data[0].y, 0);
+
+							//data_draw(data, sprites);
 							for (i = 0; i < BUFLEN / sizeof(Data); i++) {
 								if (&data[i] != NULL) {
 									if (data[i].type != 0 && data[i].type != 4) {
@@ -556,7 +559,7 @@ main(int argc, char *argv[]) {
 					}
 					break;
 				case 3:
-					select = (select > upgrades - 1) ? upgrades - 1 : select;
+					select = (select > sizeof(UPGRADE) / (sizeof(UPGRADE[0])) - 1) ? sizeof(UPGRADE) / (sizeof(UPGRADE[0])) - 1 : select;
 					select = (select < 0) ? 0 : select;
 					cost[0] = UPGRADE[0]*10;
 					cost[1] = UPGRADE[1]*5;
@@ -566,7 +569,7 @@ main(int argc, char *argv[]) {
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0, "         FORCE: %d", -normal.life);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0, "         BULLET: %d", bullet_type);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
-					for(i = 0; i< upgrades; i++){
+					for(i = 0; i< sizeof(UPGRADE) / (sizeof(UPGRADE[0])); i++){
 						al_draw_textf(arial_24, al_map_rgb(242, 210, 99), 300, 100 + i * 25,0, " %d ", cost[i]);
 					}
 					if (keys[KEY_UP] * UP) {
