@@ -348,9 +348,9 @@ main(int argc, char *argv[]) {
 			if (keys2[KEY_SPACE] && bTrig2 == 10) {
 				shoot_enable2 = 1;
 				bTrig2 = frame % bulletFreq;
-			} else if (keys[KEY_SPACE] && frame % bulletFreq == bTrig2) {
+			} else if (keys2[KEY_SPACE] && frame % bulletFreq == bTrig2) {
 				shoot_enable2 = 1;
-			} else if (!keys[KEY_SPACE]) {
+			} else if (!keys2[KEY_SPACE]) {
 				bTrig2 = 10;
 			}
 
@@ -382,7 +382,7 @@ main(int argc, char *argv[]) {
 					bullet_add(right, object_search(2));
 				case 1:
 					bullet_add(normal, object_search(2));
-					shoot_enable = 0;
+					shoot_enable2 = 0;
 				break;
 				default:
 				break;
