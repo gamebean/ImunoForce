@@ -7,6 +7,8 @@
 #define case_enemy_all case enemy: case enemy_b: case enemy_c: case enemy_d:
 
 
+
+
 typedef int Type;
 enum Types {
 	player, bullet, enemy, background, enemy_b, enemy_c, enemy_d, header
@@ -69,6 +71,7 @@ Object *enemy_add(Object, int, int);
 
 void *object_colision();
 void *object_draw();
+void background_draw();
 void *object_move();
 Mask *mask_create(int, int);
 Mask *mask_new(ALLEGRO_BITMAP *);

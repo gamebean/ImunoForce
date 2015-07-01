@@ -7,12 +7,12 @@
 const int vel_max = 15;
 const int e_vel_max = 3;
 
-Object object_head = { 0, header, "header" };
 int PLAYER_COUNT = 0;
 int SCORE = 0;
 
-Object *
-object_add(Type t, int tag) {
+Object object_head = { 0, header, "header" };
+
+Object *object_add(Type t, int tag) {
 	Object *p;
 	Object *a;
 	p = (Object *) malloc(sizeof(Object)); /*Aloca p na memoria*/
@@ -139,7 +139,7 @@ background_add(int x, int y) {
 	bg->width = al_get_bitmap_width(sprites[background][bg->img_i]);
 	bg->x = x;
 	bg->vx = 0;
-	bg->vy = 2;
+	bg->vy = 8;
 	bg->y = y;
 	bg->frame_delay = 0;
 	bg->vector_size = 1;
@@ -252,9 +252,8 @@ void *
 object_draw() {
 	Object *p;
 	for(p = &object_head; (p != NULL); p = p->next) {
-
-		if (p != &object_head) {
-			al_draw_bitmap(sprites[p->type][p->img_i], (int) p->x, (int) p->y, ((enemy_all(p->type)) && p->vx < 0) ? ALLEGRO_FLIP_HORIZONTAL : 0);
+		if (p != &object_head && p->type !=background) {
+			al_draw_bitmap(sprites[p->type][p->img_i], (int)p->x, (int)p->y, ((p->type == enemy) && p->vx < 0) ? ALLEGRO_FLIP_HORIZONTAL : 0);
 			//mask_draw(masks[p->type][p->img_i],p->x,p->y);
 		}
 
@@ -262,8 +261,17 @@ object_draw() {
 	return 0;
 }
 
-void *
-object_move() {
+void background_draw() {
+	Object *p;
+
+	for (p = &object_head; p != NULL; p = p->next) {
+		if (p->type == background) {
+			al_draw_bitmap(sprites[p->type][p->img_i], (int)p->x, (int)p->y, 0);
+		}
+	}
+}
+
+void *object_move() {
 	Object *p;
 	Object *pl;
 	float dx, dy;

@@ -1,9 +1,3 @@
-/*
- * AllegroDef.h
- *
- *  Created on: 07/06/2015
- *      Author's: Bruno Pacheco & Felipe Sens Bonetto
- */
 #include <allegro5/allegro.h>
 
 #define DISPLAY_H 800
