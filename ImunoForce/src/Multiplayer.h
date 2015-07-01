@@ -28,7 +28,7 @@ typedef struct {
 
 
 void server_initialise();
-char* r_receive();
+void r_receive();
 void r_send();
 void d_receive();
 void d_send(Data *buffer);

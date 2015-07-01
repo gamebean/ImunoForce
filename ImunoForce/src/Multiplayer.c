@@ -35,26 +35,27 @@ void server_initialise() {
 	printf("Socket Created.\n");
 }
 
-char* r_receive() {
+void r_receive(bool keys[]) {
 	fflush(stdout);
-	char buffer[BUFLEN];
-	memset(buffer, '\0', BUFLEN);
+	memset(keys, '\0', 9);
 
 	printf("Waiting for Request... ");
-	if ((recv_len = recvfrom(sckt, buffer, sizeof(buffer), 0, (struct sockaddr*) &si_other, &slen)) == SOCKET_ERROR) {
+	if ((recv_len = recvfrom(sckt, keys, 9, 0, (struct sockaddr*) &si_other, &slen)) == SOCKET_ERROR) {
 		printf("recvfrom() Error. Code: %d\n", WSAGetLastError());
 		exit(EXIT_FAILURE);
 	}
 
-	return buffer;
+	//return buffer;
 }
 
-void r_send() {
-	if (sendto(sckt, "Packet Request", strlen("Packet Request"), 0, (struct sockaddr *) &si_other, slen) == SOCKET_ERROR)
-	{
-		printf("sendto() failed with error code : %d", WSAGetLastError());
-		exit(EXIT_FAILURE);
-	}
+void r_send(bool keys[]) {
+
+	if (sendto(sckt, keys, 9, 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR);
+//	if (sendto(sckt, "Packet Request", strlen("Packet Request"), 0, (struct sockaddr *) &si_other, slen) == SOCKET_ERROR)
+//	{
+//		printf("sendto() failed with error code : %d", WSAGetLastError());
+//		exit(EXIT_FAILURE);
+//	}
 	printf("Packet Request Sent.\n");
 }
 

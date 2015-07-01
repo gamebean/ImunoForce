@@ -481,7 +481,11 @@ main(int argc, char *argv[]) {
 							}
 						}
 
-						inPkt = r_receive();
+						r_receive(keys);
+						p = object_search(2);
+						p->vy += 0.8 * keys[KEY_DOWN] - 0.8 * keys[KEY_UP];
+						p->vx += 0.8 * keys[KEY_RIGHT] - 0.8 * keys[KEY_LEFT];
+
 					//	printf("%s\n", inPkt);
 
 						d_send(data);
@@ -527,7 +531,7 @@ main(int argc, char *argv[]) {
 								isSet = true;
 							}
 
-							r_send();
+							r_send(keys);
 
 							d_receive(data);
 
