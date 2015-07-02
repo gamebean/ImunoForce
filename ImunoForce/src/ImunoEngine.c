@@ -576,3 +576,12 @@ void game_reset(){
 		}
 	}
 }
+
+void list_destroy(){
+	Object *p, *o;
+		for(p = &object_head; (p != NULL); p = p->next) {
+		}
+		while(p != NULL){
+			p = object_del(p);
+		}
+}

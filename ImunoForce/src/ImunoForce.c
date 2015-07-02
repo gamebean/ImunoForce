@@ -13,7 +13,7 @@
 
 //Object object_head = {0,header,NULL,NULL,NULL,NULL};
 main(int argc, char *argv[]) {
-	int frame = 1, bTrig = 10,bTrig2 = 10 , bulletFreq = 10, i;
+	int frame = 1, bTrig = 10,bTrig2 = 10 , bulletFreq = 10, i,j;
 	int currentPlayer = 1;
 	int dead = 1;
 	int monkey = 1; // JUST FOR TEST
@@ -70,6 +70,7 @@ main(int argc, char *argv[]) {
 	}
 
 	server_initialise();
+	memset(sprites,'\0',sizeof(sprites));
 
 	sprites[player][B_L] = al_load_bitmap("Sprites/Ship1B_L.png");
 	sprites[player][B_C] = al_load_bitmap("Sprites/Ship1B_C.png");
@@ -658,14 +659,16 @@ main(int argc, char *argv[]) {
 						UPGRADE[select] += 1;
 						RIGHT = 0;
 					}
-					if (keys[KEY_LEFT] * LEFT) {
-						UPGRADE[select] += -1;
-						LEFT = 0;
-					}
+//					if (keys[KEY_LEFT] * LEFT) {
+//						UPGRADE[select] += -1;
+//						DNA_spent -= cost[select]/2;
+//						LEFT = 0;
+//					}
 
 					UPGRADE[0] = (UPGRADE[0] > 10) ? 10 : UPGRADE[0];
 					bulletFreq = 10 - (UPGRADE[0] - 1);
 					normal.life = -UPGRADE[1];
+					UPGRADE[2] = (UPGRADE[2] > 3) ? 3 : UPGRADE[2];
 					bullet_type = UPGRADE[2];
 
 				break;
@@ -695,11 +698,19 @@ main(int argc, char *argv[]) {
 			}
 			//object_track();
 
+
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 		}
 	}
 
+	for(i = 0; i < header; i++){
+		for(j = 0; j < 20; j++){
+				al_destroy_bitmap(sprites[i][j]);
+				free(masks[i][j]);
+		}
+	}
+	list_destroy();
 	al_destroy_display(display);
 	al_destroy_timer(timer);
 	al_destroy_event_queue(event_queue);

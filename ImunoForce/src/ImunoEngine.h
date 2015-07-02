@@ -86,7 +86,9 @@ int enemy_count();
 int object_find(char[]);
 bool player_alive();
 void game_reset();
+void list_destroy();
 void object_track();
+
 #ifdef __linux__
 void strcpy_s(char[], int, char[]);
 #endif
