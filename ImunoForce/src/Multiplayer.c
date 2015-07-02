@@ -30,7 +30,7 @@ void server_initialise() {
 	printf("Initialised.\n");
 	struct timeval tv;
 
-	//tv.tv_sec = 0;  /* 30 Secs Timeout */
+	//tv.tv_sec = 1;  /* 30 Secs Timeout */
 	//tv.tv_usec = 100000;  // Not init'ing this can cause strange errors
 	// Create a Socket
 	if ((sckt = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET)
@@ -45,7 +45,6 @@ void r_receive(bool keys[]) {
 	int i;
 	memset(keys, '\0', 9);
 
-	//printf("Waiting for Request... ");
 	if ((recv_len = recvfrom(sckt, keys, 9, 0, (struct sockaddr*) &si_other, &slen)) >= 0) {
 
 	}else{
@@ -54,7 +53,7 @@ void r_receive(bool keys[]) {
 		}
 		printf("r_receive failed. Error: %d\n", WSAGetLastError());
 	}
-
+	printf("r_receive\n");
 	//return buffer;
 }
 
@@ -69,7 +68,7 @@ void r_send(bool keys[]) {
 //		printf("sendto() failed with error code : %d", WSAGetLastError());
 //		exit(EXIT_FAILURE);
 //	}
-	//printf("Packet Request Sent.\n");
+	printf("r_send");
 }
 
 void d_receive(Data buffer[]) {
@@ -87,8 +86,7 @@ void d_receive(Data buffer[]) {
 		printf("d_receive failed. Error: %d\n", WSAGetLastError());
 		//exit(EXIT_FAILURE);
 	}
-	//printf("===========================================================================\n");
-
+	printf("d_receive\n");
 }
 
 void d_send(Data* buffer) {
@@ -97,6 +95,7 @@ void d_send(Data* buffer) {
 		printf("d_send failed. Error: %d\n", WSAGetLastError());
 		//exit(EXIT_FAILURE);
 	}
+	printf("d_send\n");
 }
 
 void set_server() {
