@@ -501,7 +501,12 @@ main(int argc, char *argv[]) {
 				case 0:			// MENU
 					select = (select > 3) ? 3 : select;
 					select = (select < 0) ? 0 : select;
-					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0, "         SINGLE-PLAYER");
+					multiState = 0;
+					if(host == true){
+						al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0, "         RETURN TO GAME");
+					}else{
+						al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0, "         SINGLE-PLAYER");
+					}
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0, "         MULTI-PLAYER  ");
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0, "         UPGRADE  ");
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 175, 0, "         QUIT  ");
@@ -539,7 +544,7 @@ main(int argc, char *argv[]) {
 						memset(data, '\0', BUFLEN);
 						p = object_search(0);
 						for(i = 0; i < BUFLEN / sizeof(Data); i++) {
-								if ( (p->type != background) || (p->type != header) ) {
+								if ( (p->type != background) && (p->type != header) ) {
 									data[i].img_i = p->img_i;
 									data[i].type = p->type;
 									data[i].x = p->x;
@@ -673,6 +678,8 @@ main(int argc, char *argv[]) {
 					if (keys[KEY_ENTER]) {
 						game_reset();
 						gameState = 0;
+						multiState = 0;
+						host = 0;
 						for(i = 0; i < sizeof(UPGRADE) / (sizeof(UPGRADE[0])); i++) {
 							UPGRADE[i] = 1;
 						}
