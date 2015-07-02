@@ -556,3 +556,23 @@ int object_find(char s[]) {
 	}
 	return 0;
 }
+bool player_alive(){
+	Object *p;
+	for(p = &object_head; (p != NULL); p = p->next) {
+		if((p->type == player) || (p->type == player2)){
+			return 1;
+		}
+	}
+	return 0;
+}
+
+void game_reset(){
+	Object *p;
+	PLAYER_COUNT = 0;
+	SCORE = 0;
+	for(p = &object_head; (p != NULL); p = p->next) {
+		if(enemy_all(p->type)){
+			p = object_del(p);
+		}
+	}
+}

@@ -44,7 +44,7 @@ main(int argc, char *argv[]) {
 	char* inPkt;
 	Data data[BUFLEN / sizeof(Data)];
 
-	Object* p = object_search(header);
+	Object* p = object_search(0);
 
 	initialization();
 	srand((unsigned) time(NULL)); // Uncertainty principle
@@ -155,11 +155,6 @@ main(int argc, char *argv[]) {
 
 	background_add(0, 0);
 	background_add(0, -DISPLAY_H);
-
-	//initializes 2 players
-	p = player_add("Ronaldo", 5, 12);
-	//player_add(p,"Sprites/sperm_0L.png");
-	p = object_search(1);
 
 	Object normal;
 	normal.type = bullet;
@@ -289,6 +284,11 @@ main(int argc, char *argv[]) {
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
+
+	//initializes players
+	p = player_add("Ronaldo", 5, 12);
+	//player_add(p,"Sprites/sperm_0L.png");
+	p = object_search(1);
 
 	al_start_timer(timer);
 	while (!quit) {
@@ -525,6 +525,9 @@ main(int argc, char *argv[]) {
 				case 1:
 					background_draw();
 					object_draw();
+					if(!player_alive()){
+						gameState = 5;
+					}
 					p = object_search(1);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0, "         LIFE: %d ", p->life);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 350, 0, "         SCORE: %d ", get_score());
@@ -662,6 +665,24 @@ main(int argc, char *argv[]) {
 				case 4:
 					quit = true;
 				break;
+				case 5:
+					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0, "         GAME OVER");
+					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0, "         PRESS ENTER TO CONTINUE");
+					if (keys[KEY_ENTER]) {
+						game_reset();
+						gameState = 0;
+						for(i = 0; i < sizeof(UPGRADE) / (sizeof(UPGRADE[0])); i++) {
+							UPGRADE[i] = 1;
+						}
+						UPGRADE[0] = (UPGRADE[0] > 10) ? 10 : UPGRADE[0];
+						bulletFreq = 10 - (UPGRADE[0] - 1);
+						normal.life = -UPGRADE[1];
+						bullet_type = UPGRADE[2];
+						DNA_spent = 0;
+						p = player_add("Ronaldo", 5, 12);
+						keys[KEY_ENTER] = false;
+					}
+					break;
 			}
 			//object_track();
 

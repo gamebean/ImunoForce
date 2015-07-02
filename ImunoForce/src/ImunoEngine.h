@@ -79,13 +79,14 @@ Mask *mask_create(int, int);
 Mask *mask_new(ALLEGRO_BITMAP *);
 void mask_clear(Mask *);
 void mask_draw(Mask *, int, int);
-void object_track();
 int anim(Object *object, int frame_delay, int vector_size);
 void object_anim();
 int get_score();
 int enemy_count();
 int object_find(char[]);
-
+bool player_alive();
+void game_reset();
+void object_track();
 #ifdef __linux__
 void strcpy_s(char[], int, char[]);
 #endif
