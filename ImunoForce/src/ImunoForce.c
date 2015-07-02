@@ -94,7 +94,7 @@ main(int argc, char *argv[]) {
 	sprites[player2][F_R] = al_load_bitmap("Sprites/Ship2F_R.png");
 
 
-	sprites[player2][B_L] = al_load_bitmap("Sprites/ShipB_L.png");
+	/*sprites[player2][B_L] = al_load_bitmap("Sprites/ShipB_L.png");
 	sprites[player2][B_C] = al_load_bitmap("Sprites/ShipB_C.png");
 	sprites[player2][B_R] = al_load_bitmap("Sprites/ShipB_R.png");
 	sprites[player2][S_L] = al_load_bitmap("Sprites/ShipS_L.png");
@@ -102,7 +102,7 @@ main(int argc, char *argv[]) {
 	sprites[player2][S_R] = al_load_bitmap("Sprites/ShipS_R.png");
 	sprites[player2][F_L] = al_load_bitmap("Sprites/ShipF_L.png");
 	sprites[player2][F_C] = al_load_bitmap("Sprites/ShipF_C.png");
-	sprites[player2][F_R] = al_load_bitmap("Sprites/ShipF_R.png");
+	sprites[player2][F_R] = al_load_bitmap("Sprites/ShipF_R.png");*/
 
 //	sprites[enemy][0] = al_load_bitmap("Sprites/Seeker0.png");
 //	sprites[enemy][1] = al_load_bitmap("Sprites/Seeker1.png");
@@ -607,7 +607,7 @@ main(int argc, char *argv[]) {
 								set_client();
 								isSet = true;
 								p = object_search(1);
-								p = object_del(1);
+								p = object_del(p);
 							}
 
 							r_send(keys);

@@ -30,15 +30,14 @@ void server_initialise() {
 	printf("Initialised.\n");
 	struct timeval tv;
 
-	tv.tv_sec = 0;  /* 30 Secs Timeout */
-	tv.tv_usec = 100000;  // Not init'ing this can cause strange errors
+	//tv.tv_sec = 0;  /* 30 Secs Timeout */
+	//tv.tv_usec = 100000;  // Not init'ing this can cause strange errors
 	// Create a Socket
 	if ((sckt = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET)
 		printf("socket() Error. Code: %d\n", WSAGetLastError());
 
-	setsockopt(sckt, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv,sizeof(struct timeval));
+	//setsockopt(sckt, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv,sizeof(struct timeval));
 	printf("Socket Created.\n");
-
 }
 
 void r_receive(bool keys[]) {
@@ -46,13 +45,14 @@ void r_receive(bool keys[]) {
 	int i;
 	memset(keys, '\0', 9);
 
-	printf("Waiting for Request... ");
+	//printf("Waiting for Request... ");
 	if ((recv_len = recvfrom(sckt, keys, 9, 0, (struct sockaddr*) &si_other, &slen)) >= 0) {
 
 	}else{
 		for(i = 0; i < 9; i++){
 			keys[i] = false;
 		}
+		printf("r_receive failed. Error: %d\n", WSAGetLastError());
 	}
 
 	//return buffer;
@@ -61,15 +61,15 @@ void r_receive(bool keys[]) {
 void r_send(bool keys[]) {
 
 	if (sendto(sckt, keys, 9, 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
-		printf("sendto() failed with error code : %d\n", WSAGetLastError());
-		exit(EXIT_FAILURE);
+		printf("r_send failed. Error: %d\n", WSAGetLastError());
+		//exit(EXIT_FAILURE);
 	}
 //	if (sendto(sckt, "Packet Request", strlen("Packet Request"), 0, (struct sockaddr *) &si_other, slen) == SOCKET_ERROR)
 //	{
 //		printf("sendto() failed with error code : %d", WSAGetLastError());
 //		exit(EXIT_FAILURE);
 //	}
-	printf("Packet Request Sent.\n");
+	//printf("Packet Request Sent.\n");
 }
 
 void d_receive(Data buffer[]) {
@@ -78,24 +78,23 @@ void d_receive(Data buffer[]) {
 	memset(buffer, '\0', BUFLEN); // Clear buffer
 
 	if (recvfrom(sckt, buffer, BUFLEN, 0, (struct sockaddr *) &si_other, &slen) >= 0) { // Receive data
-		for (i = 0; i < 90; i++) {
+		/*for (i = 0; i < 90; i++) {
 			if (buffer[i].type != 0 || buffer[i].img_i != 0 || buffer[i].x != 0 || buffer[i].y != 0)
 				printf(" x: %d\n y: %d\n type: %d\n img_i: %d\n", buffer[i].x, buffer[i].y, buffer[i].type, buffer[i].img_i);
-		}
+		}*/
 
 	}else{
-		printf("recvfrom() failed with error code : %d\n", WSAGetLastError());
-		if (WSAGetLastError() != 10060);
-			//exit(EXIT_FAILURE);
+		printf("d_receive failed. Error: %d\n", WSAGetLastError());
+		//exit(EXIT_FAILURE);
 	}
-	printf("===========================================================================\n");
+	//printf("===========================================================================\n");
 
 }
 
 void d_send(Data* buffer) {
 	//printf("x: %d\ny: %d\ntype: %d\nimg_i: %d\n", buffer[0].x, buffer[0].y, buffer[0].type, buffer[0].img_i);
 	if (sendto(sckt, buffer, BUFLEN, 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
-		printf("sendto() Error. Code: %d\n", WSAGetLastError());
+		printf("d_send failed. Error: %d\n", WSAGetLastError());
 		//exit(EXIT_FAILURE);
 	}
 }
