@@ -116,14 +116,7 @@ main(int argc, char *argv[]) {
 	sprites[enemy][0] = al_load_bitmap("Sprites/Virus2.png");
 
 
-	sprites[enemy_b][0] = al_load_bitmap("Sprites/Seeker0.png");
-	sprites[enemy_b][1] = al_load_bitmap("Sprites/Seeker1.png");
-	sprites[enemy_b][2] = al_load_bitmap("Sprites/Seeker2.png");
-	sprites[enemy_b][3] = al_load_bitmap("Sprites/Seeker3.png");
-	sprites[enemy_b][4] = al_load_bitmap("Sprites/Seeker4.png");
-	sprites[enemy_b][5] = al_load_bitmap("Sprites/Seeker5.png");
-	sprites[enemy_b][6] = al_load_bitmap("Sprites/Seeker6.png");
-	sprites[enemy_b][7] = al_load_bitmap("Sprites/Seeker7.png");
+	sprites[enemy_b][0] = al_load_bitmap("Sprites/Virus3.png");
 
 	sprites[enemy_c][0] = al_load_bitmap("Sprites/Virus1-1.png");
 	sprites[enemy_c][1] = al_load_bitmap("Sprites/Virus1-2.png");
@@ -153,11 +146,8 @@ main(int argc, char *argv[]) {
 
 	masks[enemy][0] = mask_new(sprites[enemy][0]);
 	
-
-	for(i = 0; i < 8; i++) {
-		masks[enemy_b][i] = mask_new(sprites[enemy_b][i]);
-		printf("Creating enemy_b mask n%d\n", i + 1);
-	}
+	masks[enemy_b][0] = mask_new(sprites[enemy_b][0]);
+	
 	for (i = 0; i < 4; i++) {
 		masks[enemy_c][i] = mask_new(sprites[enemy_c][i]);
 		printf("Creating enemy_c mask n%d\n", i + 1);
@@ -265,7 +255,7 @@ main(int argc, char *argv[]) {
 	strcpy_s(enemies[1].String, sizeof(enemies[1].String), "Seeker");	// defines if its a seeker or not (1 yes 0 no)
 
 	enemies[2].type = enemy_b;
-	enemies[2].vector_size = 8;
+	enemies[2].vector_size = 1;
 	enemies[2].frame_delay = 5;
 	enemies[2].img_i = 0;
 	enemies[2].height = al_get_bitmap_height(sprites[enemies[2].type][enemies[2].img_i]);
@@ -352,8 +342,8 @@ main(int argc, char *argv[]) {
 					case 2:
 						if (!object_find("Wall")) {
 							for(i = 0; i < 50; i++) {
-								enemy_add(enemies[2], offset - 180, -50 - 30 * i);
-								enemy_add(enemies[2], offset + 180, -50 - 30 * i);
+								enemy_add(enemies[2], offset - 180, -50 - 50 * i);
+								enemy_add(enemies[2], offset + 180, -50 - 50 * i);
 							}
 						}
 
