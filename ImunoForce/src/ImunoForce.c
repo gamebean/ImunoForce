@@ -271,7 +271,7 @@ main(int argc, char *argv[]) {
 			quit = true;
 		}
 
-		if ((ev.type == ALLEGRO_EVENT_TIMER) && ((gameState == 1) || multiState == 1)) {
+		if (ev.type == ALLEGRO_EVENT_TIMER && gameState==1) {
 			//	FRAME COUNT
 			frame = (frame >= 60) ? 1 : frame + 1;
 
