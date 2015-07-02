@@ -30,13 +30,13 @@ void server_initialise() {
 	printf("Initialised.\n");
 	struct timeval tv;
 
-	//tv.tv_sec = 1;  /* 30 Secs Timeout */
-	//tv.tv_usec = 100000;  // Not init'ing this can cause strange errors
+	tv.tv_sec = 0;  /* 30 Secs Timeout */
+	tv.tv_usec = 100000;  // Not init'ing this can cause strange errors
 	// Create a Socket
 	if ((sckt = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET)
 		printf("socket() Error. Code: %d\n", WSAGetLastError());
 
-	//setsockopt(sckt, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv,sizeof(struct timeval));
+	setsockopt(sckt, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv,sizeof(struct timeval));
 	printf("Socket Created.\n");
 }
 

@@ -17,11 +17,11 @@
 
 
 typedef struct {
-	int type;
-	int x;
-	int y;
-	int img_i;
-	int dir;
+	char type : 4;
+	int x : 11;
+	int y : 12;
+	char img_i : 5;
+	bool dir;
 }Data;
 
 

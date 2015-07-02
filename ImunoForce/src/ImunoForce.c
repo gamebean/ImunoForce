@@ -308,8 +308,10 @@ main(int argc, char *argv[]) {
 
 			//	MOVEMENT
 			p = object_search(1);
-			p->vy += 0.8 * keys[KEY_DOWN] - 0.8 * keys[KEY_UP];
-			p->vx += 0.8 * keys[KEY_RIGHT] - 0.8 * keys[KEY_LEFT];
+			if (p != NULL) {
+				p->vy += 0.8 * keys[KEY_DOWN] - 0.8 * keys[KEY_UP];
+				p->vx += 0.8 * keys[KEY_RIGHT] - 0.8 * keys[KEY_LEFT];
+			}
 
 			p = object_search(2);
 			if(p != NULL){
