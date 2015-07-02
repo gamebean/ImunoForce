@@ -567,6 +567,8 @@ main(int argc, char *argv[]) {
 							if (!isSet) {
 								set_client();
 								isSet = true;
+								p = object_search(1);
+								p = object_del(1);
 							}
 
 							r_send(keys);

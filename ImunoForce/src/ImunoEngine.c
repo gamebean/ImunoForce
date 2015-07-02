@@ -67,12 +67,20 @@ Object *
 player_add(char player_name[], int frame_delay, int vector_size) {
 	PLAYER_COUNT++;
 	Object *p;
-
-	p = object_add(player, PLAYER_COUNT);
+	switch(PLAYER_COUNT) {
+		case 1:
+			p = object_add(player, PLAYER_COUNT);
+			p->height = al_get_bitmap_height(sprites[player][p->img_i]);
+			p->width = al_get_bitmap_width(sprites[player][p->img_i]);
+		break;
+		case 2:
+			p = object_add(player2, PLAYER_COUNT);
+			p->height = al_get_bitmap_height(sprites[player2][p->img_i]);
+			p->width = al_get_bitmap_width(sprites[player2][p->img_i]);
+		break;
+	}
 	p->img_delay = 0;
 	p->img_i = 0;
-	p->height = al_get_bitmap_height(sprites[player][p->img_i]);
-	p->width = al_get_bitmap_width(sprites[player][p->img_i]);
 	p->life = 3;
 
 	p->frame_delay = frame_delay;
@@ -160,17 +168,18 @@ object_colision() {
 	for(p = &object_head; (p != NULL); p = p->next) {
 		test: switch(p->type) {
 			case player:
+			case player2:
 				if (p->y <= 0) {
 					p->y = 0;
 					//keys[KEY_UP] = false;
-				}else if (p->y >= DISPLAY_H - p->height) {
+				} else if (p->y >= DISPLAY_H - p->height) {
 					p->y = DISPLAY_H - p->height;
 					//keys[KEY_DOWN] = false;
 				}
 				if (p->x <= 0) {
 					p->x = 0;
 					//keys[KEY_LEFT] = false;
-				}else if (p->x >= DISPLAY_W - p->width) {
+				} else if (p->x >= DISPLAY_W - p->width) {
 					p->x = DISPLAY_W - p->width;
 					//keys[KEY_RIGHT] = false;
 				}
@@ -180,7 +189,7 @@ object_colision() {
 			break;
 
 			case bullet:
-				if ((p->y < 0)||p->y > DISPLAY_H + p->height) {
+				if ((p->y < 0) || p->y > DISPLAY_H + p->height) {
 					p = object_del(p);
 					goto test;
 				}
@@ -198,18 +207,18 @@ object_colision() {
 							for(y = top; y < bottom; y++) {
 								if ((masks[p->type][p->img_i])->bits[(int) (x - p->x)][(int) (y - p->y)] == 1
 										&& (masks[ob->type][ob->img_i])->bits[(int) (x - ob->x)][(int) (y - ob->y)] == 1) {
-										bullet_life = p->life;
-										bullet_life += ob->life;
+									bullet_life = p->life;
+									bullet_life += ob->life;
 
-										ob->life += p->life;
-										p->life = bullet_life;
-										if (ob->life < 0) {
-											ob = object_del(ob);
-											SCORE++;
-										}
-										if (p->life >= 0) {
-											p = object_del(p);
-										}
+									ob->life += p->life;
+									p->life = bullet_life;
+									if (ob->life < 0) {
+										ob = object_del(ob);
+										SCORE++;
+									}
+									if (p->life >= 0) {
+										p = object_del(p);
+									}
 									goto test;
 								}
 							}
@@ -218,31 +227,32 @@ object_colision() {
 				}
 			break;
 			case_enemy_all
-				if (p->y > DISPLAY_H + 50) {
-					p = object_del(p);
-					goto test;
-				}
-				for(ob = &object_head; (ob != NULL); ob = ob->next) {
-					//ob = object_search(p_count);
-					if ((ob->type == player)) {
+			if(p->y > DISPLAY_H + 50)
+			{
+				p = object_del(p);
+				goto test;
+			}
+			for(ob = &object_head; (ob != NULL); ob = ob->next) {
+				//ob = object_search(p_count);
+				if ((ob->type == player) || (ob->type == player2)) {
 
-						top = (p->y > ob->y) ? p->y : ob->y;
-						bottom = (p->y + p->height < ob->y + p->height) ? p->y + p->height : ob->y + ob->height;
-						left = (p->x > ob->x) ? p->x : ob->x;
-						right = (p->x + p->width < ob->x + ob->width) ? p->x + p->width : ob->x + ob->width;
+					top = (p->y > ob->y) ? p->y : ob->y;
+					bottom = (p->y + p->height < ob->y + p->height) ? p->y + p->height : ob->y + ob->height;
+					left = (p->x > ob->x) ? p->x : ob->x;
+					right = (p->x + p->width < ob->x + ob->width) ? p->x + p->width : ob->x + ob->width;
 
-						for(x = left; x < right; x++) {
-							for(y = top; y < bottom; y++) {
-								if ((masks[p->type][p->img_i])->bits[(int) (x - p->x)][(int) (y - p->y)] == 1
-										&& (masks[ob->type][ob->img_i])->bits[(int) (x - ob->x)][(int) (y - ob->y)] == 1) {
-									p = object_del(p);
-									ob->life += -1;
-									goto test;
-								}
+					for(x = left; x < right; x++) {
+						for(y = top; y < bottom; y++) {
+							if ((masks[p->type][p->img_i])->bits[(int) (x - p->x)][(int) (y - p->y)] == 1
+									&& (masks[ob->type][ob->img_i])->bits[(int) (x - ob->x)][(int) (y - ob->y)] == 1) {
+								p = object_del(p);
+								ob->life += -1;
+								goto test;
 							}
 						}
 					}
 				}
+			}
 			break;
 		}
 	}
@@ -253,8 +263,8 @@ void *
 object_draw() {
 	Object *p;
 	for(p = &object_head; (p != NULL); p = p->next) {
-		if (p != &object_head && p->type !=background) {
-			al_draw_bitmap(sprites[p->type][p->img_i], (int)p->x, (int)p->y, p->dir);
+		if (p != &object_head && p->type != background) {
+			al_draw_bitmap(sprites[p->type][p->img_i], (int) p->x, (int) p->y, p->dir);
 			//mask_draw(masks[p->type][p->img_i],p->x,p->y);
 		}
 
@@ -265,9 +275,9 @@ object_draw() {
 void background_draw() {
 	Object *p;
 
-	for (p = &object_head; p != NULL; p = p->next) {
+	for(p = &object_head; p != NULL; p = p->next) {
 		if (p->type == background) {
-			al_draw_bitmap(sprites[p->type][p->img_i], (int)p->x, (int)p->y, 0);
+			al_draw_bitmap(sprites[p->type][p->img_i], (int) p->x, (int) p->y, 0);
 		}
 	}
 }
@@ -279,6 +289,7 @@ void *object_move() {
 	for(p = &object_head; (p != NULL); p = p->next) {
 		switch(p->type) {
 			case player:
+			case player2:
 				p->x += p->vx;
 				p->y += p->vy;
 				if (p->vx > vel_max)
@@ -304,32 +315,32 @@ void *object_move() {
 
 			case_enemy_all
 
-				if (!strcmp(p->String, "Seeker")) {
-					pl = object_search(1);
-					if (pl != NULL) {
-						dx = (pl->x - p->x) / 10;
-						dy = (pl->y - p->y) / 10;
-						p->vx += (dx > 0) ? ((dx * dx) / 300 < 0.3) ? (dx * dx) / 300 : 0.3 : ((dx * dx) / 300 < 0.3) ? -(dx * dx) / 300 : -0.3;
-						p->vy += (float) dy / 100;
-					}
-
-					if (p->vx > e_vel_max)
-						p->vx = e_vel_max;
-					if (p->vy > e_vel_max)
-						p->vy = e_vel_max;
-					if (p->vx < -e_vel_max)
-						p->vx = -e_vel_max;
-					if (p->vy < -e_vel_max)
-						p->vy = -e_vel_max;
+if			(!strcmp(p->String, "Seeker")) {
+				pl = object_search(1);
+				if (pl != NULL) {
+					dx = (pl->x - p->x) / 10;
+					dy = (pl->y - p->y) / 10;
+					p->vx += (dx > 0) ? ((dx * dx) / 300 < 0.3) ? (dx * dx) / 300 : 0.3 : ((dx * dx) / 300 < 0.3) ? -(dx * dx) / 300 : -0.3;
+					p->vy += (float) dy / 100;
 				}
-				p->x += p->vx;
-				p->y += p->vy;
-				p->dir = (p->vx < 0) ? ALLEGRO_FLIP_HORIZONTAL : 0;
+
+				if (p->vx > e_vel_max)
+				p->vx = e_vel_max;
+				if (p->vy > e_vel_max)
+				p->vy = e_vel_max;
+				if (p->vx < -e_vel_max)
+				p->vx = -e_vel_max;
+				if (p->vy < -e_vel_max)
+				p->vy = -e_vel_max;
+			}
+			p->x += p->vx;
+			p->y += p->vy;
+			p->dir = (p->vx < 0) ? ALLEGRO_FLIP_HORIZONTAL : 0;
 			break;
 			case background:
-				p->y += p->vy;
-				if (p->y >= DISPLAY_H)
-					p->y = -DISPLAY_H;
+			p->y += p->vy;
+			if (p->y >= DISPLAY_H)
+			p->y = -DISPLAY_H;
 			break;
 			default:
 			break;
@@ -428,7 +439,7 @@ void object_track() {
 				b++;
 			break;
 			case_enemy_all
-				e++;
+			e++;
 			break;
 			default:
 			break;
@@ -475,6 +486,32 @@ void object_anim() {
 				if (keys[KEY_LEFT]) {			// LEFT
 					p->img_i = S_L;
 				} else if (keys[KEY_RIGHT]) {		// RIGHT
+					p->img_i = S_R;
+				} else {						// CENTER
+					p->img_i = S_C;
+				}
+			}
+		} else if (p->type == player2) {
+			if (keys2[KEY_UP]) {						// FORWARD
+				if (keys2[KEY_LEFT]) {			// LEFT
+					p->img_i = F_L;
+				} else if (keys[KEY_RIGHT]) {		//RIGHT
+					p->img_i = F_R;
+				} else {						// CENTER
+					p->img_i = F_C;
+				}
+			} else if (keys2[KEY_DOWN]) {				// BREAKE
+				if (keys2[KEY_LEFT]) {			// LEFT
+					p->img_i = B_L;
+				} else if (keys[KEY_RIGHT]) {		// RIGHT
+					p->img_i = B_R;
+				} else {						// CENTER
+					p->img_i = B_C;
+				}
+			} else {							// STAND
+				if (keys2[KEY_LEFT]) {			// LEFT
+					p->img_i = S_L;
+				} else if (keys2[KEY_RIGHT]) {		// RIGHT
 					p->img_i = S_R;
 				} else {						// CENTER
 					p->img_i = S_C;

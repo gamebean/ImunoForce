@@ -11,7 +11,7 @@
 
 typedef int Type;
 enum Types {
-	player, bullet, enemy, background, enemy_b, enemy_c, enemy_d, header
+	player, player2, bullet, enemy, background, enemy_b, enemy_c, enemy_d, header
 };
 
 enum {
