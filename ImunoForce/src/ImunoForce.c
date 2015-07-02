@@ -94,14 +94,14 @@ main(int argc, char *argv[]) {
 	sprites[player2][F_C] = al_load_bitmap("Sprites/ShipF_C.png");
 	sprites[player2][F_R] = al_load_bitmap("Sprites/ShipF_R.png");
 
-	sprites[enemy][0] = al_load_bitmap("Sprites/Seeker0.png");
-	sprites[enemy][1] = al_load_bitmap("Sprites/Seeker1.png");
-	sprites[enemy][2] = al_load_bitmap("Sprites/Seeker2.png");
-	sprites[enemy][3] = al_load_bitmap("Sprites/Seeker3.png");
-	sprites[enemy][4] = al_load_bitmap("Sprites/Seeker4.png");
-	sprites[enemy][5] = al_load_bitmap("Sprites/Seeker5.png");
-	sprites[enemy][6] = al_load_bitmap("Sprites/Seeker6.png");
-	sprites[enemy][7] = al_load_bitmap("Sprites/Seeker7.png");
+//	sprites[enemy][0] = al_load_bitmap("Sprites/Seeker0.png");
+//	sprites[enemy][1] = al_load_bitmap("Sprites/Seeker1.png");
+//	sprites[enemy][2] = al_load_bitmap("Sprites/Seeker2.png");
+//	sprites[enemy][3] = al_load_bitmap("Sprites/Seeker3.png");
+//	sprites[enemy][4] = al_load_bitmap("Sprites/Seeker4.png");
+//	sprites[enemy][5] = al_load_bitmap("Sprites/Seeker5.png");
+//	sprites[enemy][6] = al_load_bitmap("Sprites/Seeker6.png");
+//	sprites[enemy][7] = al_load_bitmap("Sprites/Seeker7.png");
 
 	sprites[enemy][0] = al_load_bitmap("Sprites/Virus2.png");
 
@@ -130,10 +130,10 @@ main(int argc, char *argv[]) {
 		masks[player2][i] = mask_new(sprites[player2][i]);
 		printf("Creating player2 mask n%d\n", i + 1);
 	}
-	for(i = 0; i < 8; i++) {
-		masks[enemy][i] = mask_new(sprites[enemy][i]);
-		printf("Creating enemy mask n%d\n", i + 1);
-	}
+//	for(i = 0; i < 8; i++) {
+//		masks[enemy][i] = mask_new(sprites[enemy][i]);
+//		printf("Creating enemy mask n%d\n", i + 1);
+//	}
 
 	masks[enemy][0] = mask_new(sprites[enemy][0]);
 	
@@ -287,7 +287,6 @@ main(int argc, char *argv[]) {
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 
 	al_start_timer(timer);
-
 	while (!quit) {
 		al_wait_for_event(event_queue, &ev);
 

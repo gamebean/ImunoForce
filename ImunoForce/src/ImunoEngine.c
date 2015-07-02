@@ -67,17 +67,20 @@ Object *
 player_add(char player_name[], int frame_delay, int vector_size) {
 	PLAYER_COUNT++;
 	Object *p;
-	p->img_delay = 0;
-	p->img_i = 0;
-	p->life = 3;
 	switch(PLAYER_COUNT) {
 		case 1:
 			p = object_add(player, PLAYER_COUNT);
+			p->img_delay = 0;
+			p->img_i = 0;
+			p->life = 3;
 			p->height = al_get_bitmap_height(sprites[player][p->img_i]);
 			p->width = al_get_bitmap_width(sprites[player][p->img_i]);
 		break;
 		case 2:
 			p = object_add(player2, PLAYER_COUNT);
+			p->img_delay = 0;
+			p->img_i = 0;
+			p->life = 3;
 			p->height = al_get_bitmap_height(sprites[player2][p->img_i]);
 			p->width = al_get_bitmap_width(sprites[player2][p->img_i]);
 		break;
