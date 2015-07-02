@@ -34,5 +34,15 @@ void initialization(){
 								   "al_init_primitives_addon() failed", NULL, 0);
 		exit(EXIT_FAILURE);
 	}
+	if (!al_init_font_addon()) {
+		al_show_native_message_box(NULL, NULL, NULL,
+								   "al_init_font_addon() failed", NULL, 0);
+		exit(EXIT_FAILURE);
+	}
+	if (!al_init_ttf_addon()) {
+		al_show_native_message_box(NULL, NULL, NULL,
+								   "al_init_ttf_addon() failed", NULL, 0);
+		exit(EXIT_FAILURE);
+	}
 }
 

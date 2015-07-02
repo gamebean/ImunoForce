@@ -47,6 +47,8 @@ main(int argc, char *argv[]) {
 	Object* p = object_search(0);
 
 	initialization();
+
+	ALLEGRO_FONT *arial_24 = al_load_font("arial.ttf", 24, 0);
 	srand((unsigned) time(NULL)); // Uncertainty principle
 	//creation(display, timer, event_queue);
 	display = al_create_display(DISPLAY_W, DISPLAY_H);
@@ -124,6 +126,9 @@ main(int argc, char *argv[]) {
 	sprites[background][0] = al_load_bitmap("Sprites/BackgroundB.png");
 	ALLEGRO_BITMAP *cursor = al_load_bitmap("Sprites/Select.png");
 
+	al_clear_to_color(al_map_rgb(0, 0, 0));
+	al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0, "         WE ARE LOADING BITCH!!!");
+	al_flip_display();
 
 	for(i = 0; i < 9; i++) {
 		masks[player][i] = mask_new(sprites[player][i]);
@@ -276,11 +281,8 @@ main(int argc, char *argv[]) {
 	enemies[4].vx = 0;
 	enemies[4].vy = 10;
 	enemies[4].life = 3;
-	strcpy_s(enemies[4].String, sizeof(enemies[4].String), "Shooter");	// defines if its a seeker or not (1 yes 0 no)v
+	strcpy_s(enemies[4].String, sizeof(enemies[4].String), "Shooter");	// defines if its a seeker or not (1 yes 0 no)
 
-	al_init_font_addon();
-	al_init_ttf_addon();
-	ALLEGRO_FONT *arial_24 = al_load_font("arial.ttf", 24, 0);
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
