@@ -83,14 +83,7 @@ main(int argc, char *argv[]) {
 	sprites[player][F_C] = al_load_bitmap("Sprites/ShipF_C.png");
 	sprites[player][F_R] = al_load_bitmap("Sprites/ShipF_R.png");
 
-	sprites[enemy][0] = al_load_bitmap("Sprites/Seeker0.png");
-	sprites[enemy][1] = al_load_bitmap("Sprites/Seeker1.png");
-	sprites[enemy][2] = al_load_bitmap("Sprites/Seeker2.png");
-	sprites[enemy][3] = al_load_bitmap("Sprites/Seeker3.png");
-	sprites[enemy][4] = al_load_bitmap("Sprites/Seeker4.png");
-	sprites[enemy][5] = al_load_bitmap("Sprites/Seeker5.png");
-	sprites[enemy][6] = al_load_bitmap("Sprites/Seeker6.png");
-	sprites[enemy][7] = al_load_bitmap("Sprites/Seeker7.png");
+	sprites[enemy][0] = al_load_bitmap("Sprites/Virus2.png");
 
 	sprites[enemy_b][0] = al_load_bitmap("Sprites/Seeker0.png");
 	sprites[enemy_b][1] = al_load_bitmap("Sprites/Seeker1.png");
@@ -111,15 +104,14 @@ main(int argc, char *argv[]) {
 		masks[player][i] = mask_new(sprites[player][i]);
 		printf("Creating player mask n%d\n", i + 1);
 	}
-	for(i = 0; i < 8; i++) {
-		masks[enemy][i] = mask_new(sprites[enemy][i]);
-		printf("Creating enemy mask n%d\n", i + 1);
-	}
+	masks[enemy][0] = mask_new(sprites[enemy][0]);
+	
 	for(i = 0; i < 8; i++) {
 		masks[enemy_b][i] = mask_new(sprites[enemy_b][i]);
 		printf("Creating enemy_b mask n%d\n", i + 1);
 	}
 	masks[enemy_c][0] = mask_new(sprites[enemy_c][0]);
+	
 	for(i = 0; i < 1; i++) {
 		masks[bullet][i] = mask_new(sprites[bullet][i]);
 		printf("Creating bullet mask n%d\n", i + 1);
@@ -200,8 +192,8 @@ main(int argc, char *argv[]) {
 	d_right.life = -1;
 
 	Object enemies[5];
-	enemies[0].type = enemy;
-	enemies[0].vector_size = 8;
+	enemies[0].type = enemy_c;
+	enemies[0].vector_size = 1;
 	enemies[0].frame_delay = 5;
 	enemies[0].img_i = 0;
 	enemies[0].height = al_get_bitmap_height(sprites[enemies[0].type][enemies[0].img_i]);
@@ -212,7 +204,7 @@ main(int argc, char *argv[]) {
 	strcpy_s(enemies[0].String, sizeof(enemies[0].String), "NonSeeker");	// defines if its a seeker or not (1 yes 0 no)
 
 	enemies[1].type = enemy;
-	enemies[1].vector_size = 8;
+	enemies[1].vector_size = 1;
 	enemies[1].frame_delay = 5;
 	enemies[1].img_i = 0;
 	enemies[1].height = al_get_bitmap_height(sprites[enemies[1].type][enemies[1].img_i]);
