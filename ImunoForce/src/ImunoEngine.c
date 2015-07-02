@@ -180,11 +180,11 @@ object_colision() {
 					p->y = DISPLAY_H - p->height;
 					//keys[KEY_DOWN] = false;
 				}
-				if (p->x <= 0) {
-					p->x = 0;
+				if (p->x <= 25) {
+					p->x = 25;
 					//keys[KEY_LEFT] = false;
-				} else if (p->x >= DISPLAY_W - p->width) {
-					p->x = DISPLAY_W - p->width;
+				} else if (p->x >= DISPLAY_W - p->width- 25) {
+					p->x = DISPLAY_W - p->width -25;
 					//keys[KEY_RIGHT] = false;
 				}
 				if (p->life <= 0) {
