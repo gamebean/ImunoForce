@@ -311,8 +311,8 @@ main(int argc, char *argv[]) {
 					case 2:
 						if (!object_find("Wall")) {
 							for(i = 0; i < 50; i++) {
-								enemy_add(enemies[2], offset - 200, -50 - 30 * i);
-								enemy_add(enemies[2], offset + 200, -50 - 30 * i);
+								enemy_add(enemies[2], offset - 180, -50 - 30 * i);
+								enemy_add(enemies[2], offset + 180, -50 - 30 * i);
 							}
 						}
 
