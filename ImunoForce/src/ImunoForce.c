@@ -133,6 +133,8 @@ main(int argc, char *argv[]) {
 	sprites[bullet][0] = al_load_bitmap("Sprites/bullet3.png");
 
 	sprites[background][0] = al_load_bitmap("Sprites/BackgroundB.png");
+	ALLEGRO_BITMAP *cursor = al_load_bitmap("Sprites/Select.png");
+
 
 	for(i = 0; i < 9; i++) {
 		masks[player][i] = mask_new(sprites[player][i]);
@@ -510,6 +512,7 @@ main(int argc, char *argv[]) {
 		if (al_is_event_queue_empty(event_queue)) {
 			int cost[sizeof(UPGRADE) / (sizeof(UPGRADE[0]))];
 			DNA_points = get_score() - DNA_spent;
+			int width, height;
 			switch(gameState) {
 				case 0:			// MENU
 					select = (select > 3) ? 3 : select;
@@ -518,7 +521,10 @@ main(int argc, char *argv[]) {
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0, "         MULTI-PLAYER  ");
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0, "         UPGRADE  ");
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 175, 0, "         QUIT  ");
-					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
+					width = al_get_bitmap_width(cursor);
+					height = al_get_bitmap_height(cursor);
+					al_draw_scaled_bitmap(cursor,0,0,width,height,120, 100 + 25*select ,width*0.8,height*0.8,0);
+					//al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
 
 					if (keys[KEY_UP] * UP) {
 						select += -1;
@@ -576,7 +582,10 @@ main(int argc, char *argv[]) {
 							select = (select < 0) ? 0 : select;
 							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0, "         HOST");
 							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0, "         JOIN  ");
-							al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
+							width = al_get_bitmap_width(cursor);
+							height = al_get_bitmap_height(cursor);
+							al_draw_scaled_bitmap(cursor,0,0,width,height,120, 100 + 25*select ,width*0.8,height*0.8,0);
+							//al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
 
 							if (keys[KEY_UP] * UP) {
 								select += -1;
@@ -630,7 +639,7 @@ main(int argc, char *argv[]) {
 					}
 				break;
 				case 3:
-					select = (select > sizeof(UPGRADE) / (sizeof(UPGRADE[0])) - 1) ? sizeof(UPGRADE) / (sizeof(UPGRADE[0])) - 1 : select;
+					select = (select > (sizeof(UPGRADE) / (sizeof(UPGRADE[0]))) - 1) ? (sizeof(UPGRADE) / (sizeof(UPGRADE[0]))) - 1 : select;
 					select = (select < 0) ? 0 : select;
 					cost[0] = UPGRADE[0] * 10;
 					cost[1] = UPGRADE[1] * 5;
@@ -639,7 +648,11 @@ main(int argc, char *argv[]) {
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100, 0, "         TRIGGER: %d", 11 - bulletFreq);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 125, 0, "         FORCE: %d", -normal.life);
 					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 150, 0, "         BULLET: %d", bullet_type);
-					al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
+					width = al_get_bitmap_width(cursor);
+					height = al_get_bitmap_height(cursor);
+					al_draw_scaled_bitmap(cursor,0,0,width,height,120, 100 + 25*select ,width*0.8,height*0.8,0);
+					//al_draw_bitmap(cursor,100,100 + 25*select,0);
+					//al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
 					for(i = 0; i < sizeof(UPGRADE) / (sizeof(UPGRADE[0])); i++) {
 						al_draw_textf(arial_24, al_map_rgb(242, 210, 99), 300, 100 + i * 25, 0, " %d ", cost[i]);
 					}
