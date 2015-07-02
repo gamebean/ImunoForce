@@ -4,15 +4,16 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
 
+typedef char Type;
+enum Types {
+	player, player2, bullet, enemy, background, enemy_b, enemy_c, enemy_d, header
+};
 
 #define enemy_all(x) (x == enemy || x == enemy_b || x == enemy_c || x == enemy_d)
 #define case_enemy_all case enemy: case enemy_b: case enemy_c: case enemy_d:
 
 
-typedef int Type;
-enum Types {
-	player, player2, bullet, enemy, background, enemy_b, enemy_c, enemy_d, header
-};
+
 
 enum {
 	B_L,
@@ -28,7 +29,7 @@ enum {
 
 typedef struct Mask_s {
 	int widht, height;
-	int **bits;
+	bool **bits ;
 } Mask;
 
 Mask *masks[header][20];
@@ -44,7 +45,7 @@ typedef struct {
 	float vx, vy;
 	int width, height;
 	int mask_i;
-	int dir;
+	bool dir;
 
 	//Animation variables
 	int img_i;
@@ -70,14 +71,14 @@ Object *enemy_add(Object, int, int);
 //Object *player_add(char[], char[]);
 //Object *bullet_add(Object, int);
 
-void *object_colision();
-void *object_draw();
+void object_colision();
+void object_draw();
 void background_draw();
-void *object_move();
+void object_move();
 Mask *mask_create(int, int);
 Mask *mask_new(ALLEGRO_BITMAP *);
-void *mask_clear(Mask *);
-void *mask_draw(Mask *, int, int);
+void mask_clear(Mask *);
+void mask_draw(Mask *, int, int);
 void object_track();
 int anim(Object *object, int frame_delay, int vector_size);
 void object_anim();

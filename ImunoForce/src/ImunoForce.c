@@ -35,7 +35,6 @@ main(int argc, char *argv[]) {
 
 	bool isSet = false;
 	bool quit = false;
-	bool draw = false;
 	int host = false;
 	int gameState = 0;
 	int multiState = 0;
@@ -46,7 +45,6 @@ main(int argc, char *argv[]) {
 	Data data[BUFLEN / sizeof(Data)];
 
 	Object* p = object_search(header);
-	Object* bllt = object_search(header);
 
 	initialization();
 	srand((unsigned) time(NULL)); // Uncertainty principle
@@ -70,8 +68,6 @@ main(int argc, char *argv[]) {
 	}
 
 	server_initialise();
-
-	Mask *b = mask_new(al_load_bitmap("Sprites/sperm_0S.png"));
 
 	sprites[player][B_L] = al_load_bitmap("Sprites/Ship1B_L.png");
 	sprites[player][B_C] = al_load_bitmap("Sprites/Ship1B_C.png");
@@ -308,16 +304,12 @@ main(int argc, char *argv[]) {
 
 			//	MOVEMENT
 			p = object_search(1);
-			if (p != NULL) {
 				p->vy += 0.8 * keys[KEY_DOWN] - 0.8 * keys[KEY_UP];
 				p->vx += 0.8 * keys[KEY_RIGHT] - 0.8 * keys[KEY_LEFT];
-			}
 
 			p = object_search(2);
-			if(p != NULL){
 				p->vy += 0.8 * keys2[KEY_DOWN] - 0.8 * keys2[KEY_UP];
 				p->vx += 0.8 * keys2[KEY_RIGHT] - 0.8 * keys2[KEY_LEFT];
-			}
 			// ADD enemy
 			int offset = rand() % 400 + 200;
 			int enemy_rand = rand() % 2;
@@ -409,7 +401,6 @@ main(int argc, char *argv[]) {
 				break;
 			}
 			p = object_search(2);
-			if(p != NULL){
 			switch(bullet_type * shoot_enable2) {
 				case 3:
 					bullet_add(d_normal, object_search(2));
@@ -424,7 +415,6 @@ main(int argc, char *argv[]) {
 				break;
 				default:
 				break;
-			}
 			}
 
 			//anim(p, 5, p_sprites, p_masks, 12);
@@ -542,11 +532,9 @@ main(int argc, char *argv[]) {
 					if(host == true){
 						// DATA WRITE
 						memset(data, '\0', BUFLEN);
-						p = object_search(1);
-						//p = p->next;
+						p = object_search(0);
 						for(i = 0; i < BUFLEN / sizeof(Data); i++) {
-							if (p != NULL) {
-								if (p->type != background) {
+								if ( (p->type != background) || (p->type != header) ) {
 									data[i].img_i = p->img_i;
 									data[i].type = p->type;
 									data[i].x = p->x;
@@ -556,7 +544,6 @@ main(int argc, char *argv[]) {
 								} else if (p->type == background) {
 									p = p->next;
 								}
-							}
 						}
 
 

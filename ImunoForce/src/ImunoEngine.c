@@ -10,12 +10,13 @@ const int e_vel_max = 3;
 int PLAYER_COUNT = 0;
 int SCORE = 0;
 
-Object object_head = { 0, header, "header" };
+Object object_head = { 0, header, "header",0,0,0,0,0,0,0,0,0,0,0,0,0 };
 
 Object *object_add(Type t, int tag) {
 	Object *p;
 	Object *a;
 	p = (Object *) malloc(sizeof(Object)); /*Aloca p na memoria*/
+	memset(p, '\0', sizeof(p));
 	p->tag = tag;
 	p->next = NULL;
 	p->type = t;
@@ -38,7 +39,7 @@ object_search(int tag) {
 	Object *a;
 	for(a = &object_head; a->tag != tag; a = a->next) {
 		if (a->next == NULL)
-			return NULL;
+			return &object_head;
 	}
 	return a;
 }
@@ -59,7 +60,7 @@ object_del(Object *a) {
 		free(a);
 		return prev;
 	} else {
-		return NULL;
+		return &object_head;
 	}
 }
 
@@ -85,7 +86,7 @@ player_add(char player_name[], int frame_delay, int vector_size) {
 			p->width = al_get_bitmap_width(sprites[player2][p->img_i]);
 		break;
 		default:
-			exit(EXIT_FAILURE);
+			printf("Player Illegal tentando acessar a partida\n");
 			break;
 	}
 
@@ -164,13 +165,12 @@ background_add(int x, int y) {
 	return bg;
 }
 
-void *
+void
 object_colision() {
 	Object *p;
 	Object *ob;
 	int x, y;
 	int top, bottom, left, right;
-	int p_count;
 	int bullet_life;
 	for(p = &object_head; (p != NULL); p = p->next) {
 		test: switch(p->type) {
@@ -263,10 +263,9 @@ object_colision() {
 			break;
 		}
 	}
-	return 0;
 }
 
-void *
+void
 object_draw() {
 	Object *p;
 	for(p = &object_head; (p != NULL); p = p->next) {
@@ -276,7 +275,6 @@ object_draw() {
 		}
 
 	}
-	return 0;
 }
 
 void background_draw() {
@@ -289,7 +287,7 @@ void background_draw() {
 	}
 }
 
-void *object_move() {
+void object_move() {
 	Object *p;
 	Object *pl;
 	float dx, dy;
@@ -353,7 +351,6 @@ if			(!strcmp(p->String, "Seeker")) {
 			break;
 		}
 	}
-	return 0;
 }
 
 Mask *
@@ -392,9 +389,9 @@ mask_create(int width, int height) {
 	temp->widht = width;
 	temp->height = height;
 
-	temp->bits = (int **) malloc(width * sizeof(int *));
+	temp->bits = (bool **) malloc(width * sizeof(bool *));
 	for(i = 0; i < width; i++) {
-		temp->bits[i] = (int *) malloc(height * sizeof(int));
+		temp->bits[i] = (bool *) malloc(height * sizeof(bool));
 	}
 
 	if (!temp)
@@ -404,7 +401,7 @@ mask_create(int width, int height) {
 
 }
 
-void *
+void
 mask_clear(Mask *m) {
 	int x, y;
 	for(x = 0; x < m->widht; x++) {
@@ -412,10 +409,9 @@ mask_clear(Mask *m) {
 			m->bits[x][y] = 0;
 		}
 	}
-	return 0;
 }
 
-void *
+void
 mask_draw(Mask *temp, int x, int y) {
 	int j, k;
 	for(j = 0; j < temp->widht; j++) {
@@ -424,7 +420,6 @@ mask_draw(Mask *temp, int x, int y) {
 				al_put_pixel(x + j, y + k, al_map_rgba_f(0.75, 0, 0.75, 0.75));
 		}
 	}
-	return 0;
 }
 
 void object_track() {
