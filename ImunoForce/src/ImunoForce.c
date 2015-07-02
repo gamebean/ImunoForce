@@ -73,15 +73,25 @@ main(int argc, char *argv[]) {
 
 	Mask *b = mask_new(al_load_bitmap("Sprites/sperm_0S.png"));
 
-	sprites[player][B_L] = al_load_bitmap("Sprites/ShipB_L.png");
-	sprites[player][B_C] = al_load_bitmap("Sprites/ShipB_C.png");
-	sprites[player][B_R] = al_load_bitmap("Sprites/ShipB_R.png");
-	sprites[player][S_L] = al_load_bitmap("Sprites/ShipS_L.png");
-	sprites[player][S_C] = al_load_bitmap("Sprites/ShipS_C.png");
-	sprites[player][S_R] = al_load_bitmap("Sprites/ShipS_R.png");
-	sprites[player][F_L] = al_load_bitmap("Sprites/ShipF_L.png");
-	sprites[player][F_C] = al_load_bitmap("Sprites/ShipF_C.png");
-	sprites[player][F_R] = al_load_bitmap("Sprites/ShipF_R.png");
+	sprites[player][B_L] = al_load_bitmap("Sprites/Ship1B_L.png");
+	sprites[player][B_C] = al_load_bitmap("Sprites/Ship1B_C.png");
+	sprites[player][B_R] = al_load_bitmap("Sprites/Ship1B_R.png");
+	sprites[player][S_L] = al_load_bitmap("Sprites/Ship1S_L.png");
+	sprites[player][S_C] = al_load_bitmap("Sprites/Ship1S_C.png");
+	sprites[player][S_R] = al_load_bitmap("Sprites/Ship1S_R.png");
+	sprites[player][F_L] = al_load_bitmap("Sprites/Ship1F_L.png");
+	sprites[player][F_C] = al_load_bitmap("Sprites/Ship1F_C.png");
+	sprites[player][F_R] = al_load_bitmap("Sprites/Ship1F_R.png");
+
+	sprites[player2][B_L] = al_load_bitmap("Sprites/Ship2B_L.png");
+	sprites[player2][B_C] = al_load_bitmap("Sprites/Ship2B_C.png");
+	sprites[player2][B_R] = al_load_bitmap("Sprites/Ship2B_R.png");
+	sprites[player2][S_L] = al_load_bitmap("Sprites/Ship2S_L.png");
+	sprites[player2][S_C] = al_load_bitmap("Sprites/Ship2S_C.png");
+	sprites[player2][S_R] = al_load_bitmap("Sprites/Ship2S_R.png");
+	sprites[player2][F_L] = al_load_bitmap("Sprites/Ship2F_L.png");
+	sprites[player2][F_C] = al_load_bitmap("Sprites/Ship2F_C.png");
+	sprites[player2][F_R] = al_load_bitmap("Sprites/Ship2F_R.png");
 
 
 	sprites[player2][B_L] = al_load_bitmap("Sprites/ShipB_L.png");
@@ -115,7 +125,10 @@ main(int argc, char *argv[]) {
 	sprites[enemy_b][6] = al_load_bitmap("Sprites/Seeker6.png");
 	sprites[enemy_b][7] = al_load_bitmap("Sprites/Seeker7.png");
 
-	sprites[enemy_c][0] = al_load_bitmap("Sprites/Virus1.png");
+	sprites[enemy_c][0] = al_load_bitmap("Sprites/Virus1-1.png");
+	sprites[enemy_c][1] = al_load_bitmap("Sprites/Virus1-2.png");
+	sprites[enemy_c][2] = al_load_bitmap("Sprites/Virus1-3.png");
+	sprites[enemy_c][3] = al_load_bitmap("Sprites/Virus1-4.png");
 
 	sprites[bullet][0] = al_load_bitmap("Sprites/bullet3.png");
 
@@ -123,6 +136,7 @@ main(int argc, char *argv[]) {
 
 	for(i = 0; i < 9; i++) {
 		masks[player][i] = mask_new(sprites[player][i]);
+		masks[player2][i] = masks[player][i];
 		printf("Creating player mask n%d\n", i + 1);
 	}
 
@@ -142,8 +156,10 @@ main(int argc, char *argv[]) {
 		masks[enemy_b][i] = mask_new(sprites[enemy_b][i]);
 		printf("Creating enemy_b mask n%d\n", i + 1);
 	}
-	masks[enemy_c][0] = mask_new(sprites[enemy_c][0]);
-	
+	for (i = 0; i < 4; i++) {
+		masks[enemy_c][i] = mask_new(sprites[enemy_c][i]);
+		printf("Creating enemy_c mask n%d\n", i + 1);
+	}
 	for(i = 0; i < 1; i++) {
 		masks[bullet][i] = mask_new(sprites[bullet][i]);
 		printf("Creating bullet mask n%d\n", i + 1);
@@ -225,8 +241,8 @@ main(int argc, char *argv[]) {
 
 	Object enemies[5];
 	enemies[0].type = enemy_c;
-	enemies[0].vector_size = 1;
-	enemies[0].frame_delay = 5;
+	enemies[0].vector_size = 4;
+	enemies[0].frame_delay = 7;
 	enemies[0].img_i = 0;
 	enemies[0].height = al_get_bitmap_height(sprites[enemies[0].type][enemies[0].img_i]);
 	enemies[0].width = al_get_bitmap_width(sprites[enemies[0].type][enemies[0].img_i]);
@@ -258,8 +274,8 @@ main(int argc, char *argv[]) {
 	strcpy_s(enemies[2].String, sizeof(enemies[2].String), "Wall");
 
 	enemies[3].type = enemy_c;
-	enemies[3].vector_size = 1;
-	enemies[3].frame_delay = 5;
+	enemies[3].vector_size = 4;
+	enemies[3].frame_delay = 7;
 	enemies[3].img_i = 0;
 	enemies[3].height = al_get_bitmap_height(sprites[enemies[3].type][enemies[3].img_i]);
 	enemies[3].width = al_get_bitmap_width(sprites[enemies[3].type][enemies[3].img_i]);
