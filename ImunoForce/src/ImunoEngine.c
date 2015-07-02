@@ -84,6 +84,9 @@ player_add(char player_name[], int frame_delay, int vector_size) {
 			p->height = al_get_bitmap_height(sprites[player2][p->img_i]);
 			p->width = al_get_bitmap_width(sprites[player2][p->img_i]);
 		break;
+		default:
+			exit(EXIT_FAILURE);
+			break;
 	}
 
 
