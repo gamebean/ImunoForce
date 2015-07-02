@@ -83,6 +83,16 @@ main(int argc, char *argv[]) {
 	sprites[player][F_C] = al_load_bitmap("Sprites/ShipF_C.png");
 	sprites[player][F_R] = al_load_bitmap("Sprites/ShipF_R.png");
 
+	sprites[player2][B_L] = al_load_bitmap("Sprites/ShipB_L.png");
+	sprites[player2][B_C] = al_load_bitmap("Sprites/ShipB_C.png");
+	sprites[player2][B_R] = al_load_bitmap("Sprites/ShipB_R.png");
+	sprites[player2][S_L] = al_load_bitmap("Sprites/ShipS_L.png");
+	sprites[player2][S_C] = al_load_bitmap("Sprites/ShipS_C.png");
+	sprites[player2][S_R] = al_load_bitmap("Sprites/ShipS_R.png");
+	sprites[player2][F_L] = al_load_bitmap("Sprites/ShipF_L.png");
+	sprites[player2][F_C] = al_load_bitmap("Sprites/ShipF_C.png");
+	sprites[player2][F_R] = al_load_bitmap("Sprites/ShipF_R.png");
+
 	sprites[enemy][0] = al_load_bitmap("Sprites/Seeker0.png");
 	sprites[enemy][1] = al_load_bitmap("Sprites/Seeker1.png");
 	sprites[enemy][2] = al_load_bitmap("Sprites/Seeker2.png");
@@ -110,6 +120,10 @@ main(int argc, char *argv[]) {
 	for(i = 0; i < 9; i++) {
 		masks[player][i] = mask_new(sprites[player][i]);
 		printf("Creating player mask n%d\n", i + 1);
+	}
+	for(i = 0; i < 9; i++) {
+		masks[player2][i] = mask_new(sprites[player2][i]);
+		printf("Creating player2 mask n%d\n", i + 1);
 	}
 	for(i = 0; i < 8; i++) {
 		masks[enemy][i] = mask_new(sprites[enemy][i]);
