@@ -285,7 +285,7 @@ main(int argc, char *argv[]) {
 	strcpy_s(enemies[3].String, sizeof(enemies[3].String), "NonSeeker");	// defines if its a seeker or not (1 yes 0 no)
 
 	enemies[4].type = enemy;
-	enemies[4].vector_size = 8;
+	enemies[4].vector_size = 1;
 	enemies[4].frame_delay = 5;
 	enemies[4].img_i = 0;
 	enemies[4].height = al_get_bitmap_height(sprites[enemies[4].type][enemies[4].img_i]);
@@ -293,7 +293,7 @@ main(int argc, char *argv[]) {
 	enemies[4].vx = 0;
 	enemies[4].vy = 10;
 	enemies[4].life = 3;
-	strcpy_s(enemies[4].String, sizeof(enemies[4].String), "NonSeeker");	// defines if its a seeker or not (1 yes 0 no)v
+	strcpy_s(enemies[4].String, sizeof(enemies[4].String), "Shooter");	// defines if its a seeker or not (1 yes 0 no)v
 
 	al_init_font_addon();
 	al_init_ttf_addon();
@@ -370,8 +370,8 @@ main(int argc, char *argv[]) {
 			}
 
 			if (keys[KEY_1] * dead) {
-				enemy_add(enemies[2], rand() % 540, -50);
-				enemy_add(enemies[3], rand() % 540, -50);
+				enemy_add(enemies[1], rand() % 540, -50);
+				//enemy_add(enemies[3], rand() % 540, -50);
 				dead = 0;
 			}
 			if (keys[KEY_2] * monkey) {
