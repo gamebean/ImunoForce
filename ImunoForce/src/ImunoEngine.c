@@ -14,6 +14,7 @@ int SCORE = 0;
 
 Object object_head = { 0, header, "header",0,0,0,0,0,0,0,0,0,0,0,0,0 };
 
+//Add`s an object in to the list
 Object *object_add(Type t, int tag) {
 	Object *p;
 	Object *a;
@@ -36,6 +37,7 @@ Object *object_add(Type t, int tag) {
 	return p;
 }
 
+//Search for an object based on its tag
 Object *
 object_search(int tag) {
 	Object *a;
@@ -46,6 +48,7 @@ object_search(int tag) {
 	return a;
 }
 
+//Delete an object, and reconnect the list
 Object *
 object_del(Object *a) {
 	Object *prev;
@@ -66,6 +69,7 @@ object_del(Object *a) {
 	}
 }
 
+//Add a player in to the game
 Object *
 player_add(char player_name[], int frame_delay, int vector_size) {
 	PLAYER_COUNT++;
@@ -107,6 +111,7 @@ player_add(char player_name[], int frame_delay, int vector_size) {
 	return p;
 }
 
+//Add a bullet in to the game, based on its previous defined type
 Object *
 bullet_add(Object bullet_type_, Object *p) {
 	Object *bllt;
@@ -126,7 +131,7 @@ bullet_add(Object bullet_type_, Object *p) {
 
 	return bllt;
 }
-
+//Add an enemy in to the game, based on its previous defined type
 Object *
 enemy_add(Object enemy_type, int x, int y) {
 	int tag = -2;
@@ -170,6 +175,7 @@ background_add(int x, int y) {
 	return bg;
 }
 
+//Collide players with enemies and enemies with bullets
 void
 object_colision() {
 	Object *p;
@@ -268,6 +274,7 @@ object_colision() {
 	}
 }
 
+//Draw Players, Enemies and bullets
 void
 object_draw() {
 	Object *p;
@@ -289,6 +296,7 @@ void background_draw() {
 	}
 }
 
+//Move every object in the game (players, enemies, bullets and background)
 void object_move() {
 	Object *p;
 	Object *pl;
@@ -355,6 +363,7 @@ void object_move() {
 	}
 }
 
+//Creates a mask for pixel perfect collision
 Mask *
 mask_new(ALLEGRO_BITMAP *btm) {
 	Mask *temp;
@@ -381,6 +390,7 @@ mask_new(ALLEGRO_BITMAP *btm) {
 	return temp;
 }
 
+//Alloc`s Mask
 Mask *
 mask_create(int width, int height) {
 	int i;
@@ -400,6 +410,7 @@ mask_create(int width, int height) {
 }
 
 void
+//Set every bit to zero
 mask_clear(Mask *m) {
 	int x, y;
 	for(x = 0; x < m->widht; x++) {
@@ -409,6 +420,7 @@ mask_clear(Mask *m) {
 	}
 }
 
+//Draw the mask, DEBUG ONLY
 void
 mask_draw(Mask *temp, int x, int y) {
 	int j, k;
@@ -419,7 +431,7 @@ mask_draw(Mask *temp, int x, int y) {
 		}
 	}
 }
-
+//print every object in the list, DEBUG ONLY
 void object_track() {
 	Object *p;
 	system("cls");
@@ -452,6 +464,7 @@ void object_track() {
 	}
 }
 
+//Animate a single object
 int anim(Object *object, int frame_delay, int vector_size) {
 	if (object->img_delay++ >= frame_delay) {
 		object->img_delay = 0;
@@ -461,7 +474,7 @@ int anim(Object *object, int frame_delay, int vector_size) {
 		return -1;
 	}
 }
-
+//Animate every object that has animations
 void object_anim() {
 	Object *p;
 	for(p = &object_head; (p != NULL); p = p->next) {
@@ -532,6 +545,7 @@ void strcpy_s(char a[], int b, char c[]) {
 int get_score() {
 	return SCORE;
 }
+//Counts the number of enemies in the game
 int enemy_count() {
 	Object *p;
 	int e = 0;
@@ -544,7 +558,7 @@ int enemy_count() {
 	}
 	return e;
 }
-
+//Find if there is an object with that name, return 1 if it finds one
 int object_find(char s[]) {
 	Object *p;
 
@@ -556,6 +570,7 @@ int object_find(char s[]) {
 	return 0;
 }
 
+//Check if there is an player alive
 bool player_alive(){
 	Object *p;
 	for(p = &object_head; (p != NULL); p = p->next) {
@@ -566,6 +581,7 @@ bool player_alive(){
 	return 0;
 }
 
+// reset the main variables, delete the enemies...
 void game_reset(){
 	Object *p;
 	PLAYER_COUNT = 0;
@@ -577,6 +593,7 @@ void game_reset(){
 	}
 }
 
+// destroy every object in the list, including the header
 void list_destroy(){
 	Object *p, *o;
 		for(p = &object_head; (p != NULL); p = p->next) {
@@ -586,6 +603,7 @@ void list_destroy(){
 		}
 }
 
+//Draw the loading screen
 void draw_loading(float pctg, ALLEGRO_FONT* font) {
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 	switch ((int)(pctg / 6.25) % 6){
@@ -616,7 +634,7 @@ void draw_loading(float pctg, ALLEGRO_FONT* font) {
 
 	al_flip_display();
 }
-
+//Keyboard input method for getting the IP
 void keyboard_read(ALLEGRO_EVENT evento, char ip[], int str_len)
 {
     if (evento.type == ALLEGRO_EVENT_KEY_CHAR)
@@ -652,6 +670,7 @@ void keyboard_read(ALLEGRO_EVENT evento, char ip[], int str_len)
     }
 }
 
+//Load the sprites
 void engine_init(){
 	memset(sprites,'\0',sizeof(sprites));
 

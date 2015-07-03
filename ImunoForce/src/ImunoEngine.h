@@ -1,11 +1,11 @@
 //Object object_head = {0,header,NULL,NULL,NULL,NULL};
 
-// Define the possible types of object in the game
 #include <stdio.h>
 #include <allegro5/allegro.h>
-#include <allegro5/allegro_font.h>  // Biblioteca para utilização de fontes
+#include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 
+// Define the possible types of object in the game
 typedef char Type;
 enum Types {
 	background, player, player2, bullet, enemy, enemy_b, enemy_c, enemy_d, header
@@ -61,12 +61,11 @@ typedef struct {
 // Object manipulation functions
 Object *object_add(Type t, int); // Add an object of a certain type
 Object *object_search(int); // Finds an object based on its tag
-Object *object_del(Object *); // return 0 if successful, -1 if ocurrs an error
+Object *object_del(Object *);
 Object *player_add(char player_name[], int frame_delay, int vector_size);
 Object *bullet_add(Object, Object *);
 Object *enemy_add(Object, int, int);
 Object *background_add(int , int);
-
 
 void object_colision();
 void object_draw();

@@ -16,6 +16,7 @@ int recv_len, slen = sizeof(si_other);
 WSADATA wsa;
 #endif
 
+//Puts every data to be send in one unsigned char vector, grants cross platform compatibility
 void data_serialize(Data data[], unsigned char *buffer, GameVar var){
 	int i;
 	buffer[0] = var.gameState;
@@ -33,6 +34,8 @@ void data_serialize(Data data[], unsigned char *buffer, GameVar var){
 		buffer[i + 6] = (((data[i / DATA_SIZE].y + 50) >> 0) & 0xFF);
 	}
 }
+
+//Puts every data received back in to structures,  grants cross platform compatibility
 void data_deserialize(Data data[], unsigned char *buffer, GameVar *var){
 	int i;
 	var->gameState = buffer[0];
@@ -145,13 +148,3 @@ void set_client(char ip[]) {
 	si_other.sin_addr.s_addr = inet_addr(ip);
 #endif
 }
-
-
-
-
-
-
-
-
-
-
