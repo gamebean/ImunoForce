@@ -649,10 +649,12 @@ main(int argc, char *argv[]) {
 									//data_draw(data, sprites);
 									for(i = 0; i < BUFLEN / sizeof(Data); i++) {
 										if (&data[i] != NULL) {
+											if((data[i].type >= background) && (data[i].type <= header)){
 											if (data[i].type != header && data[i].type != background) {
 												//al_draw_bitmap(sprites[data[i].type][data[i].img_i], data[i].x, data[i].y, data[i].dir);
 												al_draw_filled_rectangle(data[i].x, data[i].y, data[i].x + 30, data[i].y + 30, al_map_rgb(255, 0, 255));
-											}										
+											}
+											}
 										}
 									}
 								break;
