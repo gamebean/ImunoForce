@@ -422,10 +422,10 @@ main(int argc, char *argv[]) {
 			//	FIRE
 			if (keys[KEY_SPACE] && bTrig == 10) {
 				shoot_enable = 1;
-				al_play_sample(shoot, 5, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
+				al_play_sample(shoot, 2, 0, 3, ALLEGRO_PLAYMODE_ONCE, 0);
 				bTrig = frame % bulletFreq;
 			} else if (keys[KEY_SPACE] && frame % bulletFreq == bTrig) {
-				al_play_sample(shoot, 5, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
+				al_play_sample(shoot, 2, 0, 3, ALLEGRO_PLAYMODE_ONCE, 0);
 				shoot_enable = 1;
 			} else if (!keys[KEY_SPACE]) {
 				bTrig = 10;
@@ -687,7 +687,12 @@ main(int argc, char *argv[]) {
 									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x, forigin_y, 0, "IP:%s ", ip);
 									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + 75, forigin_y + 1 * 25, 0, "> CONNECT ");
 									if (keys[KEY_ENTER]) {
-										join = 1;
+										if (strcmp(ip, "AIDS") == 0) {
+											gameState = 5;
+										}
+										else {
+											join = 1;
+										}
 										keys[KEY_ENTER] = false;
 									}
 								break;
