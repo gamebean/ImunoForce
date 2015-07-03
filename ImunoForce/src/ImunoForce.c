@@ -559,15 +559,14 @@ main(int argc, char *argv[]) {
 					if(host == true){
 						// DATA WRITE
 						memset(data, '\0', BUFLEN);
-						for(i = 0,p = object_search(0); (i < BUFLEN / sizeof(Data)) && (p != NULL); i++, p = p->next) {
+						for(i = 0,p = object_search(0); (i < BUFLEN / sizeof(Data)) && (p != NULL); p = p->next) {
 								if ( (p->type != background) && (p->type != header) ) {
 									data[i].img_i = p->img_i;
 									data[i].type = p->type;
 									data[i].x = p->x;
 									data[i].y = p->y;
 									data[i].dir = p->dir;
-							}else{
-								i--;
+									i++;
 							}
 						}
 
