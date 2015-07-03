@@ -112,15 +112,15 @@ void set_server() {
 	puts("Bind done");
 }
 
-void set_client() {
+void set_client(char ip[]) {
 	//setup address structure
 	memset((char *)&si_other, 0, sizeof(si_other));
 	si_other.sin_family = AF_INET;
 	si_other.sin_port = htons(PORT);
 #ifndef __linux__
-	si_other.sin_addr.S_un.S_addr = inet_addr(SERVER);
+	si_other.sin_addr.S_un.S_addr = inet_addr(ip);
 #else
-	si_other.sin_addr.s_addr = inet_addr(SERVER);
+	si_other.sin_addr.s_addr = inet_addr(ip);
 #endif
 }
 

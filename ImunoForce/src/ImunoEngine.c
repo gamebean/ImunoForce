@@ -600,3 +600,39 @@ void draw_loading(float pctg, ALLEGRO_FONT* font) {
 
 	al_flip_display();
 }
+
+void keyboard_read(ALLEGRO_EVENT evento, char ip[], int str_len)
+{
+    if (evento.type == ALLEGRO_EVENT_KEY_CHAR)
+    {
+        if (strlen(ip) <= str_len)
+        {
+            char temp[] = {evento.keyboard.unichar, '\0'};
+            if ((evento.keyboard.unichar == ' ') || evento.keyboard.unichar == '.')
+            {
+                strcat(ip, temp);
+            }
+            else if (evento.keyboard.unichar >= '0' &&
+                     evento.keyboard.unichar <= '9')
+            {
+                strcat(ip, temp);
+            }
+            else if (evento.keyboard.unichar >= 'A' &&
+                     evento.keyboard.unichar <= 'Z')
+            {
+                strcat(ip, temp);
+            }
+            else if (evento.keyboard.unichar >= 'a' &&
+                     evento.keyboard.unichar <= 'z')
+            {
+                strcat(ip, temp);
+            }
+        }
+
+        if (evento.keyboard.keycode == ALLEGRO_KEY_BACKSPACE && strlen(ip) != 0)
+        {
+            ip[strlen(ip) - 1] = '\0';
+        }
+    }
+}
+

@@ -23,6 +23,7 @@ main(int argc, char *argv[]) {
 	int DNA_points = 0;
 	int DNA_spent = 0;
 	int UPGRADE[3];
+	char ip[15] = "";
 	//int upgrades = sizeof(UPGRADE) / (sizeof(UPGRADE[0]));
 	for(i = 0; i < sizeof(UPGRADE) / (sizeof(UPGRADE[0])); i++) {
 		UPGRADE[i] = 1;
@@ -36,9 +37,11 @@ main(int argc, char *argv[]) {
 	bool isSet = false;
 	bool quit = false;
 	int host = false;
+	int join = 0;
 	int gameState = 0;
 	int multiState = 0;
 	int select = 0;
+
 
 	char DOWN = 1, UP = 1, LEFT = 1, RIGHT = 1;
 	char* inPkt;
@@ -511,6 +514,8 @@ main(int argc, char *argv[]) {
 			int width, height;
 			switch(gameState) {
 				case 0:			// MENU
+					//scanf("%d",&a);
+
 					select = (select > 3) ? 3 : select;
 					select = (select < 0) ? 0 : select;
 					multiState = 0;
@@ -554,18 +559,14 @@ main(int argc, char *argv[]) {
 					if(host == true){
 						// DATA WRITE
 						memset(data, '\0', BUFLEN);
-						p = object_search(0);
-						for(i = 0; i < BUFLEN / sizeof(Data); i++) {
+						for(i = 0,p = object_search(0); (i < BUFLEN / sizeof(Data)) && (p != NULL); i++, p = p->next) {
 								if ( (p->type != background) && (p->type != header) ) {
 									data[i].img_i = p->img_i;
 									data[i].type = p->type;
 									data[i].x = p->x;
 									data[i].y = p->y;
 									data[i].dir = p->dir;
-									p = p->next;
-								} else if (p->type == background) {
-									p = p->next;
-								}
+							}
 						}
 
 
@@ -612,29 +613,43 @@ main(int argc, char *argv[]) {
 							gameState = 1;
 						break;
 						case 2:			// Join
-							background_draw();
-
-							if (!isSet) {
-								set_client();
-								isSet = true;
-								p = object_search(1);
-								p = object_del(p);
-							}
-
-							r_send(keys);
-
-							d_receive(data);
-
-							//al_draw_bitmap(sprites[data[0].type][data[0].img_i], data[0].x, data[0].y, 0);
-
-							//data_draw(data, sprites);
-							for(i = 0; i < BUFLEN / sizeof(Data); i++) {
-								if (&data[i] != NULL) {
-									if (data[i].type != header && data[i].type != background) {
-										al_draw_bitmap(sprites[data[i].type][data[i].img_i], data[i].x, data[i].y, data[i].dir);
+							switch(join){
+								case 0:
+									keyboard_read(ev, &ip, sizeof(ip));
+									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100, 100, 0, "         IP:%s ",ip);
+									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 175, 125, 0, "         > CONNECT ");
+									if (keys[KEY_ENTER]) {
+										join = 1;
+										keys[KEY_ENTER] = false;
 									}
-								}
+								break;
+								case 1:
+									background_draw();
+
+									if (!isSet) {
+										set_client(&ip);
+										isSet = true;
+										p = object_search(1);
+										p = object_del(p);
+									}
+
+									r_send(keys);
+
+									d_receive(data);
+									//al_draw_bitmap(sprites[data[0].type][data[0].img_i], data[0].x, data[0].y, 0);
+
+									//data_draw(data, sprites);
+									for(i = 0; i < BUFLEN / sizeof(Data); i++) {
+										if (&data[i] != NULL) {
+											if (data[i].type != header && data[i].type != background) {
+												al_draw_bitmap(sprites[data[i].type][data[i].img_i], data[i].x, data[i].y, data[i].dir);
+											}
+										}
+									}
+								break;
+
 							}
+
 
 						break;
 					}
@@ -646,12 +661,15 @@ main(int argc, char *argv[]) {
 					cost[1] = UPGRADE[1] * 5;
 					cost[2] = UPGRADE[2] * 20;
 
-					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 200, 100, 0, "TRIGGER: %d", 11 - bulletFreq);
-					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 200, 125, 0, "FORCE: %d", -normal.life);
-					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 200, 150, 0, "BULLET: %d", bullet_type);
 					width = al_get_bitmap_width(cursor);
 					height = al_get_bitmap_height(cursor);
-					al_draw_scaled_bitmap(cursor,0,0,width,height,120, 100 + 25*select ,width*0.8,height*0.8,0);
+
+					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100 + width, 100, 0, "TRIGGER: %d", 11 - bulletFreq);
+					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100 + width, 125, 0, "FORCE: %d", -normal.life);
+					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100 + width, 150, 0, "BULLET: %d", bullet_type);
+					width = al_get_bitmap_width(cursor);
+					height = al_get_bitmap_height(cursor);
+					al_draw_scaled_bitmap(cursor,0,0,width,height,100, 91 + 25*select ,width*0.8,height*0.8,0);
 					//al_draw_bitmap(cursor,100,100 + 25*select,0);
 					//al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
 					for(i = 0; i < sizeof(UPGRADE) / (sizeof(UPGRADE[0])); i++) {
