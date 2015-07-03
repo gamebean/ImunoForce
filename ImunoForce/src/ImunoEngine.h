@@ -6,7 +6,7 @@
 
 typedef char Type;
 enum Types {
-	player, player2, bullet, enemy, background, enemy_b, enemy_c, enemy_d, header
+	background, player, player2, bullet, enemy, enemy_b, enemy_c, enemy_d, header
 };
 
 #define enemy_all(x) (x == enemy || x == enemy_b || x == enemy_c || x == enemy_d)
@@ -92,3 +92,5 @@ void object_track();
 #ifdef __linux__
 void strcpy_s(char[], int, char[]);
 #endif
+
+void draw_loading(float pctg);

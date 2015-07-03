@@ -3,6 +3,8 @@
 #include <allegro5/allegro_primitives.h>
 #include <math.h>
 #include "AllegroDef.h"
+#include <allegro5/allegro_font.h>  // Biblioteca para utilização de fontes
+#include <allegro5/allegro_ttf.h>   // Biblioteca para utilização de fontes
 
 const int vel_max = 15;
 const int e_vel_max = 3;
@@ -68,6 +70,7 @@ Object *
 player_add(char player_name[], int frame_delay, int vector_size) {
 	PLAYER_COUNT++;
 	Object *p;
+	bool error=false;
 	switch(PLAYER_COUNT) {
 		case 1:
 			p = object_add(player, PLAYER_COUNT);
@@ -87,6 +90,7 @@ player_add(char player_name[], int frame_delay, int vector_size) {
 		break;
 		default:
 			printf("Player Illegal tentando acessar a partida\n");
+			exit(EXIT_FAILURE);
 			break;
 	}
 
@@ -584,4 +588,15 @@ void list_destroy(){
 		while(p != NULL){
 			p = object_del(p);
 		}
+}
+
+void draw_loading(float pctg, ALLEGRO_FONT* font) {
+	al_clear_to_color(al_map_rgb(0, 0, 0));
+
+	al_draw_text(font, al_map_rgb(255, 255, 255), 100, 100, 0, "WE ARE LOADING, BITCH!!!");
+
+	al_draw_filled_rectangle(DISPLAY_W / 4, DISPLAY_H / 2 - 30, DISPLAY_W / 4 + pctg * (2 * DISPLAY_W / 4)/100, DISPLAY_H / 2 + 30, al_map_rgb(255, 0, 0));
+	al_draw_rectangle(DISPLAY_W / 4, DISPLAY_H / 2 - 30, 3 * DISPLAY_W / 4, DISPLAY_H / 2 + 30, al_map_rgb(255, 255, 255), 5);
+
+	al_flip_display();
 }
