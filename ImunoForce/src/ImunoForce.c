@@ -566,6 +566,8 @@ main(int argc, char *argv[]) {
 									data[i].x = p->x;
 									data[i].y = p->y;
 									data[i].dir = p->dir;
+							}else{
+								i--;
 							}
 						}
 
