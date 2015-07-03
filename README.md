@@ -40,15 +40,16 @@ A game made for gamers by ~~gamers~~ Programmers
 						
 
 ## To Do
-* Enemies
-* Bullet Collision
-* Players
+* ~~Enemies~~
+* ~~Bullet Collision~~
+* ~~Players~~
 * ~~Coffee~~
-* Upgrade System
-* Pixel Perfect Collision
-* Bullet Hell
-* LAN Multiplayer
+* ~~Upgrade System~~
+* ~~Pixel Perfect Collision~~
+* ~~LAN Multiplayer~~
 * ~~Coffee~~
+* Present the Game
+* PARTY!
 
 ## Your Ideas
 Give us a hint of what you want in a shooter game!
