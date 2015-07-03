@@ -464,9 +464,8 @@ main(int argc, char *argv[]) {
 					keys[KEY_ENTER] = false;
 				break;
 				case ALLEGRO_KEY_ESCAPE:
-					if (gameState == 1) {
+					if (gameState == 1)
 						playMenuSong = true;
-					}
 					gameState = 0;
 				break;
 			}
@@ -609,10 +608,9 @@ main(int argc, char *argv[]) {
 									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + 75, forigin_y + 1 * 25, 0, "> CONNECT ");
 
 									if (keys[KEY_ENTER]) {
-
-										join = 1;
-
 										if (strcmp(ip, "AIDS") == 0) {
+											p = object_search(1);
+											p->life = 0;
 											gameState = 5;
 										}
 										else {
