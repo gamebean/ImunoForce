@@ -2,6 +2,7 @@
 #include <WinSock2.h>
 #pragma comment(lib, "ws2_32.lib")
 #else
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -17,7 +18,6 @@
 #define DATA_SIZE 7
 #define DATA_LENGHT (BUFLEN/DATA_SIZE)
 
-//#pragma pack(1)
 typedef struct {
 	char type;
 	int x;
@@ -31,8 +31,6 @@ typedef struct {
 	unsigned char life;
 	unsigned char dna;
 }GameVar;
-//#pragma pack(0)
-
 
 void server_initialise();
 void r_receive();
@@ -41,4 +39,3 @@ void d_receive(Data *,GameVar *);
 void d_send(Data *,GameVar);
 void set_server();
 void set_client();
-//void data_draw(Data , ALLEGRO_BITMAP* );

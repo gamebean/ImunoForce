@@ -99,7 +99,6 @@ player_add(char player_name[], int frame_delay, int vector_size) {
 	p->vector_size = vector_size;
 
 	strcpy_s(p->String, sizeof(p->String), player_name);
-	//strcpy(p->String, player_name);
 	p->vx = 0;
 	p->vy = 0;
 	p->x = DISPLAY_W / 2 - p->width / 2;
@@ -208,7 +207,6 @@ object_colision() {
 				}
 
 				for(ob = &object_head; (ob != NULL); ob = ob->next) {
-					//ob = object_search(p_count);
 					if (enemy_all(ob->type)) {
 
 						top = (p->y > ob->y) ? p->y : ob->y;
@@ -246,7 +244,6 @@ object_colision() {
 				goto test;
 			}
 			for(ob = &object_head; (ob != NULL); ob = ob->next) {
-				//ob = object_search(p_count);
 				if ((ob->type == player) || (ob->type == player2)) {
 
 					top = (p->y > ob->y) ? p->y : ob->y;
@@ -277,7 +274,6 @@ object_draw() {
 	for(p = &object_head; (p != NULL); p = p->next) {
 		if (p != &object_head && p->type != background) {
 			al_draw_bitmap(sprites[p->type][p->img_i], (int) p->x, (int) p->y, p->dir);
-			//mask_draw(masks[p->type][p->img_i],p->x,p->y);
 		}
 
 	}
@@ -326,7 +322,7 @@ void object_move() {
 
 			case_enemy_all
 
-if			(!strcmp(p->String, "Seeker")) {
+			if(!strcmp(p->String, "Seeker")) {
 				pl = object_search(1);
 				if (pl != NULL) {
 					dx = (pl->x - p->x) / 10;
@@ -366,9 +362,7 @@ mask_new(ALLEGRO_BITMAP *btm) {
 	int width = al_get_bitmap_width(btm);
 	int height = al_get_bitmap_height(btm);
 
-	//ALLEGRO_COLOR tansColor = al_map_rgb(0,0,0); //Bitmap Backgroud color
 	ALLEGRO_COLOR pixel;
-
 	temp = mask_create(width, height);
 
 	if (!temp)
@@ -384,7 +378,6 @@ mask_new(ALLEGRO_BITMAP *btm) {
 			}
 		}
 	}
-
 	return temp;
 }
 
@@ -404,7 +397,6 @@ mask_create(int width, int height) {
 		return NULL;
 
 	return temp;
-
 }
 
 void
@@ -552,6 +544,7 @@ int enemy_count() {
 	}
 	return e;
 }
+
 int object_find(char s[]) {
 	Object *p;
 
@@ -562,6 +555,7 @@ int object_find(char s[]) {
 	}
 	return 0;
 }
+
 bool player_alive(){
 	Object *p;
 	for(p = &object_head; (p != NULL); p = p->next) {
@@ -617,7 +611,6 @@ void draw_loading(float pctg, ALLEGRO_FONT* font) {
 			break;
 	}
 	
-
 	al_draw_filled_rectangle(DISPLAY_W / 4, DISPLAY_H / 2 - 30, DISPLAY_W / 4 + pctg * (2 * DISPLAY_W / 4)/100, DISPLAY_H / 2 + 30, al_map_rgb(255, 0, 0));
 	al_draw_rectangle(DISPLAY_W / 4, DISPLAY_H / 2 - 30, 3 * DISPLAY_W / 4, DISPLAY_H / 2 + 30, al_map_rgb(255, 255, 255), 5);
 
@@ -682,37 +675,13 @@ void engine_init(){
 		sprites[player2][F_C] = al_load_bitmap("Sprites/Ship2F_C.png");
 		sprites[player2][F_R] = al_load_bitmap("Sprites/Ship2F_R.png");
 
-		/*sprites[player2][B_L] = al_load_bitmap("Sprites/ShipB_L.png");
-		sprites[player2][B_C] = al_load_bitmap("Sprites/ShipB_C.png");
-		sprites[player2][B_R] = al_load_bitmap("Sprites/ShipB_R.png");
-		sprites[player2][S_L] = al_load_bitmap("Sprites/ShipS_L.png");
-		sprites[player2][S_C] = al_load_bitmap("Sprites/ShipS_C.png");
-		sprites[player2][S_R] = al_load_bitmap("Sprites/ShipS_R.png");
-		sprites[player2][F_L] = al_load_bitmap("Sprites/ShipF_L.png");
-		sprites[player2][F_C] = al_load_bitmap("Sprites/ShipF_C.png");
-		sprites[player2][F_R] = al_load_bitmap("Sprites/ShipF_R.png");*/
-
-	//	sprites[enemy][0] = al_load_bitmap("Sprites/Seeker0.png");
-	//	sprites[enemy][1] = al_load_bitmap("Sprites/Seeker1.png");
-	//	sprites[enemy][2] = al_load_bitmap("Sprites/Seeker2.png");
-	//	sprites[enemy][3] = al_load_bitmap("Sprites/Seeker3.png");
-	//	sprites[enemy][4] = al_load_bitmap("Sprites/Seeker4.png");
-	//	sprites[enemy][5] = al_load_bitmap("Sprites/Seeker5.png");
-	//	sprites[enemy][6] = al_load_bitmap("Sprites/Seeker6.png");
-	//	sprites[enemy][7] = al_load_bitmap("Sprites/Seeker7.png");
-
 		sprites[enemy][0] = al_load_bitmap("Sprites/Virus2.png");
-
-
 		sprites[enemy_b][0] = al_load_bitmap("Sprites/Virus3.png");
-
 		sprites[enemy_c][0] = al_load_bitmap("Sprites/Virus1-1.png");
 		sprites[enemy_c][1] = al_load_bitmap("Sprites/Virus1-2.png");
 		sprites[enemy_c][2] = al_load_bitmap("Sprites/Virus1-3.png");
 		sprites[enemy_c][3] = al_load_bitmap("Sprites/Virus1-4.png");
 
 		sprites[bullet][0] = al_load_bitmap("Sprites/bullet3.png");
-
 		sprites[background][0] = al_load_bitmap("Sprites/BackgroundB.png");
 }
-

@@ -2,8 +2,6 @@
 #include "Multiplayer.h"
 #include <allegro5/allegro.h>
 
-
-
 #ifdef __linux__
 #define SOCKET int
 #define INVALID_SOCKET -1
@@ -60,6 +58,7 @@ void server_initialise() {
 		exit(EXIT_FAILURE);
 	}
 #endif
+
 	printf("Initialised.\n");
 	struct timeval tv;
 
@@ -87,7 +86,6 @@ void r_receive(bool keys[]) {
 		printf("r_receive failed. Error: %d\n", WSAGetLastError());
 	}
 	printf("r_receive\n");
-	//return buffer;
 }
 
 void r_send(bool keys[]) {
@@ -96,11 +94,6 @@ void r_send(bool keys[]) {
 		printf("r_send failed. Error: %d\n", WSAGetLastError());
 		//exit(EXIT_FAILURE);
 	}
-//	if (sendto(sckt, "Packet Request", strlen("Packet Request"), 0, (struct sockaddr *) &si_other, slen) == SOCKET_ERROR)
-//	{
-//		printf("sendto() failed with error code : %d", WSAGetLastError());
-//		exit(EXIT_FAILURE);
-//	}
 	printf("r_send");
 }
 
@@ -110,15 +103,10 @@ void d_receive(Data buffer[], GameVar *var) {
 	memset(d, '\0', BUFLEN); // Clear buffer
 	//memset(buffer, '\0', BUFLEN);
 	if (recvfrom(sckt, d, BUFLEN, 0, (struct sockaddr *) &si_other, &slen) >= 0) { // Receive data
-		/*for (i = 0; i < 90; i++) {
-			if (buffer[i].type != 0 || buffer[i].img_i != 0 || buffer[i].x != 0 || buffer[i].y != 0)
-				printf(" x: %d\n y: %d\n type: %d\n img_i: %d\n", buffer[i].x, buffer[i].y, buffer[i].type, buffer[i].img_i);
-		}*/
 		data_deserialize(buffer, d, var);
 
 	}else{
 		printf("d_receive failed. Error: %d\n", WSAGetLastError());
-		//exit(EXIT_FAILURE);
 	}
 	printf("d_receive\n");
 }
@@ -126,10 +114,8 @@ void d_receive(Data buffer[], GameVar *var) {
 void d_send(Data* buffer, GameVar var) {
 	unsigned char d[BUFLEN];
 	data_serialize(buffer, d, var);
-	//printf("x: %d\ny: %d\ntype: %d\nimg_i: %d\n", buffer[0].x, buffer[0].y, buffer[0].type, buffer[0].img_i);
 	if (sendto(sckt, d, BUFLEN, 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
 		printf("d_send failed. Error: %d\n", WSAGetLastError());
-		//exit(EXIT_FAILURE);
 	}
 	printf("d_send\n");
 }
