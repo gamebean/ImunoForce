@@ -584,11 +584,15 @@ main(int argc, char *argv[]) {
 						case 0:			// Menu
 							select = (select > 1) ? 1 : select;
 							select = (select < 0) ? 0 : select;
-							al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 200, 100, 0, "HOST");
-							al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 200, 125, 0, "JOIN  ");
+
 							width = al_get_bitmap_width(cursor);
 							height = al_get_bitmap_height(cursor);
-							al_draw_scaled_bitmap(cursor,0,0,width,height,120, 100 + 25*select ,width*0.8,height*0.8,0);
+
+							al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100+width, 100, 0, "HOST");
+							al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100+width, 125, 0, "JOIN  ");
+							width = al_get_bitmap_width(cursor);
+							height = al_get_bitmap_height(cursor);
+							al_draw_scaled_bitmap(cursor,0,0,width,height,100, 100 + 25*select ,width*0.8,height*0.8,0);
 							//al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
 
 							if (keys[KEY_UP] * UP) {
