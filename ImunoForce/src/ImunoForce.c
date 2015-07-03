@@ -674,7 +674,7 @@ main(int argc, char *argv[]) {
 					height = al_get_bitmap_height(cursor);
 
 					// Draw Menus
-					al_draw_textf(pressstart_20, al_map_rgb(242, 210, 99), 600, 10, 0, "DNA: %d ", DNA_points);
+					al_draw_textf(pressstart_20, al_map_rgb(242, 210, 99), forigin_x-200, forigin_y, 0, "DNA: %d ", DNA_points);
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y, 0, "TRIGGER: %d", 11 - bulletFreq);
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y + 1 * 25, 0, "FORCE: %d", -normal.life);
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y + 2 * 25, 0, "BULLET: %d", bullet_type);
