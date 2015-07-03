@@ -62,6 +62,7 @@ main(int argc, char *argv[]) {
 	al_reserve_samples(10);
 
 	ALLEGRO_SAMPLE* sega_sound = al_load_sample("Sounds/GameBean.wav");
+	ALLEGRO_SAMPLE* shoot = al_load_sample("Sounds/Piu.wav");
 	ALLEGRO_SAMPLE* menu_sound = al_load_sample("Sounds/MenuSong.wav");
 	ALLEGRO_SAMPLE_ID* menu_sound_id = NULL;
 	ALLEGRO_SAMPLE* game_sound = al_load_sample("Sounds/GameSong.wav");
@@ -421,8 +422,10 @@ main(int argc, char *argv[]) {
 			//	FIRE
 			if (keys[KEY_SPACE] && bTrig == 10) {
 				shoot_enable = 1;
+				al_play_sample(shoot, 5, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
 				bTrig = frame % bulletFreq;
 			} else if (keys[KEY_SPACE] && frame % bulletFreq == bTrig) {
+				al_play_sample(shoot, 5, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
 				shoot_enable = 1;
 			} else if (!keys[KEY_SPACE]) {
 				bTrig = 10;

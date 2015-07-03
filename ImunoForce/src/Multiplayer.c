@@ -18,6 +18,39 @@ int recv_len, slen = sizeof(si_other);
 WSADATA wsa;
 #endif
 
+void data_serialize(Data data[], unsigned char *buffer, GameVar var){
+	int i;
+	buffer[0] = var.gameState;
+	buffer[1] = var.score;
+	buffer[2] = var.life;
+	buffer[3] = var.dna;
+
+	for (i = 4; (i < BUFLEN) && (i / DATA_SIZE < DATA_LENGHT); i += DATA_SIZE){
+		buffer[i + 0] = data[i / DATA_SIZE].dir;
+		buffer[i + 1] = data[i / DATA_SIZE].img_i;
+		buffer[i + 2] = data[i / DATA_SIZE].type;
+		buffer[i + 3] = (data[i / DATA_SIZE].x >> 8) & 0xFF;
+		buffer[i + 4] = (data[i / DATA_SIZE].x >> 0) & 0xFF;
+		buffer[i + 5] = ((data[i / DATA_SIZE].y + 50) >> 8) & 0xFF;
+		buffer[i + 6] = (((data[i / DATA_SIZE].y + 50) >> 0) & 0xFF);
+	}
+}
+void data_deserialize(Data data[], unsigned char *buffer, GameVar *var){
+	int i;
+	var->gameState = buffer[0];
+	var->score = buffer[1];
+	var->life = buffer[2];
+	var->dna = buffer[3];
+
+	for (i = 4; (i < BUFLEN) && (i / DATA_SIZE < DATA_LENGHT); i += DATA_SIZE){
+		data[i / DATA_SIZE].dir = buffer[i + 0];
+		data[i / DATA_SIZE].img_i = buffer[i + 1];
+		data[i / DATA_SIZE].type = buffer[i + 2];
+		data[i / DATA_SIZE].x = (((buffer[i + 3] << 8) | (buffer[i + 4] << 0)) & 0xFFFF);
+		data[i / DATA_SIZE].y = (((buffer[i + 5] << 8) | (buffer[i + 6] << 0)) & 0xFFFF) - 50;
+	}
+}
+
 void server_initialise() {
 	// Initialise winsock
 #ifndef __linux__
@@ -127,38 +160,7 @@ void set_client(char ip[]) {
 #endif
 }
 
-void data_serialize(Data data[], unsigned char *buffer, GameVar var){
-	int i;
-	buffer[0] = var.gameState;
-	buffer[1] = var.score;
-	buffer[2] = var.life;
-	buffer[3] = var.dna;
 
-	for(i = 4; (i < BUFLEN) && (i/DATA_SIZE < DATA_LENGHT); i += DATA_SIZE){
-		buffer[i+0] = data[i/DATA_SIZE].dir;
-		buffer[i+1] = data[i/DATA_SIZE].img_i;
-		buffer[i+2] = data[i/DATA_SIZE].type;
-		buffer[i+3] = (data[i/DATA_SIZE].x >> 8) & 0xFF;
-		buffer[i+4] = (data[i/DATA_SIZE].x >> 0) &0xFF;
-		buffer[i+5] = ((data[i/DATA_SIZE].y + 50) >> 8) & 0xFF;
-		buffer[i+6] = (((data[i/DATA_SIZE].y + 50) >> 0) & 0xFF);
-	}
-}
-void data_deserialize(Data data[], unsigned char *buffer, GameVar *var){
-	int i;
-	var->gameState = buffer[0];
-	var->score = buffer[1];
-	var->life = buffer[2];
-	var->dna = buffer[3];
-
-	for(i = 4; (i < BUFLEN) && (i/DATA_SIZE < DATA_LENGHT); i += DATA_SIZE){
-		data[i/DATA_SIZE].dir = buffer[i+0];
-		data[i/DATA_SIZE].img_i = buffer[i+1];
-		data[i/DATA_SIZE].type = buffer[i+2];
-		data[i/DATA_SIZE].x   = (((buffer[i+3] << 8) | (buffer[i+4] << 0)) &0xFFFF);
-		data[i/DATA_SIZE].y  = (((buffer[i+5] << 8) | (buffer[i+6] << 0)) &0xFFFF) -50;
-	}
-}
 
 
 
