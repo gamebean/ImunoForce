@@ -3,8 +3,8 @@
 #include <allegro5/allegro_primitives.h>
 #include <math.h>
 #include "AllegroDef.h"
-#include <allegro5/allegro_font.h>  // Biblioteca para utilização de fontes
-#include <allegro5/allegro_ttf.h>   // Biblioteca para utilização de fontes
+#include <allegro5/allegro_font.h>  // Biblioteca para utilizaï¿½ï¿½o de fontes
+#include <allegro5/allegro_ttf.h>   // Biblioteca para utilizaï¿½ï¿½o de fontes
 
 const int vel_max = 15;
 const int e_vel_max = 3;
@@ -657,5 +657,62 @@ void keyboard_read(ALLEGRO_EVENT evento, char ip[], int str_len)
             ip[strlen(ip) - 1] = '\0';
         }
     }
+}
+
+void engine_init(){
+	memset(sprites,'\0',sizeof(sprites));
+
+		sprites[player][B_L] = al_load_bitmap("Sprites/Ship1B_L.png");
+		sprites[player][B_C] = al_load_bitmap("Sprites/Ship1B_C.png");
+		sprites[player][B_R] = al_load_bitmap("Sprites/Ship1B_R.png");
+		sprites[player][S_L] = al_load_bitmap("Sprites/Ship1S_L.png");
+		sprites[player][S_C] = al_load_bitmap("Sprites/Ship1S_C.png");
+		sprites[player][S_R] = al_load_bitmap("Sprites/Ship1S_R.png");
+		sprites[player][F_L] = al_load_bitmap("Sprites/Ship1F_L.png");
+		sprites[player][F_C] = al_load_bitmap("Sprites/Ship1F_C.png");
+		sprites[player][F_R] = al_load_bitmap("Sprites/Ship1F_R.png");
+
+		sprites[player2][B_L] = al_load_bitmap("Sprites/Ship2B_L.png");
+		sprites[player2][B_C] = al_load_bitmap("Sprites/Ship2B_C.png");
+		sprites[player2][B_R] = al_load_bitmap("Sprites/Ship2B_R.png");
+		sprites[player2][S_L] = al_load_bitmap("Sprites/Ship2S_L.png");
+		sprites[player2][S_C] = al_load_bitmap("Sprites/Ship2S_C.png");
+		sprites[player2][S_R] = al_load_bitmap("Sprites/Ship2S_R.png");
+		sprites[player2][F_L] = al_load_bitmap("Sprites/Ship2F_L.png");
+		sprites[player2][F_C] = al_load_bitmap("Sprites/Ship2F_C.png");
+		sprites[player2][F_R] = al_load_bitmap("Sprites/Ship2F_R.png");
+
+		/*sprites[player2][B_L] = al_load_bitmap("Sprites/ShipB_L.png");
+		sprites[player2][B_C] = al_load_bitmap("Sprites/ShipB_C.png");
+		sprites[player2][B_R] = al_load_bitmap("Sprites/ShipB_R.png");
+		sprites[player2][S_L] = al_load_bitmap("Sprites/ShipS_L.png");
+		sprites[player2][S_C] = al_load_bitmap("Sprites/ShipS_C.png");
+		sprites[player2][S_R] = al_load_bitmap("Sprites/ShipS_R.png");
+		sprites[player2][F_L] = al_load_bitmap("Sprites/ShipF_L.png");
+		sprites[player2][F_C] = al_load_bitmap("Sprites/ShipF_C.png");
+		sprites[player2][F_R] = al_load_bitmap("Sprites/ShipF_R.png");*/
+
+	//	sprites[enemy][0] = al_load_bitmap("Sprites/Seeker0.png");
+	//	sprites[enemy][1] = al_load_bitmap("Sprites/Seeker1.png");
+	//	sprites[enemy][2] = al_load_bitmap("Sprites/Seeker2.png");
+	//	sprites[enemy][3] = al_load_bitmap("Sprites/Seeker3.png");
+	//	sprites[enemy][4] = al_load_bitmap("Sprites/Seeker4.png");
+	//	sprites[enemy][5] = al_load_bitmap("Sprites/Seeker5.png");
+	//	sprites[enemy][6] = al_load_bitmap("Sprites/Seeker6.png");
+	//	sprites[enemy][7] = al_load_bitmap("Sprites/Seeker7.png");
+
+		sprites[enemy][0] = al_load_bitmap("Sprites/Virus2.png");
+
+
+		sprites[enemy_b][0] = al_load_bitmap("Sprites/Virus3.png");
+
+		sprites[enemy_c][0] = al_load_bitmap("Sprites/Virus1-1.png");
+		sprites[enemy_c][1] = al_load_bitmap("Sprites/Virus1-2.png");
+		sprites[enemy_c][2] = al_load_bitmap("Sprites/Virus1-3.png");
+		sprites[enemy_c][3] = al_load_bitmap("Sprites/Virus1-4.png");
+
+		sprites[bullet][0] = al_load_bitmap("Sprites/bullet3.png");
+
+		sprites[background][0] = al_load_bitmap("Sprites/BackgroundB.png");
 }
 

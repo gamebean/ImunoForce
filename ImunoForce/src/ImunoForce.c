@@ -15,21 +15,14 @@
 
 //Object object_head = {0,header,NULL,NULL,NULL,NULL};
 main(int argc, char *argv[]) {
-	int frame = 1, bTrig = 10,bTrig2 = 10 , bulletFreq = 10, i,j;
-	int currentPlayer = 1;
-	int dead = 1;
-	int monkey = 1; // JUST FOR TEST
+	int frame = 1, bTrig = 10, bTrig2 = 10 , bulletFreq = 10, i,j;
 	int shoot_enable = 0;
 	int shoot_enable2 = 0;
 	int bullet_type = 1;
 	int DNA_points = 0;
 	int DNA_spent = 0;
-	int UPGRADE[3];
+	int UPGRADE[3] = {1, 1, 1};
 	char ip[15] = "127.0.0.1";
-	//int upgrades = sizeof(UPGRADE) / (sizeof(UPGRADE[0]));
-	for(i = 0; i < sizeof(UPGRADE) / (sizeof(UPGRADE[0])); i++) {
-		UPGRADE[i] = 1;
-	}
 
 	ALLEGRO_DISPLAY* display;
 	ALLEGRO_TIMER* timer;
@@ -40,27 +33,28 @@ main(int argc, char *argv[]) {
 	bool quit = false;
 	bool playMenuSong = false;
 	bool stopMenuSong = false;
+
 	int host = false;
 	int join = 0;
 	int gameState = 0;
 	int multiState = 0;
 	int select = 0;
 
+	char DOWN = 1, UP = 1, RIGHT = 1;
 
-	char DOWN = 1, UP = 1, LEFT = 1, RIGHT = 1;
-	char* inPkt;
+	//Multi-player variables
 	Data data[DATA_LENGHT];
 	GameVar var = {0,0,0,0};
 
-	Object* p = object_search(0);
+	Object* p = object_search(0); // p is used to access the objects in the list
 
+	//Initialize allegro addons
 	initialization();
 
-	ALLEGRO_FONT *arial_24 = al_load_font("arial.ttf", 24, 0);
 	ALLEGRO_FONT *pressstart_20 = al_load_font("PressStart2P.ttf", 20, 0);
 
+//SOUNDS
 	al_reserve_samples(10);
-
 	ALLEGRO_SAMPLE* sega_sound = al_load_sample("Sounds/GameBean.wav");
 	ALLEGRO_SAMPLE* shoot = al_load_sample("Sounds/Piu.wav");
 	ALLEGRO_SAMPLE* menu_sound = al_load_sample("Sounds/MenuSong.wav");
@@ -90,62 +84,8 @@ main(int argc, char *argv[]) {
 	}
 
 	server_initialise();
-	memset(sprites,'\0',sizeof(sprites));
+	engine_init();
 
-	sprites[player][B_L] = al_load_bitmap("Sprites/Ship1B_L.png");
-	sprites[player][B_C] = al_load_bitmap("Sprites/Ship1B_C.png");
-	sprites[player][B_R] = al_load_bitmap("Sprites/Ship1B_R.png");
-	sprites[player][S_L] = al_load_bitmap("Sprites/Ship1S_L.png");
-	sprites[player][S_C] = al_load_bitmap("Sprites/Ship1S_C.png");
-	sprites[player][S_R] = al_load_bitmap("Sprites/Ship1S_R.png");
-	sprites[player][F_L] = al_load_bitmap("Sprites/Ship1F_L.png");
-	sprites[player][F_C] = al_load_bitmap("Sprites/Ship1F_C.png");
-	sprites[player][F_R] = al_load_bitmap("Sprites/Ship1F_R.png");
-
-	sprites[player2][B_L] = al_load_bitmap("Sprites/Ship2B_L.png");
-	sprites[player2][B_C] = al_load_bitmap("Sprites/Ship2B_C.png");
-	sprites[player2][B_R] = al_load_bitmap("Sprites/Ship2B_R.png");
-	sprites[player2][S_L] = al_load_bitmap("Sprites/Ship2S_L.png");
-	sprites[player2][S_C] = al_load_bitmap("Sprites/Ship2S_C.png");
-	sprites[player2][S_R] = al_load_bitmap("Sprites/Ship2S_R.png");
-	sprites[player2][F_L] = al_load_bitmap("Sprites/Ship2F_L.png");
-	sprites[player2][F_C] = al_load_bitmap("Sprites/Ship2F_C.png");
-	sprites[player2][F_R] = al_load_bitmap("Sprites/Ship2F_R.png");
-
-
-	/*sprites[player2][B_L] = al_load_bitmap("Sprites/ShipB_L.png");
-	sprites[player2][B_C] = al_load_bitmap("Sprites/ShipB_C.png");
-	sprites[player2][B_R] = al_load_bitmap("Sprites/ShipB_R.png");
-	sprites[player2][S_L] = al_load_bitmap("Sprites/ShipS_L.png");
-	sprites[player2][S_C] = al_load_bitmap("Sprites/ShipS_C.png");
-	sprites[player2][S_R] = al_load_bitmap("Sprites/ShipS_R.png");
-	sprites[player2][F_L] = al_load_bitmap("Sprites/ShipF_L.png");
-	sprites[player2][F_C] = al_load_bitmap("Sprites/ShipF_C.png");
-	sprites[player2][F_R] = al_load_bitmap("Sprites/ShipF_R.png");*/
-
-//	sprites[enemy][0] = al_load_bitmap("Sprites/Seeker0.png");
-//	sprites[enemy][1] = al_load_bitmap("Sprites/Seeker1.png");
-//	sprites[enemy][2] = al_load_bitmap("Sprites/Seeker2.png");
-//	sprites[enemy][3] = al_load_bitmap("Sprites/Seeker3.png");
-//	sprites[enemy][4] = al_load_bitmap("Sprites/Seeker4.png");
-//	sprites[enemy][5] = al_load_bitmap("Sprites/Seeker5.png");
-//	sprites[enemy][6] = al_load_bitmap("Sprites/Seeker6.png");
-//	sprites[enemy][7] = al_load_bitmap("Sprites/Seeker7.png");
-
-	sprites[enemy][0] = al_load_bitmap("Sprites/Virus2.png");
-
-
-	sprites[enemy_b][0] = al_load_bitmap("Sprites/Virus3.png");
-
-	sprites[enemy_c][0] = al_load_bitmap("Sprites/Virus1-1.png");
-	sprites[enemy_c][1] = al_load_bitmap("Sprites/Virus1-2.png");
-	sprites[enemy_c][2] = al_load_bitmap("Sprites/Virus1-3.png");
-	sprites[enemy_c][3] = al_load_bitmap("Sprites/Virus1-4.png");
-
-	sprites[bullet][0] = al_load_bitmap("Sprites/bullet3.png");
-
-	sprites[background][0] = al_load_bitmap("Sprites/BackgroundB.png");
-	
 	ALLEGRO_BITMAP *cursor = al_load_bitmap("Sprites/Select.png");
 	ALLEGRO_BITMAP *menu = al_load_bitmap("Sprites/Menu 256color_2.png");
 	ALLEGRO_BITMAP *opening = al_load_bitmap("Sprites/Opening.png");
@@ -168,14 +108,15 @@ main(int argc, char *argv[]) {
 		al_flip_display();
 	}
 
-
+//Start loading screen
 	float l_pctg;
 	draw_loading(l_pctg=0, pressstart_20);
-
 	
+//Add background
 	background_add(0, 0);
 	background_add(0, -DISPLAY_H);
 
+//Define bullets and enemies characteristics
 	Object normal;
 	normal.type = bullet;
 	normal.vector_size = 1;
@@ -297,24 +238,16 @@ main(int argc, char *argv[]) {
 	enemies[4].vy = 10;
 	enemies[4].life = 3;
 	strcpy_s(enemies[4].String, sizeof(enemies[4].String), "Shooter");	// defines if its a seeker or not (1 yes 0 no)
+//All defined by here...
 
-
+//God we have things loading...
+//	Creating Masks for pixel perfect collision
 	for (i = 0; i < 9; i++) {
 		draw_loading(l_pctg+=6.25, pressstart_20);
 		masks[player][i] = mask_new(sprites[player][i]);
 		masks[player2][i] = masks[player][i];
 		printf("Creating player and player2 mask n%d\n", i + 1);
 	}
-
-	/*for (i = 0; i < 9; i++) {
-		masks[player2][i] = mask_new(sprites[player2][i]);
-		printf("Creating player2 mask n%d\n", i + 1);
-	}*/
-	//	for(i = 0; i < 8; i++) {
-	//		masks[enemy][i] = mask_new(sprites[enemy][i]);
-	//		printf("Creating enemy mask n%d\n", i + 1);
-	//	}
-
 	
 	draw_loading(l_pctg += 6.25, pressstart_20);
 	masks[enemy][0] = mask_new(sprites[enemy][0]);
@@ -322,29 +255,31 @@ main(int argc, char *argv[]) {
 	draw_loading(l_pctg += 6.25, pressstart_20);
 	masks[enemy_b][0] = mask_new(sprites[enemy_b][0]);
 	
-
 	for (i = 0; i < 4; i++) {
 		draw_loading(l_pctg += 6.25, pressstart_20);
 		masks[enemy_c][i] = mask_new(sprites[enemy_c][i]);
 		printf("Creating enemy_c mask n%d\n", i + 1);
 	}
 	draw_loading(l_pctg += 6.25, pressstart_20);
+	
 	masks[bullet][0] = mask_new(sprites[bullet][0]);
-	
 	printf("Creating bullet mask n%d\n", i + 1);
-
+// You better watch you pixels son...
 	
+//Allegro bureaucracy
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 
-	//initializes players
+//You will play with this guy
 	p = player_add("Ronaldo", 5, 12);
-	//player_add(p,"Sprites/sperm_0L.png");
-	p = object_search(1);
+	p = object_search(1); //p starts to pointer to player one
 
+//Starts the timer and some good old music
 	al_start_timer(timer);
 	al_play_sample(menu_sound, 1, 0, 1, ALLEGRO_PLAYMODE_LOOP, &menu_sound_id);
+
+//	The main loop, let the game begin
 	while (!quit) {
 		al_wait_for_event(event_queue, &ev);
 
@@ -357,15 +292,16 @@ main(int argc, char *argv[]) {
 			frame = (frame >= 60) ? 1 : frame + 1;
 
 			//	MOVEMENT
-			p = object_search(1);
+			p = object_search(1);//Moves player one
 				p->vy += 0.8 * keys[KEY_DOWN] - 0.8 * keys[KEY_UP];
 				p->vx += 0.8 * keys[KEY_RIGHT] - 0.8 * keys[KEY_LEFT];
 
-			p = object_search(2);
+			p = object_search(2);//Moves player two if there is one
 				p->vy += 0.8 * keys2[KEY_DOWN] - 0.8 * keys2[KEY_UP];
 				p->vx += 0.8 * keys2[KEY_RIGHT] - 0.8 * keys2[KEY_LEFT];
-			// ADD enemy
-			int offset = rand() % 400 + 200;
+
+			// Add enemies based on you score
+			int offset = rand() % 400 + 200;// Where enemies will spawn
 			int enemy_rand = rand() % 2;
 			if (enemy_count() < log2(get_score() + 2) * 2) {
 				int level = get_score() / 5;
@@ -379,7 +315,7 @@ main(int argc, char *argv[]) {
 					break;
 					case 4:
 						for(i = 0; i < 3; i++) {
-							enemy_add(enemies[1], (rand() % 2) * 900 - 50, offset + 200 * i - 200);
+							enemy_add(enemies[1], enemy_rand * 900 - 50, offset + 200 * i - 200);
 						}
 					break;
 					case 3:
@@ -409,17 +345,8 @@ main(int argc, char *argv[]) {
 				}
 			}
 
-			if (keys[KEY_1] * dead) {
-				enemy_add(enemies[1], rand() % 540, -50);
-				//enemy_add(enemies[3], rand() % 540, -50);
-				dead = 0;
-			}
-			if (keys[KEY_2] * monkey) {
-				enemy_add(enemies[4], rand() % 540, -50);
-				monkey = 0;
-			}
-
-			//	FIRE
+			//	FIRE FIRE BANG BANG!!
+			//bTrig and bulletFreq set the speed that you can shoot
 			if (keys[KEY_SPACE] && bTrig == 10) {
 				shoot_enable = 1;
 				al_play_sample(shoot, 5, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
@@ -440,17 +367,17 @@ main(int argc, char *argv[]) {
 				bTrig2 = 10;
 			}
 
-
+// Fire the bullets for player one and two
 			switch(bullet_type * shoot_enable) {
 				case 3:
-					bullet_add(d_normal, object_search(currentPlayer));
-					bullet_add(d_left, object_search(currentPlayer));
-					bullet_add(d_right, object_search(currentPlayer));
+					bullet_add(d_normal, object_search(1));
+					bullet_add(d_left, object_search(1));
+					bullet_add(d_right, object_search(1));
 				case 2:
-					bullet_add(left, object_search(currentPlayer));
-					bullet_add(right, object_search(currentPlayer));
+					bullet_add(left, object_search(1));
+					bullet_add(right, object_search(1));
 				case 1:
-					bullet_add(normal, object_search(currentPlayer));
+					bullet_add(normal, object_search(1));
 					shoot_enable = 0;
 				break;
 				default:
@@ -473,14 +400,12 @@ main(int argc, char *argv[]) {
 				break;
 			}
 
-			//anim(p, 5, p_sprites, p_masks, 12);
-			object_anim();
-			object_colision();
-			object_move();
+			object_anim();		//Animate every object in the list
+			object_colision();	//Collide some types of objects with others
+			object_move();		//Move the objects
 		}
 
 		//	KEYBOARD VERIFICATION
-		//keyboard_verification(ev);
 		if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
 			switch(ev.keyboard.keycode) {
 				case ALLEGRO_KEY_UP:
@@ -521,7 +446,6 @@ main(int argc, char *argv[]) {
 				break;
 				case ALLEGRO_KEY_LEFT:
 					keys[KEY_LEFT] = false;
-					LEFT = 1;
 				break;
 				case ALLEGRO_KEY_RIGHT:
 					keys[KEY_RIGHT] = false;
@@ -532,11 +456,9 @@ main(int argc, char *argv[]) {
 				break;
 				case ALLEGRO_KEY_1:
 					keys[KEY_1] = false;
-					dead = 1;
 				break;
 				case ALLEGRO_KEY_2:
 					keys[KEY_2] = false;
-					monkey = 1;
 				break;
 				case ALLEGRO_KEY_ENTER:
 					keys[KEY_ENTER] = false;
@@ -561,20 +483,21 @@ main(int argc, char *argv[]) {
 				al_play_sample(game_sound, 1, 0, 1, ALLEGRO_PLAYMODE_LOOP, &game_sound_id);
 				stopMenuSong = false;
 			}
+			// Local variables for the menus
 			int cost[sizeof(UPGRADE) / (sizeof(UPGRADE[0]))];
 			DNA_points = get_score() - DNA_spent;
 			int width, height, forigin_x=300, forigin_y=500;
+
 			switch(gameState) {
 				case 0:			// MENU
-					//scanf("%d",&a);
 					al_draw_bitmap(menu, 0, 0, 0);
-					
-					
+
 					select = (select > 3) ? 3 : select;
 					select = (select < 0) ? 0 : select;
 					multiState = 0;
 					width = al_get_bitmap_width(cursor);
 					height = al_get_bitmap_height(cursor);
+					// Draw the main menu options
 					al_draw_scaled_bitmap(cursor, 0, 0, width, height, forigin_x, forigin_y-9 + 25 * select, width*0.8, height*0.8, 0);
 					if(host == true){
 						al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y, 0, "RETURN TO GAME");
@@ -584,7 +507,6 @@ main(int argc, char *argv[]) {
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y+1*25, 0, "MULTI-PLAYER  ");
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y+2*25, 0, "UPGRADE  ");
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y+3*25, 0, "QUIT  ");
-					//al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
 
 					if (keys[KEY_UP] * UP) {
 						select += -1;
@@ -599,20 +521,21 @@ main(int argc, char *argv[]) {
 						gameState = select + 1;
 						if (gameState == 1)
 							stopMenuSong = true;
-						keys[KEY_ENTER] = false;
 					}
 				break;
-				case 1:
+				case 1: //PLAYING
 					background_draw();
 					object_draw();
+					//Is there a player alive, be one or two?
 					if(!player_alive()){
-						gameState = 5;
+						gameState = 5; // Go to the gameOver screen
 						playMenuSong = true;
 					}
-					p = object_search(1);
+					p = object_search(1);// p points to player one and display player info
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 75, 10, 0, "LIFE: %d ", p->life);
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 275, 10, 0, "SCORE: %d ", get_score()*100);
 					al_draw_textf(pressstart_20, al_map_rgb(242, 210, 99), 600, 10, 0, "DNA: %d ", DNA_points);
+					//In case of multi-player game
 					if(host == true){
 						// DATA WRITE
 						var.gameState = gameState;
@@ -632,10 +555,7 @@ main(int argc, char *argv[]) {
 							}
 						}
 
-
 						r_receive(keys2);
-
-					//	printf("%s\n", inPkt);
 
 						d_send(data, var);
 					}
@@ -655,7 +575,6 @@ main(int argc, char *argv[]) {
 							width = al_get_bitmap_width(cursor);
 							height = al_get_bitmap_height(cursor);
 							al_draw_scaled_bitmap(cursor, 0, 0, width, height, forigin_x, forigin_y - 9 + 25 * select, width*0.8, height*0.8, 0);
-							//al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
 
 							if (keys[KEY_UP] * UP) {
 								select += -1;
@@ -668,7 +587,6 @@ main(int argc, char *argv[]) {
 
 							if (keys[KEY_ENTER]) {
 								multiState = select + 1;
-								keys[KEY_ENTER] = false;
 							}
 						break;
 						case 1:			// Host
@@ -683,43 +601,47 @@ main(int argc, char *argv[]) {
 						case 2:			// Join
 							switch(join){
 								case 0:
+									//Read the IP address of HOST
 									keyboard_read(ev, &ip, sizeof(ip));
 									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x, forigin_y, 0, "IP:%s ", ip);
 									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + 75, forigin_y + 1 * 25, 0, "> CONNECT ");
+
 									if (keys[KEY_ENTER]) {
 										join = 1;
-										keys[KEY_ENTER] = false;
 									}
+
 								break;
 								case 1:
 									background_draw();
-
+									// Starts the client socket configuration
 									if (!isSet) {
 										set_client(&ip);
 										isSet = true;
+										// Deletes player one, Bye Ronaldo!! You will live in the host game... I Hope..
 										p = object_search(1);
 										p = object_del(p);
 									}
-
+									//Send keyboard info to host
 									r_send(keys);
 
+									//Receive bitmaps positions and types from host
 									d_receive(data, &var);
-									//al_draw_bitmap(sprites[data[0].type][data[0].img_i], data[0].x, data[0].y, 0);
 
-									//data_draw(data, sprites);
+									//Draw bitmaps from host on the screen
 									for(i = 0; i < BUFLEN / sizeof(Data); i++) {
 										if (&data[i] != NULL) {
 											if((data[i].type >= background) && (data[i].type <= header)){
 											if (data[i].type != header && data[i].type != background) {
 												al_draw_bitmap(sprites[data[i].type][data[i].img_i], data[i].x, data[i].y, data[i].dir);
-												//al_draw_filled_rectangle(data[i].x, data[i].y, data[i].x + 30, data[i].y + 30, al_map_rgb(255, 0, 255));
 											}
 											}
 										}
 									}
+									//Player info:
 									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 75, 10, 0, "LIFE: %d ", var.life);
 									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 275, 10, 0, "SCORE: %d ", var.score*100);
 									al_draw_textf(pressstart_20, al_map_rgb(242, 210, 99), 600, 10, 0, "DNA: %d ", var.dna);
+									//In case of death
 									if(var.gameState == 5){
 										gameState = 5;
 									}
@@ -731,7 +653,7 @@ main(int argc, char *argv[]) {
 						break;
 					}
 				break;
-				case 3:
+				case 3://UPGRADES
 					al_draw_bitmap(menu, 0, 0, 0);
 					select = (select > (sizeof(UPGRADE) / (sizeof(UPGRADE[0]))) - 1) ? (sizeof(UPGRADE) / (sizeof(UPGRADE[0]))) - 1 : select;
 					select = (select < 0) ? 0 : select;
@@ -742,14 +664,14 @@ main(int argc, char *argv[]) {
 					width = al_get_bitmap_width(cursor);
 					height = al_get_bitmap_height(cursor);
 
+					// Draw Menus
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y, 0, "TRIGGER: %d", 11 - bulletFreq);
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y + 1 * 25, 0, "FORCE: %d", -normal.life);
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y + 2 * 25, 0, "BULLET: %d", bullet_type);
 					width = al_get_bitmap_width(cursor);
 					height = al_get_bitmap_height(cursor);
 					al_draw_scaled_bitmap(cursor, 0, 0, width, height, forigin_x, forigin_y - 9 + 25 * select, width*0.8, height*0.8, 0);
-					//al_draw_bitmap(cursor,100,100 + 25*select,0);
-					//al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
+
 					for(i = 0; i < sizeof(UPGRADE) / (sizeof(UPGRADE[0])); i++) {
 						al_draw_textf(pressstart_20, al_map_rgb(242, 210, 99), forigin_x+300, forigin_y + i * 25, 0, " %d ", cost[i]);
 					}
@@ -766,11 +688,6 @@ main(int argc, char *argv[]) {
 						UPGRADE[select] += 1;
 						RIGHT = 0;
 					}
-//					if (keys[KEY_LEFT] * LEFT) {
-//						UPGRADE[select] += -1;
-//						DNA_spent -= cost[select]/2;
-//						LEFT = 0;
-//					}
 
 					UPGRADE[0] = (UPGRADE[0] > 10) ? 10 : UPGRADE[0];
 					bulletFreq = 10 - (UPGRADE[0] - 1);
@@ -780,11 +697,16 @@ main(int argc, char *argv[]) {
 
 				break;
 				case 4:
+
 					quit = true;
 				break;
+
 				case 5:
+					// You are dead my friend!!!
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), DISPLAY_W / 2, DISPLAY_H / 2 - 20, ALLEGRO_ALIGN_CENTRE, "GAME OVER");
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), DISPLAY_W / 2, DISPLAY_H / 2 + 5, ALLEGRO_ALIGN_CENTRE, "PRESS ENTER TO CONTINUE");
+
+					// Reset the game when you get over it...
 					if (keys[KEY_ENTER]) {
 						game_reset();
 						gameState = 0;
@@ -803,14 +725,13 @@ main(int argc, char *argv[]) {
 					}
 					break;
 			}
-			//object_track();
-
 
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 		}
 	}
 
+//Destroy everything that was created, like an apocalypse
 	for(i = 0; i < header; i++){
 		for(j = 0; j < 20; j++){
 				al_destroy_bitmap(sprites[i][j]);
@@ -821,7 +742,6 @@ main(int argc, char *argv[]) {
 	al_destroy_display(display);
 	al_destroy_timer(timer);
 	al_destroy_event_queue(event_queue);
-	al_destroy_font(arial_24);
 	al_destroy_font(pressstart_20);
 	al_destroy_sample(sega_sound);
 	al_destroy_sample(menu_sound);
