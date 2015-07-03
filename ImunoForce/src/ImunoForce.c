@@ -4,6 +4,8 @@
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include <math.h>
 #include <allegro5/allegro_font.h>  // Biblioteca para utilização de fontes
 #include <allegro5/allegro_ttf.h>   // Biblioteca para utilização de fontes
@@ -53,6 +55,10 @@ main(int argc, char *argv[]) {
 
 	ALLEGRO_FONT *arial_24 = al_load_font("arial.ttf", 24, 0);
 	ALLEGRO_FONT *pressstart_20 = al_load_font("PressStart2P.ttf", 20, 0);
+
+	al_reserve_samples(10);
+
+	ALLEGRO_SAMPLE* sega = al_load_sample("Sounds/GameBean.wav");
 
 	srand((unsigned) time(NULL)); // Uncertainty principle
 	
@@ -137,14 +143,17 @@ main(int argc, char *argv[]) {
 	ALLEGRO_BITMAP *opening = al_load_bitmap("Sprites/Opening.png");
 
 	float alfa;
+	al_clear_to_color(al_map_rgb(255, 255, 255));
 
-	for (alfa = 0; alfa <= 1; alfa+=0.0001) {
+	for (alfa = 0.0001; alfa <= 1; alfa+=0.0001) {
 		al_draw_tinted_bitmap(opening, al_map_rgba_f(1,1,1, alfa), 0, 0, 0);
 		al_flip_display();
 		al_rest(0.0005);
 	}
-	al_rest(1);
 	// PLAY SEGA SOUND
+	al_play_sample(sega, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
+	al_rest(2);
+
 	for (alfa = 1; alfa >= 0; alfa-=0.0001) {
 		al_rest(0.0005);
 		al_draw_tinted_bitmap(opening, al_map_rgba_f(1,1,1, alfa), 0, 0, 0);
@@ -775,6 +784,7 @@ main(int argc, char *argv[]) {
 	al_destroy_event_queue(event_queue);
 	al_destroy_font(arial_24);
 	al_destroy_font(pressstart_20);
+	al_destroy_sample(sega);
 
 	exit(EXIT_SUCCESS);
 }

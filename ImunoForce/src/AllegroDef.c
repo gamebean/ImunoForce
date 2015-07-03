@@ -11,6 +11,8 @@
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 
 
 void initialization(){
@@ -42,6 +44,16 @@ void initialization(){
 	if (!al_init_ttf_addon()) {
 		al_show_native_message_box(NULL, NULL, NULL,
 								   "al_init_ttf_addon() failed", NULL, 0);
+		exit(EXIT_FAILURE);
+	}
+	if (!al_install_audio()) {
+		al_show_native_message_box(NULL, NULL, NULL,
+								   "al_install_audio() failed", NULL, 0);
+		exit(EXIT_FAILURE);
+	}
+	if (!al_init_acodec_addon()) {
+		al_show_native_message_box(NULL, NULL, NULL,
+								   "al_init_acodec_addon() failed", NULL, 0);
 		exit(EXIT_FAILURE);
 	}
 }
