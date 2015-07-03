@@ -830,6 +830,8 @@ main(int argc, char *argv[]) {
 	al_destroy_font(pressstart_20);
 	al_destroy_sample(sega_sound);
 	al_destroy_sample(menu_sound);
+	al_destroy_sample(game_sound);
+	al_destroy_sample(shoot);
 
 	exit(EXIT_SUCCESS);
 }
