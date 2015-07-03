@@ -25,6 +25,7 @@ typedef struct {
 	char img_i;
 	char dir;
 }Data;
+
 typedef struct {
 	unsigned char gameState;
 	unsigned char score;
@@ -39,3 +40,5 @@ void d_receive(Data *,GameVar *);
 void d_send(Data *,GameVar);
 void set_server();
 void set_client();
+void data_serialize(Data *, unsigned char *, GameVar);
+void data_deserialize(Data *, unsigned char *, GameVar *);
