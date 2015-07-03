@@ -47,7 +47,8 @@ main(int argc, char *argv[]) {
 
 	char DOWN = 1, UP = 1, LEFT = 1, RIGHT = 1;
 	char* inPkt;
-	Data data[BUFLEN / sizeof(Data)];
+	Data data[DATA_LENGHT];
+	GameVar var = {0,0,0,0};
 
 	Object* p = object_search(0);
 
@@ -145,7 +146,7 @@ main(int argc, char *argv[]) {
 	float alfa;
 	al_clear_to_color(al_map_rgb(255, 255, 255));
 
-	for (alfa = 0.0001; alfa <= 1; alfa+=0.0001) {
+	for (alfa = 0.0001; alfa <= 1; alfa+=0.001) {
 		al_draw_tinted_bitmap(opening, al_map_rgba_f(1,1,1, alfa), 0, 0, 0);
 		al_flip_display();
 		al_rest(0.0005);
@@ -154,7 +155,7 @@ main(int argc, char *argv[]) {
 	al_play_sample(sega, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
 	al_rest(2);
 
-	for (alfa = 1; alfa >= 0; alfa-=0.0001) {
+	for (alfa = 1; alfa >= 0; alfa-=0.001) {
 		al_rest(0.0005);
 		al_draw_tinted_bitmap(opening, al_map_rgba_f(1,1,1, alfa), 0, 0, 0);
 		al_flip_display();
@@ -587,6 +588,11 @@ main(int argc, char *argv[]) {
 					al_draw_textf(pressstart_20, al_map_rgb(242, 210, 99), 600, 10, 0, "DNA: %d ", DNA_points);
 					if(host == true){
 						// DATA WRITE
+						var.gameState = gameState;
+						var.score = get_score();
+						p = object_search(2);
+						var.life = p->life;
+						var.dna = DNA_points;
 						memset(data, '\0', BUFLEN);
 						for(i = 0,p = object_search(0); (i < BUFLEN / sizeof(Data)) && (p != NULL); p = p->next) {
 							if ( (p->type != background) && (p->type != header) ) {
@@ -604,7 +610,7 @@ main(int argc, char *argv[]) {
 
 					//	printf("%s\n", inPkt);
 
-						d_send(data);
+						d_send(data, var);
 					}
 				break;
 				case 2:			// MULTIPLAYER
@@ -670,7 +676,7 @@ main(int argc, char *argv[]) {
 
 									r_send(keys);
 
-									d_receive(data);
+									d_receive(data, &var);
 									//al_draw_bitmap(sprites[data[0].type][data[0].img_i], data[0].x, data[0].y, 0);
 
 									//data_draw(data, sprites);
@@ -683,6 +689,12 @@ main(int argc, char *argv[]) {
 											}
 											}
 										}
+									}
+									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 75, 10, 0, "LIFE: %d ", var.life);
+									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 275, 10, 0, "SCORE: %d ", var.score*100);
+									al_draw_textf(pressstart_20, al_map_rgb(242, 210, 99), 600, 10, 0, "DNA: %d ", var.dna);
+									if(var.gameState == 5){
+										gameState = 5;
 									}
 								break;
 

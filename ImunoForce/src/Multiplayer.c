@@ -71,9 +71,9 @@ void r_send(bool keys[]) {
 	printf("r_send");
 }
 
-void d_receive(Data buffer[]) {
+void d_receive(Data buffer[], GameVar *var) {
 	int i;
-	char d[BUFLEN];
+	unsigned char d[BUFLEN];
 	memset(d, '\0', BUFLEN); // Clear buffer
 	//memset(buffer, '\0', BUFLEN);
 	if (recvfrom(sckt, d, BUFLEN, 0, (struct sockaddr *) &si_other, &slen) >= 0) { // Receive data
@@ -81,7 +81,7 @@ void d_receive(Data buffer[]) {
 			if (buffer[i].type != 0 || buffer[i].img_i != 0 || buffer[i].x != 0 || buffer[i].y != 0)
 				printf(" x: %d\n y: %d\n type: %d\n img_i: %d\n", buffer[i].x, buffer[i].y, buffer[i].type, buffer[i].img_i);
 		}*/
-		data_deserialize(buffer, d, 94);
+		data_deserialize(buffer, d, var);
 
 	}else{
 		printf("d_receive failed. Error: %d\n", WSAGetLastError());
@@ -90,9 +90,9 @@ void d_receive(Data buffer[]) {
 	printf("d_receive\n");
 }
 
-void d_send(Data* buffer) {
-	char d[BUFLEN];
-	data_serialize(buffer, d, 94);
+void d_send(Data* buffer, GameVar var) {
+	unsigned char d[BUFLEN];
+	data_serialize(buffer, d, var);
 	//printf("x: %d\ny: %d\ntype: %d\nimg_i: %d\n", buffer[0].x, buffer[0].y, buffer[0].type, buffer[0].img_i);
 	if (sendto(sckt, d, BUFLEN, 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
 		printf("d_send failed. Error: %d\n", WSAGetLastError());
@@ -127,28 +127,36 @@ void set_client(char ip[]) {
 #endif
 }
 
-void data_serialize(Data data[], char *buffer, int data_size){
+void data_serialize(Data data[], unsigned char *buffer, GameVar var){
 	int i;
-	for(i = 0; (i < BUFLEN) && (i/7 < data_size); i += 7){
-		buffer[i+0] = data[i/7].dir;
-		buffer[i+1] = data[i/7].img_i;
-		buffer[i+2] = data[i/7].type;
-		buffer[i+3] = (data[i/7].x >> 8) & 0xFF;
-		buffer[i+4] = (data[i/7].x >> 0) & 0xFF;
-		buffer[i+5] = (data[i/7].y >> 8) & 0xFF;
-		buffer[i+6] = (data[i/7].y >> 0) & 0xFF;
+	buffer[0] = var.gameState;
+	buffer[1] = var.score;
+	buffer[2] = var.life;
+	buffer[3] = var.dna;
+
+	for(i = 4; (i < BUFLEN) && (i/DATA_SIZE < DATA_LENGHT); i += DATA_SIZE){
+		buffer[i+0] = data[i/DATA_SIZE].dir;
+		buffer[i+1] = data[i/DATA_SIZE].img_i;
+		buffer[i+2] = data[i/DATA_SIZE].type;
+		buffer[i+3] = (data[i/DATA_SIZE].x >> 8) & 0xFF;
+		buffer[i+4] = (data[i/DATA_SIZE].x >> 0) &0xFF;
+		buffer[i+5] = ((data[i/DATA_SIZE].y + 50) >> 8) & 0xFF;
+		buffer[i+6] = (((data[i/DATA_SIZE].y + 50) >> 0) & 0xFF);
 	}
 }
-void data_deserialize(Data data[], char *buffer, int data_size){
+void data_deserialize(Data data[], unsigned char *buffer, GameVar *var){
 	int i;
-	for(i = 0; (i < BUFLEN) && (i/7 < data_size); i += 7){
-		data[i/7].dir = buffer[i+0];
-		data[i/7].img_i = buffer[i+1];
-		data[i/7].type = buffer[i+2];
-		data[i/7].x  = (buffer[i+3] >> 8)& 0xFF;
-		data[i/7].x  = (buffer[i+4] >> 0)& 0xFF;
-		data[i/7].y  = (buffer[i+5] >> 8)& 0xFF;
-		data[i/7].y  = (buffer[i+6] >> 0)& 0xFF;
+	var->gameState = buffer[0];
+	var->score = buffer[1];
+	var->life = buffer[2];
+	var->dna = buffer[3];
+
+	for(i = 4; (i < BUFLEN) && (i/DATA_SIZE < DATA_LENGHT); i += DATA_SIZE){
+		data[i/DATA_SIZE].dir = buffer[i+0];
+		data[i/DATA_SIZE].img_i = buffer[i+1];
+		data[i/DATA_SIZE].type = buffer[i+2];
+		data[i/DATA_SIZE].x   = (((buffer[i+3] << 8) | (buffer[i+4] << 0)) &0xFFFF);
+		data[i/DATA_SIZE].y  = (((buffer[i+5] << 8) | (buffer[i+6] << 0)) &0xFFFF) -50;
 	}
 }
 
