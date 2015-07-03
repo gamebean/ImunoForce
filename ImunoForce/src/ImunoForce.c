@@ -131,8 +131,10 @@ main(int argc, char *argv[]) {
 	sprites[bullet][0] = al_load_bitmap("Sprites/bullet3.png");
 
 	sprites[background][0] = al_load_bitmap("Sprites/BackgroundB.png");
-	ALLEGRO_BITMAP *cursor = al_load_bitmap("Sprites/Select.png");
 	
+	ALLEGRO_BITMAP *cursor = al_load_bitmap("Sprites/Select.png");
+	ALLEGRO_BITMAP *menu = al_load_bitmap("Sprites/Menu 256color.bmp");
+
 	float l_pctg;
 	draw_loading(l_pctg=0, pressstart_20);
 
@@ -511,25 +513,26 @@ main(int argc, char *argv[]) {
 		if (al_is_event_queue_empty(event_queue)) {
 			int cost[sizeof(UPGRADE) / (sizeof(UPGRADE[0]))];
 			DNA_points = get_score() - DNA_spent;
-			int width, height;
+			int width, height, forigin_x=300, forigin_y=450;
+			al_draw_bitmap(menu, 0, 0, 0);
 			switch(gameState) {
 				case 0:			// MENU
 					//scanf("%d",&a);
-
+					
 					select = (select > 3) ? 3 : select;
 					select = (select < 0) ? 0 : select;
 					multiState = 0;
 					width = al_get_bitmap_width(cursor);
 					height = al_get_bitmap_height(cursor);
-					al_draw_scaled_bitmap(cursor, 0, 0, width, height, 100, 91 + 25 * select, width*0.8, height*0.8, 0);
+					al_draw_scaled_bitmap(cursor, 0, 0, width, height, forigin_x, forigin_y-9 + 25 * select, width*0.8, height*0.8, 0);
 					if(host == true){
-						al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100+width, 100, 0, "RETURN TO GAME");
+						al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y, 0, "RETURN TO GAME");
 					}else{
-						al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100 + width, 100, 0, "SINGLE-PLAYER");
+						al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y, 0, "SINGLE-PLAYER");
 					}
-					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100 + width, 125, 0, "MULTI-PLAYER  ");
-					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100 + width, 150, 0, "UPGRADE  ");
-					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100 + width, 175, 0, "QUIT  ");
+					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y+1*25, 0, "MULTI-PLAYER  ");
+					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y+2*25, 0, "UPGRADE  ");
+					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y+3*25, 0, "QUIT  ");
 					//al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
 
 					if (keys[KEY_UP] * UP) {
@@ -587,11 +590,11 @@ main(int argc, char *argv[]) {
 							width = al_get_bitmap_width(cursor);
 							height = al_get_bitmap_height(cursor);
 
-							al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100+width, 100, 0, "HOST");
-							al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100+width, 125, 0, "JOIN  ");
+							al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y, 0, "HOST");
+							al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y + 1 * 25, 0, "JOIN  ");
 							width = al_get_bitmap_width(cursor);
 							height = al_get_bitmap_height(cursor);
-							al_draw_scaled_bitmap(cursor,0,0,width,height,100, 100 + 25*select ,width*0.8,height*0.8,0);
+							al_draw_scaled_bitmap(cursor, 0, 0, width, height, forigin_x, forigin_y - 9 + 25 * select, width*0.8, height*0.8, 0);
 							//al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
 
 							if (keys[KEY_UP] * UP) {
@@ -621,8 +624,8 @@ main(int argc, char *argv[]) {
 							switch(join){
 								case 0:
 									keyboard_read(ev, &ip, sizeof(ip));
-									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100, 100, 0, "         IP:%s ",ip);
-									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 175, 125, 0, "         > CONNECT ");
+									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x, forigin_y, 0, "IP:%s ", ip);
+									al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + 75, forigin_y + 1 * 25, 0, "> CONNECT ");
 									if (keys[KEY_ENTER]) {
 										join = 1;
 										keys[KEY_ENTER] = false;
@@ -669,16 +672,16 @@ main(int argc, char *argv[]) {
 					width = al_get_bitmap_width(cursor);
 					height = al_get_bitmap_height(cursor);
 
-					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100 + width, 100, 0, "TRIGGER: %d", 11 - bulletFreq);
-					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100 + width, 125, 0, "FORCE: %d", -normal.life);
-					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100 + width, 150, 0, "BULLET: %d", bullet_type);
+					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y, 0, "TRIGGER: %d", 11 - bulletFreq);
+					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y + 1 * 25, 0, "FORCE: %d", -normal.life);
+					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x + width, forigin_y + 2 * 25, 0, "BULLET: %d", bullet_type);
 					width = al_get_bitmap_width(cursor);
 					height = al_get_bitmap_height(cursor);
-					al_draw_scaled_bitmap(cursor,0,0,width,height,100, 91 + 25*select ,width*0.8,height*0.8,0);
+					al_draw_scaled_bitmap(cursor, 0, 0, width, height, forigin_x, forigin_y - 9 + 25 * select, width*0.8, height*0.8, 0);
 					//al_draw_bitmap(cursor,100,100 + 25*select,0);
 					//al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100, 100 + select * 25, 0, "       >");
 					for(i = 0; i < sizeof(UPGRADE) / (sizeof(UPGRADE[0])); i++) {
-						al_draw_textf(pressstart_20, al_map_rgb(242, 210, 99), 400, 100 + i * 25, 0, " %d ", cost[i]);
+						al_draw_textf(pressstart_20, al_map_rgb(242, 210, 99), forigin_x+300, forigin_y + i * 25, 0, " %d ", cost[i]);
 					}
 					if (keys[KEY_UP] * UP) {
 						select += -1;
@@ -710,8 +713,8 @@ main(int argc, char *argv[]) {
 					quit = true;
 				break;
 				case 5:
-					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 200, 100, 0, "GAME OVER");
-					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 200, 125, 0, "PRESS ENTER TO CONTINUE");
+					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x, forigin_y, 0, "GAME OVER");
+					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x, forigin_y + 1 * 25, 0, "PRESS ENTER TO CONTINUE");
 					if (keys[KEY_ENTER]) {
 						game_reset();
 						gameState = 0;
