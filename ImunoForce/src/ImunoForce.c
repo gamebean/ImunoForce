@@ -63,6 +63,8 @@ main(int argc, char *argv[]) {
 	ALLEGRO_SAMPLE* sega_sound = al_load_sample("Sounds/GameBean.wav");
 	ALLEGRO_SAMPLE* menu_sound = al_load_sample("Sounds/MenuSong.wav");
 	ALLEGRO_SAMPLE_ID* menu_sound_id = NULL;
+	ALLEGRO_SAMPLE* game_sound = al_load_sample("Sounds/GameSong.wav");
+	ALLEGRO_SAMPLE_ID* game_sound_id = NULL;
 
 	srand((unsigned) time(NULL)); // Uncertainty principle
 	
@@ -538,7 +540,6 @@ main(int argc, char *argv[]) {
 				case ALLEGRO_KEY_ESCAPE:
 					if (gameState == 1) {
 						playMenuSong = true;
-						stopMenuSong = false;
 					}
 					gameState = 0;
 				break;
@@ -547,11 +548,13 @@ main(int argc, char *argv[]) {
 
 		if (al_is_event_queue_empty(event_queue)) {
 			if (playMenuSong) {
+				al_stop_sample(&game_sound_id);
 				al_play_sample(menu_sound, 1, 0, 1, ALLEGRO_PLAYMODE_LOOP, &menu_sound_id);
 				playMenuSong = false;
 			}
 			if (stopMenuSong) {
 				al_stop_sample(&menu_sound_id);
+				al_play_sample(game_sound, 1, 0, 1, ALLEGRO_PLAYMODE_LOOP, &game_sound_id);
 				stopMenuSong = false;
 			}
 			int cost[sizeof(UPGRADE) / (sizeof(UPGRADE[0]))];
@@ -590,15 +593,17 @@ main(int argc, char *argv[]) {
 
 					if (keys[KEY_ENTER]) {
 						gameState = select + 1;
+						if (gameState == 1)
+							stopMenuSong = true;
 						keys[KEY_ENTER] = false;
 					}
 				break;
 				case 1:
-					stopMenuSong = true;
 					background_draw();
 					object_draw();
 					if(!player_alive()){
 						gameState = 5;
+						playMenuSong = true;
 					}
 					p = object_search(1);
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 75, 10, 0, "LIFE: %d ", p->life);
