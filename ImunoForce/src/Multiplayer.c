@@ -73,14 +73,15 @@ void r_send(bool keys[]) {
 
 void d_receive(Data buffer[]) {
 	int i;
-
-	memset(buffer, '\0', BUFLEN); // Clear buffer
-
-	if (recvfrom(sckt, buffer, BUFLEN, 0, (struct sockaddr *) &si_other, &slen) >= 0) { // Receive data
+	char d[BUFLEN];
+	memset(d, '\0', BUFLEN); // Clear buffer
+	//memset(buffer, '\0', BUFLEN);
+	if (recvfrom(sckt, d, BUFLEN, 0, (struct sockaddr *) &si_other, &slen) >= 0) { // Receive data
 		/*for (i = 0; i < 90; i++) {
 			if (buffer[i].type != 0 || buffer[i].img_i != 0 || buffer[i].x != 0 || buffer[i].y != 0)
 				printf(" x: %d\n y: %d\n type: %d\n img_i: %d\n", buffer[i].x, buffer[i].y, buffer[i].type, buffer[i].img_i);
 		}*/
+		data_deserialize(buffer, d, 94);
 
 	}else{
 		printf("d_receive failed. Error: %d\n", WSAGetLastError());
@@ -90,8 +91,10 @@ void d_receive(Data buffer[]) {
 }
 
 void d_send(Data* buffer) {
+	char d[BUFLEN];
+	data_serialize(buffer, d, 94);
 	//printf("x: %d\ny: %d\ntype: %d\nimg_i: %d\n", buffer[0].x, buffer[0].y, buffer[0].type, buffer[0].img_i);
-	if (sendto(sckt, buffer, BUFLEN, 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
+	if (sendto(sckt, d, BUFLEN, 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR) {
 		printf("d_send failed. Error: %d\n", WSAGetLastError());
 		//exit(EXIT_FAILURE);
 	}
@@ -124,16 +127,35 @@ void set_client(char ip[]) {
 #endif
 }
 
-void data_draw(Data data[], ALLEGRO_BITMAP* **sprites) {
+void data_serialize(Data data[], char *buffer, int data_size){
 	int i;
-	al_init();
-	al_init_image_addon();
-
-	for (i = 0; i < BUFLEN / sizeof(Data); i++) {
-		if (&data[i] != NULL) {
-			if (data[i].type != 7 && data[i].type != 3) {
-				al_draw_bitmap(sprites[data[i].type][data[i].img_i], data[i].x, data[i].y, 0);
-			}
-		}
+	for(i = 0; (i < BUFLEN) && (i/7 < data_size); i += 7){
+		buffer[i+0] = data[i/7].dir;
+		buffer[i+1] = data[i/7].img_i;
+		buffer[i+2] = data[i/7].type;
+		buffer[i+3] = (data[i/7].x >> 8) & 0xFF;
+		buffer[i+4] = (data[i/7].x >> 0) & 0xFF;
+		buffer[i+5] = (data[i/7].y >> 8) & 0xFF;
+		buffer[i+6] = (data[i/7].y >> 0) & 0xFF;
 	}
 }
+void data_deserialize(Data data[], char *buffer, int data_size){
+	int i;
+	for(i = 0; (i < BUFLEN) && (i/7 < data_size); i += 7){
+		data[i/7].dir = buffer[i+0];
+		data[i/7].img_i = buffer[i+1];
+		data[i/7].type = buffer[i+2];
+		data[i/7].x  = (buffer[i+3] >> 8)& 0xFF;
+		data[i/7].x  = (buffer[i+4] >> 0)& 0xFF;
+		data[i/7].y  = (buffer[i+5] >> 8)& 0xFF;
+		data[i/7].y  = (buffer[i+6] >> 0)& 0xFF;
+	}
+}
+
+
+
+
+
+
+
+

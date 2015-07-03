@@ -23,7 +23,7 @@ main(int argc, char *argv[]) {
 	int DNA_points = 0;
 	int DNA_spent = 0;
 	int UPGRADE[3];
-	char ip[15] = "";
+	char ip[15] = "127.0.0.1";
 	//int upgrades = sizeof(UPGRADE) / (sizeof(UPGRADE[0]));
 	for(i = 0; i < sizeof(UPGRADE) / (sizeof(UPGRADE[0])); i++) {
 		UPGRADE[i] = 1;
