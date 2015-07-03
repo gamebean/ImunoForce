@@ -133,7 +133,7 @@ main(int argc, char *argv[]) {
 	sprites[background][0] = al_load_bitmap("Sprites/BackgroundB.png");
 	
 	ALLEGRO_BITMAP *cursor = al_load_bitmap("Sprites/Select.png");
-	ALLEGRO_BITMAP *menu = al_load_bitmap("Sprites/Menu 256color.bmp");
+	ALLEGRO_BITMAP *menu = al_load_bitmap("Sprites/Menu 256color_2.png");
 
 	float l_pctg;
 	draw_loading(l_pctg=0, pressstart_20);
@@ -513,7 +513,7 @@ main(int argc, char *argv[]) {
 		if (al_is_event_queue_empty(event_queue)) {
 			int cost[sizeof(UPGRADE) / (sizeof(UPGRADE[0]))];
 			DNA_points = get_score() - DNA_spent;
-			int width, height, forigin_x=300, forigin_y=450;
+			int width, height, forigin_x=300, forigin_y=500;
 			al_draw_bitmap(menu, 0, 0, 0);
 			switch(gameState) {
 				case 0:			// MENU

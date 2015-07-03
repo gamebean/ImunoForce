@@ -15,15 +15,15 @@
 #define BUFLEN	1500	// Buffer length in bytes
 #define PORT	21234
 
-#pragma pack(1)
+//#pragma pack(1)
 typedef struct {
-	char type : 4;
-	int x : 11;
-	int y : 12;
-	char img_i : 5;
+	char type;
+	int x;
+	int y;
+	char img_i;
 	char dir;
 }Data;
-#pragma pack(0)
+//#pragma pack(0)
 
 
 void server_initialise();
