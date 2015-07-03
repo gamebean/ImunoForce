@@ -61,14 +61,12 @@ typedef struct {
 // Object manipulation functions
 Object *object_add(Type t, int); // Add an object of a certain type
 Object *object_search(int); // Finds an object based on its tag
-//void object_del(int);
 Object *object_del(Object *); // return 0 if successful, -1 if ocurrs an error
 Object *player_add(char player_name[], int frame_delay, int vector_size);
 Object *bullet_add(Object, Object *);
 Object *enemy_add(Object, int, int);
+Object *background_add(int , int);
 
-//Object *player_add(char[], char[]);
-//Object *bullet_add(Object, int);
 
 void object_colision();
 void object_draw();
@@ -87,6 +85,8 @@ bool player_alive();
 void game_reset();
 void list_destroy();
 void object_track();
+void engine_init();
+void keyboard_read(ALLEGRO_EVENT , char[] , int);
 
 #ifdef __linux__
 void strcpy_s(char[], int, char[]);

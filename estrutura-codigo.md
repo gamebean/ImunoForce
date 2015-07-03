@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #Estrutura geral do código
 
 ##ImunoForce.c
@@ -18,3 +19,13 @@ Nesse arquivo está organizado o *loop* geral do jogo, assim como todas as vari�
 ##ImunoEngine
 
 ##Multiplayer
+=======
+# ImunoEngine
+
+Como o nome sugere, o ImunoEngine terá todas as funções principais de renderização, movimentação, colisão além de funções de suporte para a criação de objetos.
+
+## Object
+Tudo no ImunoForce é um Object, ele carrega todas 
+ 
+
+>>>>>>> origin/master
