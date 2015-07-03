@@ -27,3 +27,14 @@ Como o nome sugere, o ImunoEngine terá todas as funções principais de renderi
 
 ## struct Object
 Object é a estrutura que define quase tudo que existe no jogo, de personagens a projéteis e até o background são Objects. Esta estrutura possui todos os atributos necessários para movimentação, animação, desenho e colisão (os últimos 3 tratados por índices referentes a uma array), além de ser organizada como uma lista duplamente encadeada, onde cada object possui um atributo que é o endereço para a estrutura seguinte (que foi declarada após ele) e a anterior (que foi declarada antes). Por este motivo se faz necessário a existencia de um *header*, que é um Object que não possui nenhuma utilidade aparente ao usuário, usado apenas como referência. Este método de duplo encadeamento das estruturas se dá muito útil uma vez que não é necessário o armazenamento de uma variável para cada Object, visto que é possível iterar entre todos eles através de seus atributos de endereços, e distinguilos através de seus atributos de tipo.
+
+#Estrutura de Arquivos
+
+##Arquivos de Código
+O código fonte está localizado na pasta ImunoForce\src, são os arquivos ImunoForce.c, ImunoEngine.h & .c, AllegroDef.h & .c e Multiplayer.h & .c
+
+##Arquivos de Áudio
+Os arquivos de áudio utilizados no jogo estão localizados na pasta ImunoForce\Sounds
+
+##Imagens
+As imagens imagens utilizadas no jogo estão localizadas na pasta ImunoForce\Sprites. Suas fontes, isto é, seus arquivos modificáveis estão localizados no formato .PSD na pasta SpritesPSDs
