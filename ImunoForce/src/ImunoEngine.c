@@ -177,7 +177,7 @@ background_add(int x, int y) {
 
 //Collide players with enemies and enemies with bullets
 void
-object_colision() {
+object_colision(bool* playHit) {
 	Object *p;
 	Object *ob;
 	int x, y;
@@ -263,6 +263,7 @@ object_colision() {
 									&& (masks[ob->type][ob->img_i])->bits[(int) (x - ob->x)][(int) (y - ob->y)] == 1) {
 								p = object_del(p);
 								ob->life += -1;
+								*playHit = true;
 								goto test;
 							}
 						}

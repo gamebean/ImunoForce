@@ -33,6 +33,7 @@ main(int argc, char *argv[]) {
 	bool quit = false;
 	bool playMenuSong = false;
 	bool stopMenuSong = false;
+	bool playHit = false;
 
 	int host = false;
 	int join = 0;
@@ -56,6 +57,7 @@ main(int argc, char *argv[]) {
 //SOUNDS
 	al_reserve_samples(10);
 	ALLEGRO_SAMPLE* sega_sound = al_load_sample("Sounds/GameBean.wav");
+	ALLEGRO_SAMPLE* hit = al_load_sample("Sounds/Hit_Hurt.wav");
 	ALLEGRO_SAMPLE* shoot = al_load_sample("Sounds/Piu.wav");
 	ALLEGRO_SAMPLE* menu_sound = al_load_sample("Sounds/MenuSong.wav");
 	ALLEGRO_SAMPLE_ID* menu_sound_id = NULL;
@@ -96,14 +98,14 @@ main(int argc, char *argv[]) {
 	for (alfa = 0.0001; alfa <= 1; alfa+=0.0003) {
 		al_draw_tinted_bitmap(opening, al_map_rgba_f(1,1,1, alfa), 0, 0, 0);
 		al_flip_display();
-		al_rest(0.0002);
+		//al_rest(0.0002);
 	}
 	// PLAY SEGA SOUND
 	al_play_sample(sega_sound, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
 	al_rest(2);
 
 	for (alfa = 1; alfa >= 0; alfa-=0.0003) {
-		al_rest(0.0002);
+		//al_rest(0.0002);
 		al_draw_tinted_bitmap(opening, al_map_rgba_f(1,1,1, alfa), 0, 0, 0);
 		al_flip_display();
 	}
@@ -401,7 +403,7 @@ main(int argc, char *argv[]) {
 			}
 
 			object_anim();		//Animate every object in the list
-			object_colision();	//Collide some types of objects with others
+			object_colision(&playHit);	//Collide some types of objects with others
 			object_move();		//Move the objects
 		}
 
@@ -472,6 +474,10 @@ main(int argc, char *argv[]) {
 		}
 
 		if (al_is_event_queue_empty(event_queue)) {
+			if (playHit) {
+				al_play_sample(hit, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
+				playHit = false;
+			}
 			if (playMenuSong) {
 				al_stop_sample(&game_sound_id);
 				al_play_sample(menu_sound, 1, 0, 1, ALLEGRO_PLAYMODE_LOOP, &menu_sound_id);
@@ -757,6 +763,7 @@ main(int argc, char *argv[]) {
 	al_destroy_sample(menu_sound);
 	al_destroy_sample(game_sound);
 	al_destroy_sample(shoot);
+	al_destroy_sample(hit);
 
 	exit(EXIT_SUCCESS);
 }

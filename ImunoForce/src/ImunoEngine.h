@@ -14,6 +14,7 @@ enum Types {
 #define enemy_all(x) (x == enemy || x == enemy_b || x == enemy_c || x == enemy_d)
 #define case_enemy_all case enemy: case enemy_b: case enemy_c: case enemy_d:
 
+
 enum {
 	B_L,
 	B_C,
