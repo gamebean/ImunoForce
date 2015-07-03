@@ -57,4 +57,3 @@ void initialization(){
 		exit(EXIT_FAILURE);
 	}
 }
-
