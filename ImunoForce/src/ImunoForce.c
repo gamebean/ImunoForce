@@ -38,6 +38,8 @@ main(int argc, char *argv[]) {
 
 	bool isSet = false;
 	bool quit = false;
+	bool playMenuSong = false;
+	bool stopMenuSong = false;
 	int host = false;
 	int join = 0;
 	int gameState = 0;
@@ -59,7 +61,11 @@ main(int argc, char *argv[]) {
 
 	al_reserve_samples(10);
 
-	ALLEGRO_SAMPLE* sega = al_load_sample("Sounds/GameBean.wav");
+	ALLEGRO_SAMPLE* sega_sound = al_load_sample("Sounds/GameBean.wav");
+	ALLEGRO_SAMPLE* menu_sound = al_load_sample("Sounds/MenuSong.wav");
+	ALLEGRO_SAMPLE_ID* menu_sound_id = NULL;
+	ALLEGRO_SAMPLE* game_sound = al_load_sample("Sounds/GameSong.wav");
+	ALLEGRO_SAMPLE_ID* game_sound_id = NULL;
 
 	srand((unsigned) time(NULL)); // Uncertainty principle
 	
@@ -146,17 +152,17 @@ main(int argc, char *argv[]) {
 	float alfa;
 	al_clear_to_color(al_map_rgb(255, 255, 255));
 
-	for (alfa = 0.0001; alfa <= 1; alfa+=0.001) {
+	for (alfa = 0.0001; alfa <= 1; alfa+=0.0003) {
 		al_draw_tinted_bitmap(opening, al_map_rgba_f(1,1,1, alfa), 0, 0, 0);
 		al_flip_display();
-		al_rest(0.0005);
+		al_rest(0.0002);
 	}
 	// PLAY SEGA SOUND
-	al_play_sample(sega, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
+	al_play_sample(sega_sound, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
 	al_rest(2);
 
-	for (alfa = 1; alfa >= 0; alfa-=0.001) {
-		al_rest(0.0005);
+	for (alfa = 1; alfa >= 0; alfa-=0.0003) {
+		al_rest(0.0002);
 		al_draw_tinted_bitmap(opening, al_map_rgba_f(1,1,1, alfa), 0, 0, 0);
 		al_flip_display();
 	}
@@ -337,6 +343,7 @@ main(int argc, char *argv[]) {
 	p = object_search(1);
 
 	al_start_timer(timer);
+	al_play_sample(menu_sound, 1, 0, 1, ALLEGRO_PLAYMODE_LOOP, &menu_sound_id);
 	while (!quit) {
 		al_wait_for_event(event_queue, &ev);
 
@@ -532,12 +539,25 @@ main(int argc, char *argv[]) {
 					keys[KEY_ENTER] = false;
 				break;
 				case ALLEGRO_KEY_ESCAPE:
+					if (gameState == 1) {
+						playMenuSong = true;
+					}
 					gameState = 0;
 				break;
 			}
 		}
 
 		if (al_is_event_queue_empty(event_queue)) {
+			if (playMenuSong) {
+				al_stop_sample(&game_sound_id);
+				al_play_sample(menu_sound, 1, 0, 1, ALLEGRO_PLAYMODE_LOOP, &menu_sound_id);
+				playMenuSong = false;
+			}
+			if (stopMenuSong) {
+				al_stop_sample(&menu_sound_id);
+				al_play_sample(game_sound, 1, 0, 1, ALLEGRO_PLAYMODE_LOOP, &game_sound_id);
+				stopMenuSong = false;
+			}
 			int cost[sizeof(UPGRADE) / (sizeof(UPGRADE[0]))];
 			DNA_points = get_score() - DNA_spent;
 			int width, height, forigin_x=300, forigin_y=500;
@@ -545,6 +565,7 @@ main(int argc, char *argv[]) {
 				case 0:			// MENU
 					//scanf("%d",&a);
 					al_draw_bitmap(menu, 0, 0, 0);
+					
 					
 					select = (select > 3) ? 3 : select;
 					select = (select < 0) ? 0 : select;
@@ -573,6 +594,8 @@ main(int argc, char *argv[]) {
 
 					if (keys[KEY_ENTER]) {
 						gameState = select + 1;
+						if (gameState == 1)
+							stopMenuSong = true;
 						keys[KEY_ENTER] = false;
 					}
 				break;
@@ -581,6 +604,7 @@ main(int argc, char *argv[]) {
 					object_draw();
 					if(!player_alive()){
 						gameState = 5;
+						playMenuSong = true;
 					}
 					p = object_search(1);
 					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 75, 10, 0, "LIFE: %d ", p->life);
@@ -796,7 +820,8 @@ main(int argc, char *argv[]) {
 	al_destroy_event_queue(event_queue);
 	al_destroy_font(arial_24);
 	al_destroy_font(pressstart_20);
-	al_destroy_sample(sega);
+	al_destroy_sample(sega_sound);
+	al_destroy_sample(menu_sound);
 
 	exit(EXIT_SUCCESS);
 }

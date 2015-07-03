@@ -100,8 +100,10 @@ player_add(char player_name[], int frame_delay, int vector_size) {
 
 	strcpy_s(p->String, sizeof(p->String), player_name);
 	//strcpy(p->String, player_name);
+	p->vx = 0;
+	p->vy = 0;
 	p->x = DISPLAY_W / 2 - p->width / 2;
-	p->y = DISPLAY_H / 2 - p->height / 2;
+	p->y = DISPLAY_H / 2 - p->height / 2 + 200;
 
 	return p;
 }
@@ -592,8 +594,29 @@ void list_destroy(){
 
 void draw_loading(float pctg, ALLEGRO_FONT* font) {
 	al_clear_to_color(al_map_rgb(0, 0, 0));
-
-	al_draw_text(font, al_map_rgb(255, 255, 255), 100, 100, 0, "WE ARE LOADING, BITCH!!!");
+	switch ((int)(pctg / 6.25) % 6){
+		case 0:
+			al_draw_text(font, al_map_rgb(255, 255, 255), DISPLAY_W / 4, DISPLAY_H / 2 - 55, 0, "Loading.");
+			break;
+		case 1:
+			al_draw_text(font, al_map_rgb(255, 255, 255), DISPLAY_W / 4, DISPLAY_H / 2 - 55, 0, "Loading.");
+			break;
+		case 2:
+			al_draw_text(font, al_map_rgb(255, 255, 255), DISPLAY_W / 4, DISPLAY_H / 2 - 55, 0, "Loading..");
+			break;
+		case 3:
+			al_draw_text(font, al_map_rgb(255, 255, 255), DISPLAY_W / 4, DISPLAY_H / 2 - 55, 0, "Loading..");
+			break;
+		case 4:
+			al_draw_text(font, al_map_rgb(255, 255, 255), DISPLAY_W / 4, DISPLAY_H / 2 - 55, 0, "Loading...");
+			break;
+		case 5:
+			al_draw_text(font, al_map_rgb(255, 255, 255), DISPLAY_W / 4, DISPLAY_H / 2 - 55, 0, "Loading...");
+			break;
+		default:
+			break;
+	}
+	
 
 	al_draw_filled_rectangle(DISPLAY_W / 4, DISPLAY_H / 2 - 30, DISPLAY_W / 4 + pctg * (2 * DISPLAY_W / 4)/100, DISPLAY_H / 2 + 30, al_map_rgb(255, 0, 0));
 	al_draw_rectangle(DISPLAY_W / 4, DISPLAY_H / 2 - 30, 3 * DISPLAY_W / 4, DISPLAY_H / 2 + 30, al_map_rgb(255, 255, 255), 5);
