@@ -4,6 +4,8 @@
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include <math.h>
 #include <allegro5/allegro_font.h>  // Biblioteca para utilização de fontes
 #include <allegro5/allegro_ttf.h>   // Biblioteca para utilização de fontes
@@ -53,6 +55,10 @@ main(int argc, char *argv[]) {
 
 	ALLEGRO_FONT *arial_24 = al_load_font("arial.ttf", 24, 0);
 	ALLEGRO_FONT *pressstart_20 = al_load_font("PressStart2P.ttf", 20, 0);
+
+	al_reserve_samples(10);
+
+	ALLEGRO_SAMPLE* sega = al_load_sample("Sounds/GameBean.wav");
 
 	srand((unsigned) time(NULL)); // Uncertainty principle
 	
@@ -134,6 +140,26 @@ main(int argc, char *argv[]) {
 	
 	ALLEGRO_BITMAP *cursor = al_load_bitmap("Sprites/Select.png");
 	ALLEGRO_BITMAP *menu = al_load_bitmap("Sprites/Menu 256color_2.png");
+	ALLEGRO_BITMAP *opening = al_load_bitmap("Sprites/Opening.png");
+
+	float alfa;
+	al_clear_to_color(al_map_rgb(255, 255, 255));
+
+	for (alfa = 0.0001; alfa <= 1; alfa+=0.0001) {
+		al_draw_tinted_bitmap(opening, al_map_rgba_f(1,1,1, alfa), 0, 0, 0);
+		al_flip_display();
+		al_rest(0.0005);
+	}
+	// PLAY SEGA SOUND
+	al_play_sample(sega, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
+	al_rest(2);
+
+	for (alfa = 1; alfa >= 0; alfa-=0.0001) {
+		al_rest(0.0005);
+		al_draw_tinted_bitmap(opening, al_map_rgba_f(1,1,1, alfa), 0, 0, 0);
+		al_flip_display();
+	}
+
 
 	float l_pctg;
 	draw_loading(l_pctg=0, pressstart_20);
@@ -514,10 +540,10 @@ main(int argc, char *argv[]) {
 			int cost[sizeof(UPGRADE) / (sizeof(UPGRADE[0]))];
 			DNA_points = get_score() - DNA_spent;
 			int width, height, forigin_x=300, forigin_y=500;
-			al_draw_bitmap(menu, 0, 0, 0);
 			switch(gameState) {
 				case 0:			// MENU
 					//scanf("%d",&a);
+					al_draw_bitmap(menu, 0, 0, 0);
 					
 					select = (select > 3) ? 3 : select;
 					select = (select < 0) ? 0 : select;
@@ -582,6 +608,7 @@ main(int argc, char *argv[]) {
 					}
 				break;
 				case 2:			// MULTIPLAYER
+					al_draw_bitmap(menu, 0, 0, 0);
 					switch(multiState) {
 						case 0:			// Menu
 							select = (select > 1) ? 1 : select;
@@ -651,8 +678,8 @@ main(int argc, char *argv[]) {
 										if (&data[i] != NULL) {
 											if((data[i].type >= background) && (data[i].type <= header)){
 											if (data[i].type != header && data[i].type != background) {
-												//al_draw_bitmap(sprites[data[i].type][data[i].img_i], data[i].x, data[i].y, data[i].dir);
-												al_draw_filled_rectangle(data[i].x, data[i].y, data[i].x + 30, data[i].y + 30, al_map_rgb(255, 0, 255));
+												al_draw_bitmap(sprites[data[i].type][data[i].img_i], data[i].x, data[i].y, data[i].dir);
+												//al_draw_filled_rectangle(data[i].x, data[i].y, data[i].x + 30, data[i].y + 30, al_map_rgb(255, 0, 255));
 											}
 											}
 										}
@@ -666,6 +693,7 @@ main(int argc, char *argv[]) {
 					}
 				break;
 				case 3:
+					al_draw_bitmap(menu, 0, 0, 0);
 					select = (select > (sizeof(UPGRADE) / (sizeof(UPGRADE[0]))) - 1) ? (sizeof(UPGRADE) / (sizeof(UPGRADE[0]))) - 1 : select;
 					select = (select < 0) ? 0 : select;
 					cost[0] = UPGRADE[0] * 10;
@@ -716,8 +744,8 @@ main(int argc, char *argv[]) {
 					quit = true;
 				break;
 				case 5:
-					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x, forigin_y, 0, "GAME OVER");
-					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), forigin_x, forigin_y + 1 * 25, 0, "PRESS ENTER TO CONTINUE");
+					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), DISPLAY_W / 2, DISPLAY_H / 2 - 20, ALLEGRO_ALIGN_CENTRE, "GAME OVER");
+					al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), DISPLAY_W / 2, DISPLAY_H / 2 + 5, ALLEGRO_ALIGN_CENTRE, "PRESS ENTER TO CONTINUE");
 					if (keys[KEY_ENTER]) {
 						game_reset();
 						gameState = 0;
@@ -756,6 +784,7 @@ main(int argc, char *argv[]) {
 	al_destroy_event_queue(event_queue);
 	al_destroy_font(arial_24);
 	al_destroy_font(pressstart_20);
+	al_destroy_sample(sega);
 
 	exit(EXIT_SUCCESS);
 }
