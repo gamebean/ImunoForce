@@ -3,6 +3,8 @@
 // Define the possible types of object in the game
 #include <stdio.h>
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>  // Biblioteca para utilização de fontes
+#include <allegro5/allegro_ttf.h>
 
 typedef char Type;
 enum Types {
@@ -93,4 +95,4 @@ void object_track();
 void strcpy_s(char[], int, char[]);
 #endif
 
-void draw_loading(float pctg);
+void draw_loading(float , ALLEGRO_FONT* );

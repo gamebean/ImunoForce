@@ -523,7 +523,7 @@ main(int argc, char *argv[]) {
 					height = al_get_bitmap_height(cursor);
 					al_draw_scaled_bitmap(cursor, 0, 0, width, height, 100, 91 + 25 * select, width*0.8, height*0.8, 0);
 					if(host == true){
-						al_draw_textf(arial_24, al_map_rgb(255, 255, 255), 100+width, 100, 0, "RETURN TO GAME");
+						al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100+width, 100, 0, "RETURN TO GAME");
 					}else{
 						al_draw_textf(pressstart_20, al_map_rgb(255, 255, 255), 100 + width, 100, 0, "SINGLE-PLAYER");
 					}
