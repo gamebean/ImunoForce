@@ -145,17 +145,17 @@ main(int argc, char *argv[]) {
 	float alfa;
 	al_clear_to_color(al_map_rgb(255, 255, 255));
 
-	for (alfa = 0.0001; alfa <= 1; alfa+=0.0001) {
+	for (alfa = 0.0001; alfa <= 1; alfa+=0.0003) {
 		al_draw_tinted_bitmap(opening, al_map_rgba_f(1,1,1, alfa), 0, 0, 0);
 		al_flip_display();
-		al_rest(0.0005);
+		al_rest(0.0002);
 	}
 	// PLAY SEGA SOUND
 	al_play_sample(sega, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
 	al_rest(2);
 
-	for (alfa = 1; alfa >= 0; alfa-=0.0001) {
-		al_rest(0.0005);
+	for (alfa = 1; alfa >= 0; alfa-=0.0003) {
+		al_rest(0.0002);
 		al_draw_tinted_bitmap(opening, al_map_rgba_f(1,1,1, alfa), 0, 0, 0);
 		al_flip_display();
 	}

@@ -100,8 +100,10 @@ player_add(char player_name[], int frame_delay, int vector_size) {
 
 	strcpy_s(p->String, sizeof(p->String), player_name);
 	//strcpy(p->String, player_name);
+	p->vx = 0;
+	p->vy = 0;
 	p->x = DISPLAY_W / 2 - p->width / 2;
-	p->y = DISPLAY_H / 2 - p->height / 2;
+	p->y = DISPLAY_H / 2 - p->height / 2 + 200;
 
 	return p;
 }
