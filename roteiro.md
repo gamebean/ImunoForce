@@ -1,4 +1,4 @@
-#Roteiro do Jogo
+﻿#Roteiro do Jogo
 
 ### O ImunoFORCE é um *shooter* educativo que trata do tema Sistema Imunológico
 
@@ -22,3 +22,6 @@
 - *Wall*: Semelhante ao *NonSeeker* mas em grupos maiores e com movimentação puramente vertical
 - *Shooter*: Se deslocam rapidamente pelos vasos sanguíneos
 ###		Os inimigos foram retratados dessa forma para que não seja passada a idéia de que só existe um tipo de agente ofensivo ou que a defesa é igual para todos os seres antígenos
+
+## Sistema de Aprimoramentos
+###O sistema de aprimoramentos foi implementado visando representar a capacidade do sistema imunológico de se adaptar as diversas circunstâncias, se fortalecendo quando sob necessidade
