@@ -21,7 +21,7 @@ typedef struct {
 	int x : 11;
 	int y : 12;
 	char img_i : 5;
-	bool dir;
+	char dir;
 }Data;
 
 
