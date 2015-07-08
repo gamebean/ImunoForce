@@ -14,7 +14,7 @@
 
 
 //Object object_head = {0,header,NULL,NULL,NULL,NULL};
-main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
 	int frame = 1, bTrig = 10, bTrig2 = 10 , bulletFreq = 10, i,j;
 	int shoot_enable = 0;
 	int shoot_enable2 = 0;
@@ -52,7 +52,7 @@ main(int argc, char *argv[]) {
 	//Initialize allegro addons
 	initialization();
 
-	ALLEGRO_FONT *pressstart_20 = al_load_font("PressStart2P.ttf", 20, 0);
+	ALLEGRO_FONT *pressstart_20 = al_load_font("src/PressStart2P.ttf", 20, 0);
 
 //SOUNDS
 	al_reserve_samples(10);
